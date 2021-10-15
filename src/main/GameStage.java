@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 /*
  * [class still under development]
+ * [minor integration of other controllers' functions has been made for the purposes of demonstration]
+ * (since no other controller haven't been written out yet)
  */
 public class GameStage {
     StatManager stats;
@@ -30,7 +32,7 @@ public class GameStage {
         System.out.print("\n\t[You assigned your intelligence to " + value + "]");
         System.out.print("\n\t[Please assign your desired psyche]");
         System.out.print("\n\t[Please type a number]");
-        System.out.print("\n\t[Your remaining skill points: " + (skill_points - value) + " ]");
+        System.out.print("\n\t[Your remaining skill points: " + (skill_points - value) + "]");
         String psyche_description = "The ability to understand perception";
         System.out.print("\n\t[Psyche: " + psyche_description + "]");
         int psyche = scan.nextInt();
@@ -44,9 +46,13 @@ public class GameStage {
         System.out.print("\n\t[Please type in your name]");
         String name = scan.next();
         real_player = new PlayerManager(name, stats.merge(), 20);
-        System.out.print("\n\t[Welcome, " + real_player.getPlayerName() + ", your journey will starts shortly...]");
+        System.out.print("\n\t[Welcome, " + real_player.getPlayerName() + ", your journey will start shortly...]");
         System.out.print("\n\t[Type in anything to continue]");
         String type = scan.next();
+        for (int i = 0; i < 10; i++) {
+            System.out.println();
+        }
+        System.out.print("\n\t---------------------------------------------------------------------------------------------");
         this.part_one();
     }
 
@@ -69,6 +75,7 @@ public class GameStage {
         System.out.print("\n\tWhat happended to her? And why does this name felt hauntingly familiar?");
         System.out.print("\n\tWill you try to recall the details?");
         System.out.print("\n\t[An easy check of Intelligence(requires 8)]");
+        System.out.print("\n\t[A random dice value (1-6) will be added to facilitate the check]");
         System.out.print("\n\t[Your current Intelligence is " + stats.searchStat("Intelligence") + "]");
         System.out.print("\n\t[1: try to recall]");
         System.out.print("\n\t[2: do not]");
@@ -82,19 +89,18 @@ public class GameStage {
         }
     }
 
-    public void check_one(){
+    public void check_one() {
         Check check1 = new Check(8, "Intelligence", 25, "Sadness", 6);
 
-        if (check1.check(real_player.getPlayer())){
+        if (check1.check(real_player.getPlayer())) {
             this.check_one_pass();
-        }
-        else {
+        } else {
             this.check_one_fail();
         }
     }
 
-    public void refuse_check_one(){
-        if (real_player.getPlayer().value("Sadness") == 100){
+    public void refuse_check_one() {
+        if (real_player.getPlayer().value("Sadness") == 100) {
             this.sadness_end();
         }
         System.out.print("\n\t---------------------------------------------------------------------------------------------");
@@ -104,9 +110,10 @@ public class GameStage {
         System.out.print("\n\t[Your Sadness has increased by 30] ");
         real_player.getPlayer().change("Sadness", 30);
         System.out.print("\n\t[Your Sadness is currently at " + real_player.getPlayer().value("Sadness") + "]");
+        this.part_two();
     }
 
-    public void check_one_pass(){
+    public void check_one_pass() {
         System.out.print("\n\t---------------------------------------------------------------------------------------------");
         System.out.print("\n\t[Check Passed!!!] ");
         System.out.print("\n\tYou remembered her smile in the corridor");
@@ -117,10 +124,11 @@ public class GameStage {
         real_player.getPlayer().addItem(new Reminiscence());
         System.out.print("\n\t[1 piece of Reminiscence has been added to your inventory]");
         System.out.print("\n\t[Reminiscence could help to reduce the progression of Madness]");
+        this.part_two();
     }
 
-    public void check_one_fail(){
-        if (real_player.getPlayer().value("Sadness") == 100){
+    public void check_one_fail() {
+        if (real_player.getPlayer().value("Sadness") == 100) {
             this.sadness_end();
         }
         System.out.print("\n\t---------------------------------------------------------------------------------------------");
@@ -133,20 +141,20 @@ public class GameStage {
         System.out.print("\n\tWill you try to recall again?");
         System.out.print("\n\t---------------------------------------------------------------------------------------------");
         System.out.print("\n\t[An easy check of Intelligence(requires 8)]");
+        System.out.print("\n\t[A random dice value (1-6) will be added to facilitate the check]");
         System.out.print("\n\t[Your current Intelligence is " + stats.searchStat("Intelligence") + "]");
         System.out.print("\n\t[1: try to recall]");
         System.out.print("\n\t[2: do not]");
         Scanner scan = new Scanner(System.in);
         int choice = scan.nextInt();
-        if (choice == 1){
+        if (choice == 1) {
             this.check_one();
-        }
-        else {
+        } else {
             this.refuse_check_one();
         }
     }
 
-    public void sadness_end(){
+    public void sadness_end() {
         System.out.print("\n\t---------------------------------------------------------------------------------------------");
         System.out.print("\n\tYou closed your eyes, but your tear could not be stopped so easily");
         System.out.print("\n\tNothing matters, nothing exists, the only thing filled your mind was the unending sorrow");
@@ -155,6 +163,41 @@ public class GameStage {
         System.exit(0);
     }
 
+    public void part_two() {
+        System.out.print("\n\t---------------------------------------------------------------------------------------------");
+        System.out.print("\n\t'" + real_player.getPlayerName() + ", yes? Ms Brooklyn is ready to see you now.'");
+        System.out.print("\n\tMs Brooklyn, the financial assistant of Naxos University, notoriously strict on her criteria for releasing any scholarship");
+        System.out.print("\n\tSurely, this meeting will not be easy...");
+        System.out.print("\n\t[1: her office awaits...]");
+        System.out.print("\n\t[2: run away]");
+        Scanner scan = new Scanner(System.in);
+        int choice = scan.nextInt();
+        if (choice == 1) {
+            this.meeting();
+        } else {
+            this.run_away();
+        }
+    }
 
+    public void meeting(){
+        System.out.print("\n\t---------------------------------------------------------------------------------------------");
+        System.out.print("\n\tYou stepped into Ms Brooklyn's office");
+        System.out.print("\n\tBehind a giant wooden desk, an old lady slowly nods to you, yet her eyesight is fixed on your record");
+        System.out.print("\n\tUnspeakable horror awaits...");
+        System.out.print("\n\t[to be continued...]");
+        System.exit(0);
+    }
+
+    public void run_away(){
+        System.out.print("\n\t---------------------------------------------------------------------------------------------");
+        System.out.print("\n\tYour fear about Ms Brooklyn consumed you...");
+        System.out.print("\n\tNo one in the University ever meet you again");
+        System.out.print("\n\t[You met your end because you ran away]");
+        Scanner scan = new Scanner(System.in);
+        System.exit(0);
+    }
 }
+
+
+
 
