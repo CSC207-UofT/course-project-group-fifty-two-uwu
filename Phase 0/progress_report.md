@@ -1,6 +1,7 @@
 # Progress Report
 
 ##Summary
+
 So far, we've finished:
 
 * The fundamental CRC models and the program specification

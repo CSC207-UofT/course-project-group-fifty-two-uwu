@@ -1,6 +1,7 @@
 # Specifications
 
 ## Introduction
+
 Inspired by the classical Zork, we are making a simple program which functions as a texted based single player adventure game
 that incorporates some DND dice rolling and checking elements.
 

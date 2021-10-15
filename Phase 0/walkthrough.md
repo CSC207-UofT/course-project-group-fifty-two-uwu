@@ -1,4 +1,5 @@
 # Scenario Walk-Through
+
 ## Background
 For this scenario walk-through, we will initialize a new HumanPlayer with their customized name and two customized attributes, 
 then play the game with some basic pre-written story
