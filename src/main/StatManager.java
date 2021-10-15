@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class StatManager {
     private ArrayList<Stat> customize_stat = new ArrayList<>();
     private ArrayList<Stat> default_stat = new ArrayList<>();
-    private int skill_points = 10;
+    private int skill_points;
 
 
     public StatManager(int skill_points){

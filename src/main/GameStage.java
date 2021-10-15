@@ -4,7 +4,7 @@ import java.util.Scanner;
 /*
  * [class still under development]
  * [minor integration of other controllers' functions has been made for the purposes of demonstration]
- * (since no other controller haven't been written out yet)
+ * (since no other controller have been written out yet)
  */
 public class GameStage {
     StatManager stats;
