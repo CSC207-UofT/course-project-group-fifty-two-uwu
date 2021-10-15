@@ -1,12 +1,8 @@
-/* This is the class representing a category of Item that will be consumed upon using.
- * Consumable will have effects on Stat.
+/* This is the class representing the consumable items of the game.
  */
 import java.util.HashMap;
 
-public class Consumable implements Item{
-    private final String name;
-    private final String description;
-    private int quantity = 1;
+public class Consumable extends Item{
 
     /**
      * Construct a Consumable, giving its name and description.
@@ -16,8 +12,7 @@ public class Consumable implements Item{
      * @param description The ArrayList of Stat to be assigned to this Consumable
      */
     public Consumable(String name, String description){
-        this.name = name;
-        this.description = description;
+        super(name, description);
     }
 
     /**
@@ -28,38 +23,7 @@ public class Consumable implements Item{
      * @param quantity The quantity of this Consumable
      */
     public Consumable(String name, String description, int quantity){
-        this.name = name;
-        this.description = description;
-        this.quantity = quantity;
-    }
-
-    /*
-     * The getter helper methods, returning the corresponding data.
-     */
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public int getQuantity() {
-        return quantity;
-    }
-
-    /*
-     * Change this.quantity of this Consumable.
-     * Consumable's quantity can't go below to 0 and will be rounded to 0 if it does.
-     */
-    public void changeQuantity(int number){
-        quantity += number;
-        if (quantity < 0){
-            quantity = 0;
-        }
+        super(name, description, quantity);
     }
 
     /*

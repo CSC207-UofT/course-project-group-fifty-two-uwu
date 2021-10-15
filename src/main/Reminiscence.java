@@ -1,4 +1,4 @@
-/* An example Consumable.
+/* An example Consumable item.
  * Reduces [Madness] upon its use.
  */
 import java.util.HashMap;

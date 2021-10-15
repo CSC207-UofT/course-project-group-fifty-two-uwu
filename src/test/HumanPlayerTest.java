@@ -6,14 +6,14 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-public class PlayerTest {
+public class HumanPlayerTest {
     Stat hp = new Stat("HP", "Health Points", 100, 0, 100);
     Stat madness = new Stat("Madness", "The diversion of logics", 50);
     Stat mana = new Stat("Magic Power", "Magic Points", 33);
     Stat suspicion = new Stat("Suspicion", "The attention of others",
             200, 0, 300);
     ArrayList<Stat> StatList = new ArrayList<>(Arrays.asList(hp, madness, mana, suspicion));
-    Player booboo = new Player("Booboo the Fool", StatList, 2);
+    HumanPlayer booboo = new HumanPlayer("Booboo the Fool", StatList, 2);
     Item reminiscence = new Reminiscence();
     Item consolation = new Consumable("Consolation", "Offers a fleeting moment of joy...", 2);
 

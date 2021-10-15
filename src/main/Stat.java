@@ -4,7 +4,7 @@
 public class Stat {
     private final String name;
     private final String description;
-    private int number;
+    private int number = 0;
     private int lower_limit = 0;
     private int upper_limit = 100;
 

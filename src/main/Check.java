@@ -52,12 +52,12 @@ public class Check {
     }
 
     /*
-     * Check's main method to check a People's Stat against Check's requirement.
+     * Check's main method to check a Player's Stat against Check's requirement.
      * Return true if the Stat is enough to pass this check abd false otherwise.
      *
-     * @param character The target People to be checked
+     * @param character The target Player to be checked
      */
-    public boolean check(People character){
+    public boolean check(Player character){
         Random random_dice = new Random();
         int roll = random_dice.nextInt(dice + 1);
         if (roll == 0){
@@ -73,11 +73,11 @@ public class Check {
     }
 
     /*
-     * Resolve a check's consequence by applying changes on the desired Stat in People.
+     * Resolve a check's consequence by applying changes on the desired Stat in Player.
      *
-     * @param character The target People to receive the change
+     * @param character The target Player to receive the change
      */
-    public void resolve(People character){
+    public void resolve(Player character){
         character.change(result, consequence);
     }
 
