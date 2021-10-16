@@ -13,7 +13,7 @@ public class CheckTest {
     Stat suspicion = new Stat("Suspicion", "The attention of others",
             200, 0, 300);
     ArrayList<Stat> StatList = new ArrayList<>(Arrays.asList(hp, madness, mana, suspicion));
-    Player booboo = new Player("Booboo the Fool", StatList);
+    Player booboo = new HumanPlayer("Booboo the Fool", StatList);
 
     Check manacheck_always_fail = new Check(99, "Magic Power",
             10, "Madness", 0);

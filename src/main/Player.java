@@ -2,7 +2,7 @@
  */
 import java.util.ArrayList;
 
-public class Player{
+abstract class Player{
     private final String name;
     private ArrayList<Stat> stats;
 
