@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class PlayerManager {
     Player player;
     public PlayerManager(String name, ArrayList<Stat> stats){
-        this.player = new Player(name, stats);
+        this.player = new HumanPlayer(name, stats);
     }
 
     public PlayerManager(String name, ArrayList<Stat> stats, int capacity){
