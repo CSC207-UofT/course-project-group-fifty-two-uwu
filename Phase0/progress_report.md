@@ -18,6 +18,8 @@ We plan to work on:
 
 * Terry: I will be working on things that are related to items. This includes the ItemManager, the child classes of Equipment and potentially more child classes of Item. Most of the time, I will be spending time on the ItemManager class as that one is the most complex out of all the things that I am working on. 
 
+* Samantha: Planning to create UI/GUI related elements or various interface adapter classes, alongside miscellanies such as refactoring and testing. 
+
 ##Question
 
 * What's the most practical way for our game program to save and load certain data?
