@@ -24,8 +24,6 @@ We plan to work on:
 
 * Wilson: I will work on the various controller-layer classes, in particular, GameState and CommandController. I also want to help design the battle and shop system, if/when those are added.
 
-* Wilson: I will work on the various controller-layer classes, in particular, GameState and CommandController. I also want to help design the battle and shop system, if/when those are added.
-
 ##Question
 
 * What's the most practical way for our game program to save and load certain data?
