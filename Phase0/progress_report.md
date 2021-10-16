@@ -18,10 +18,15 @@ We plan to work on:
 
 * Terry: I will be working on things that are related to items. This includes the ItemManager, the child classes of Equipment and potentially more child classes of Item. Most of the time, I will be spending time on the ItemManager class as that one is the most complex out of all the things that I am working on. 
 
-* Samantha: Planning to create UI/GUI related elements or various interface adapter classes, alongside miscellanies such as refactoring and testing. 
+* Samantha: Planning to create UI/GUI related elements or various interface adapter classes(ideally a more automated script generator), alongside miscellanies such as refactoring and testing.
+
+* Yan: I'm planning on adding a compiler/reader to translate .txt files into suitable and usable data that can be used as a script to save time and resources
+
+* Wilson: I will work on the various controller-layer classes, in particular, GameState and CommandController. I also want to help design the battle and shop system, if/when those are added.
 
 ##Question
 
 * What's the most practical way for our game program to save and load certain data?
 * If we want to add a potential battling system, what other Use Case class could facilitate the process? 
+* What is the best way to handle player stats? (i.e. a list of Stat instances or a fixed-size associative array)
 
