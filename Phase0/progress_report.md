@@ -16,7 +16,7 @@ We plan to work on:
 
 * Edward: I will be working on the classes in the entity layer, specifically the Computerplayer abstract class and its subclasses. The purpose of all these classes combined is to store the stats of non-player characters, as well as lists of the possible actions they can take in response to the player’s decisions. 
 
-* Terry: I will be working on things that are related to items. This includes the item manager, the child classes of equipment and potentially more child classes of item. Most of the time, I will be spending time on the item manager class as that one is the most complex out of all the things that I am working on. 
+* Terry: I will be working on things that are related to items. This includes the ItemManager, the child classes of Equipment and potentially more child classes of Item. Most of the time, I will be spending time on the ItemManager class as that one is the most complex out of all the things that I am working on. 
 
 ##Question
 
