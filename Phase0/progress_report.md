@@ -20,8 +20,11 @@ We plan to work on:
 
 * Samantha: Planning to create UI/GUI related elements or various interface adapter classes, alongside miscellanies such as refactoring and testing. 
 
+* Wilson: I will work on the various controller-layer classes, in particular, GameState and CommandController. I also want to help design the battle and shop system, if/when those are added.
+
 ##Question
 
 * What's the most practical way for our game program to save and load certain data?
 * If we want to add a potential battling system, what other Use Case class could facilitate the process? 
+* What is the best way to handle player stats? (i.e. a list of Stat instances or a fixed-size associative array)
 
