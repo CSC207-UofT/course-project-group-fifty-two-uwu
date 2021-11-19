@@ -1,11 +1,14 @@
 package main.java;
 
 import java.awt.*;
+import java.util.Iterator;
 import javax.swing.*;
 
 public class GameState extends JFrame {
     Console console;
     Canvas canvas;
+    GameLogic gameLogic = new GameLogic();
+    Iterator<JPanel> iterator;
     public static final int CANVAS_WIDTH = 700;
     public static final int CANVAS_HEIGHT = 600;
     private final JFrame mainFrame;
@@ -20,13 +23,15 @@ public class GameState extends JFrame {
         gameState = 0;
         this.console = new Console(this.mainFrame);
         this.canvas = new Canvas(this.mainFrame);
+        gameLogic = new GameLogic();
+        iterator = gameLogic.iterator();
     }
 
     public void update(){
         this.setKeyPressed(console.getKeyPressed());
-        this.canvas.paint(this.gameState);
+        this.canvas.paint(this.iterator);
         if (gameState != 1) {
-            canvas.update(this.keyPressed);
+            canvas.update(this.iterator, this.keyPressed);
         }
     }
     public void setKeyPressed(int keyPressed) {
