@@ -69,8 +69,11 @@ public class GameState extends JFrame {
     }
     public void setKeyPressed(int keyPressed) {
         if (this.gameState == 0) {
+            if (!mainFrame.hasFocus()){
+                mainFrame.requestFocus();
+            }
             if (keyPressed == 27){ // ESC
-                this.gameState = 1;
+                this.gameState = 5;
             }
             else if (keyPressed >= 37 && keyPressed <= 40) {
                 this.keyPressed = keyPressed;
@@ -87,7 +90,6 @@ public class GameState extends JFrame {
                 this.gameState = 0; // Will continue
             }
         }
-
         if (keyPressed != 0) {
             System.out.println("key = " + keyPressed + " state = " + this.gameState);
         }
