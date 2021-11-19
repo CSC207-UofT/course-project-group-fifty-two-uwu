@@ -2,3 +2,6 @@
 - By Yan, Edward and Terry
 - To be updated, stay tuned!
 
+## Controls
+- Arrow keys to move up, down, left and right
+
