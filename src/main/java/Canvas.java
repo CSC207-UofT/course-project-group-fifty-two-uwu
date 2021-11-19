@@ -19,7 +19,7 @@ public class Canvas {
 
     public void update(int key){
         this.productA.update();
-        this.productB.update();
+        this.productB.update(this.productP.getX(), this.productP.getY());
         if (key >= 37 && key <= 40) {
             this.productP.update(key);
         }

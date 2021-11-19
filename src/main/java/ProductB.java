@@ -32,9 +32,7 @@ public class ProductB extends JPanel {
         // g.drawImage(op.filter(this.shape, null), this.x, this.y,null);
         g2d.drawImage(op.filter(this.shape, null), this.x, this.y,null);
     }
-    public void update(){
-        int targetX = 200; // x position of pilot
-        int targetY = 200; // y position of pilot
+    public void update(int x, int y){
         int delta = 3; // increment
         boolean isLeft = true;
         // is the target on the left side of missile?
@@ -49,8 +47,8 @@ public class ProductB extends JPanel {
         double ay = this.y;
         double bx = ax + 100 * Math.cos(this.vector); //second point for vector ab
         double by = ay + 100 * Math.sin(this.vector);
-        double cx = targetX;
-        double cy = targetY;
+        double cx = x;
+        double cy = y;
         isLeft = ((bx-ax)*(cy-ay) - (by-ay)*(cx-ax)) < 0;
         // is the missile moving in the direction of the target?
         // is the angle smaller than Math.PI/80 = 2.25 degrees?
