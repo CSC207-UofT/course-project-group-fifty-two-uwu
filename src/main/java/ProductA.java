@@ -27,8 +27,8 @@ public class ProductA extends JPanel{
     }
     public void update(){
         // System.out.println("Product update x = " + x);
-        //this.x += 1;
-        //this.y += 1;
+//        this.x += 1;
+//        this.y += 1;
     }
     public int getX(){
         return this.x;
