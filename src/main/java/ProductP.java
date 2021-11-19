@@ -31,6 +31,8 @@ public class ProductP extends JPanel {
         if (key == 39){this.x = this.x + this.speed;} // Right Key
 
         if (key == 40){this.y = this.y + this.speed;} // Up Key
+
+        System.out.println("Product P x = " + this.x + " y = " + this.y);
     }
 
     public int getX(){return this.x;}

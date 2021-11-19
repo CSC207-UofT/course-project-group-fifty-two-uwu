@@ -14,24 +14,57 @@ public class GameState extends JFrame {
     private final JFrame mainFrame;
     private int keyPressed;
     private int gameState; // 0 - start, 1 - exit continue, 9 - exit
-
+    private String gameEvent = "";
+    private long startTime;
 
     public GameState(){
         mainFrame = new JFrame("Missile Mayhem");
+        // mainFrame.setLayout(null);
+        mainFrame.getContentPane();
         mainFrame.setSize(CANVAS_WIDTH,CANVAS_HEIGHT);
         mainFrame.setVisible(true);
-        gameState = 0;
+        gameState = 5;
         this.console = new Console(this.mainFrame);
         this.canvas = new Canvas(this.mainFrame);
         gameLogic = new GameLogic();
         iterator = gameLogic.iterator();
+        startTime = System.currentTimeMillis();
     }
 
     public void update(){
+        JPanel jPanel;
+        String jButtonEvent = "";
+        // gameLogic.update(gameState);
+        if (this.gameState == 5) {
+            while (iterator.hasNext()){
+                jPanel = (JPanel) iterator.next();
+                if (jPanel.getClass().getName().equals("main.java.ProductContinueExit")) {
+                    jButtonEvent = ((ProductContinueExit) jPanel).getEvent();
+                    switch (jButtonEvent) {
+                        case "start":
+                            this.gameState = 0;
+                            // gameLogic.update(gameState);
+                            System.out.println("From 5 to 0");
+                            break;
+                        case "info":
+                            this.gameState = 6;
+                            System.out.println("From 5 to 6");
+                            break;
+                        case "exit":
+                            this.gameState = 9;
+                            System.out.println("From 5 to 9");
+                            break;
+                    }
+                    // this.mainFrame.hasFocus();
+                }
+            }
+        }
+        gameLogic.update(gameState);
         this.setKeyPressed(console.getKeyPressed());
+        this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
         this.canvas.paint(this.iterator);
         if (gameState != 1) {
-            canvas.update(this.iterator, this.keyPressed);
+
         }
     }
     public void setKeyPressed(int keyPressed) {
@@ -73,4 +106,8 @@ public class GameState extends JFrame {
     }
 
     public int getGameState() {return this.gameState;}
+
+    public String getTimeElapsed(){
+        return String.valueOf((System.currentTimeMillis() - this.startTime)/1000);
+    }
 }

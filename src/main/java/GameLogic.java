@@ -9,14 +9,54 @@ public class GameLogic implements Iterable{
     private ArrayList<Boolean> booleans = new ArrayList<>();
 
     public GameLogic(){
+        jPanels.add(new ProductContinueExit());
+        booleans.add(true);
+        jPanels.add(new ProductTimer());
+        booleans.add(true);
         jPanels.add(new ProductP());
         booleans.add(true);
         jPanels.add(new ProductA());
         booleans.add(true);
-        jPanels.add(new ProductB());
+        jPanels.add(new ProductB(-20, -20));
         booleans.add(true);
-        jPanels.add(new ProductContinueExit());
-        booleans.add(false);
+        jPanels.add(new ProductB(-200, -300));
+        booleans.add(true);
+    }
+
+    public void update(int gameState){
+        if (gameState == 5){
+            setAllFalse();
+            setItemTrue(0);
+        }
+        else if (gameState == 0){
+            setAllFalse();
+            setItemTrue(1);
+            setItemTrue(2);
+            setItemTrue(3);
+            setItemTrue(4);
+            setItemTrue(5);
+            // System.out.println("GameLogic gameState = " + gameState);
+        }
+        else if (gameState == 1){
+
+        }
+        else if (gameState == 9){
+        }
+//        ProductTimer productTimer;
+//        productTimer = (ProductTimer) getJPanel(1);
+//        productTimer.update("ghjjhgghkhgghjk");
+        // this.mainFrame.hasFocus();
+    }
+    // Helper deactivate all products
+    private void setAllFalse(){
+        for (int i = 0; i < this.booleans.size(); i++){
+            this.booleans.set(i, false);
+        }
+    }
+
+    // Helper make a product active
+    private void setItemTrue(int idx){
+        this.booleans.set(idx, true);
     }
 
     // return the first true index for a given index

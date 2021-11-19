@@ -13,10 +13,12 @@ public class ProductB extends JPanel {
     int width = 20;
     int height = 20;
     BufferedImage shape;
-    public ProductB(){
+    public ProductB(int x, int y){
         FactoryB factoryB =  new FactoryB();
-        this.x = factoryB.getX_axis();
-        this.y = factoryB.getY_axis();
+//        this.x = factoryB.getX_axis();
+//        this.y = factoryB.getY_axis();
+        this.x = x;
+        this.y = y;
         this.vector = factoryB.getDirection();
         this.shape = factoryB.getShape();
     }
