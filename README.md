@@ -5,6 +5,7 @@
 ## Controls
 - Use the arrow keys to move up, down, left and right
 - Press ESC to pause the game
+- Once you paused the game, pressed any key to continue the game
 
 ## Objective of the Game
 - Using the arrow keys to dodge the missiles to stay alive
