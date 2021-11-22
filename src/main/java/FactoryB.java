@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class FactoryB extends Factory{
+    //The factory that 'produces' ProductB
     BufferedImage shape;
     boolean found = true;
     File pathName = new File("src/main/resources/missileSuper.png");

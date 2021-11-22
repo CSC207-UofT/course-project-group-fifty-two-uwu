@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ProductTimer extends JPanel{
+    //This class is of type JPanel so that they can be added to JFrame
+    //and displayed. This is the JPanel for the timer. This product class uses JLabel.
     JLabel jLabel = new JLabel();
     public ProductTimer(){
         this.jLabel.setText("clock");

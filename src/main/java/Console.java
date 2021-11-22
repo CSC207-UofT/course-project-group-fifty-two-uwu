@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class Console implements KeyListener, ActionListener, MouseMotionListener {
+    //captures the integer values of keys pressed by the user
     private int keyPressed;
     private JFrame jFrame;
 

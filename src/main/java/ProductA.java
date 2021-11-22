@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ProductA extends JPanel{
+    //This class is of type JPanel so that they can be added to JFrame
+    //and displayed. This is the JPanel of the crosshair.
     int x;
     int y;
     double vector;

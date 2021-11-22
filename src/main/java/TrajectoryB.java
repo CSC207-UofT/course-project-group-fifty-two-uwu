@@ -1,6 +1,7 @@
 package main.java;
 
 public class TrajectoryB {
+    //The Trajectory class for the missiles
     private int x;
     private int y;
     private double v; // direction vector in gradients

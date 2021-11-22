@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ProductP extends JPanel {
+    //This class is of type JPanel so that they can be added to JFrame
+    //and displayed. This is the JPanel for the character/person that the user will be controlling.
     int x;
     int y;
     BufferedImage shape;

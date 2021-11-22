@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ProductGetUserName extends JPanel{
+    //This class is of type JPanel so that they can be added to JFrame
+    //and displayed. This is the JPanel for the screen asking for username. This product class uses JTextField.
     JTextField jTextField = new JTextField(20);
     String jTextFieldEvent = "";
     // File pathNameStart = new File("src/main/resources/iconStart.png");

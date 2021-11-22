@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class FactoryA {
+    //The factory that 'produces' productA
     BufferedImage shape = null;
     private int x_axis = 10;
     private int y_axis = 10;
