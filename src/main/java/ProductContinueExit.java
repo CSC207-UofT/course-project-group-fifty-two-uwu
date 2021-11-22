@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class ProductContinueExit extends JPanel{
     final private String START = "start";
@@ -18,6 +17,8 @@ public class ProductContinueExit extends JPanel{
     JButton bStart =new JButton("Start");
     JButton bInfo =new JButton("Info");
     JButton bExit =new JButton("Exit");
+    private JLabel welcome = new JLabel("");
+    JLabel welcome2 = new JLabel("");
     File pathNameStart = new File("src/main/resources/iconStart.png");
     File pathNameInfo = new File("src/main/resources/iconInfo.png");
     ImageIcon imageIconStart;
@@ -73,12 +74,21 @@ public class ProductContinueExit extends JPanel{
         this.add(bStart);
         this.add(bInfo);
         this.add(bExit);
+        this.add(welcome);
     }
 
     public String getEvent(){
         String temp = event;
         event = "";
         return temp;
+    }
+
+    public void setWelcome(String welcome){
+        this.welcome.setText("Hello " + welcome + "!");
+    }
+
+    public JLabel getWelcome(){
+        return welcome;
     }
 
     public void paintComponent(Graphics g) {

@@ -19,7 +19,7 @@ public class FactoryP {
         catch (IOException e) {
             System.out.println("Image for FactoryA not found");
         }
-        System.out.println("Created by FactoryP");
+        System.out.println("Image created in Factory P");
     }
 
     public void setX_axis(int x_axis){
