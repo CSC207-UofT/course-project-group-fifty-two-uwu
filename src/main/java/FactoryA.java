@@ -24,7 +24,7 @@ public class FactoryA {
             System.out.println("Image for FactoryA not found");
         }
 
-        System.out.println("Created by FactoryA");
+        System.out.println("Image created in Factory A");
     }
 
     public void setX_axis(int x_axis){

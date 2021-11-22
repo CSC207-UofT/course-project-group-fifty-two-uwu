@@ -8,5 +8,6 @@
 - Once you paused the game, press any keys to continue the game or press ESC to quit the game
 
 ## Objective of the Game
-- Your objective it to the the highest score possible in the game. The longer you survive, the higher score you get!
+- Your objective it to get the highest score possible in the game. 
+- The longer you survive, the higher score you get!
 - Using the arrow keys to dodge the missiles to stay alive
