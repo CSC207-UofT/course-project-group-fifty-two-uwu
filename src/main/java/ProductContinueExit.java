@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class ProductContinueExit extends JPanel{
+    //This class is of type JPanel so that they can be added to JFrame
+    //and displayed. This is the JPanel for the pause menu. This product class uses JButton and JLabel.
     final private String START = "start";
     final private String INFO = "info";
     final private String EXIT = "exit";

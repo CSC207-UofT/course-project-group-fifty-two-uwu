@@ -14,6 +14,8 @@ import java.util.Scanner;
  * main() will first create GameState whose constructor will create the canvas
  */
 public class MainLoop {
+    //contains only main() that repeatedly calls
+    //on class GameStatus to update itself and asks if it is time to exit the loop
 
     public void createFile(){
         File file = new File("stats.txt");

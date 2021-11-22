@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class GameLogic implements Iterable<JPanel>{
+    //This is where the user cases are implemented. It creates a list
+    //of JPanels for painting and a list of the same size with boolean values. The
+    //second list indicates which components are to be painted for a given game
+    //stage. It implements the Iterator Design Pattern and its iterator can
+    //be used elsewhere in code to easy scan all paintable components
     private final ArrayList<JPanel> jPanels = new ArrayList<>();
     private final ArrayList<Boolean> booleans = new ArrayList<>();
 

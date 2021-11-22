@@ -7,6 +7,8 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class ProductB extends JPanel {
+    //This class is of type JPanel so that they can be added to JFrame
+    //and displayed. This is the JPanel of the missile.
     private int x;
     private int y;
     private double vector;

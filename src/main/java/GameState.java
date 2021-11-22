@@ -9,6 +9,10 @@ import java.util.Scanner;
 import javax.swing.*;
 
 public class GameState extends JFrame {
+    //keeps track of the game stage, the position of the image that the user can control (target/pilot),
+    //and the clock. It calls on class Console to get user input and decides on the stage of the game, e.g., 0 - in
+    //progress, 9 - exit. It passes target coordinates and the clock value to class
+    //Canvas and calls on class Canvas to paint the screen
     Console console;
     Canvas canvas;
     GameLogic gameLogic;

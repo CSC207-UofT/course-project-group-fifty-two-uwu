@@ -5,6 +5,10 @@ import java.awt.*;
 import java.util.Iterator;
 
 public class Canvas {
+    //paints images (products) according to the stage of the game.
+    //Initially, this class creates a set of products which during the game, can be
+    //added to or remove from the canvas. This class also calls on products to
+    //update their positions if appropriate
     JFrame jFrame;
     JTextArea clock = new JTextArea();
     int targetX = 200;
