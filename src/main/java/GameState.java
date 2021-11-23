@@ -72,9 +72,6 @@ public class GameState extends JFrame {
             while (iterator.hasNext()){
                 jPanel = iterator.next();
                 if (jPanel.getClass().getName().equals("main.java.ProductContinueExit")) {
-//                    jPanel.add(new JLabel("Hi " + this.username + "!"));
-//                    jPanel.revalidate();
-//                    this.mainFrame.revalidate();
                     jButtonEvent = ((ProductContinueExit) jPanel).getEvent();
                     switch (jButtonEvent) {
                         case "start" -> {
@@ -88,6 +85,24 @@ public class GameState extends JFrame {
                         case "exit" -> {
                             this.gameState = 9;
                             System.out.println("From 5 to 9");
+                        }
+                    }
+                }
+            }
+        }
+        else if (this.gameState == 6) {
+            while (iterator.hasNext()){
+                jPanel = iterator.next();
+                if (jPanel.getClass().getName().equals("main.java.ProductInfo")) {
+                    jButtonEvent = ((ProductInfo) jPanel).getEvent();
+                    switch (jButtonEvent) {
+                        case "continue" -> {
+                            this.gameState = 0;
+                            System.out.println("From 6 to 0");
+                        }
+                        case "exit" -> {
+                            this.gameState = 9;
+                            System.out.println("From 6 to 9");
                         }
                     }
                 }
@@ -130,7 +145,7 @@ public class GameState extends JFrame {
                 mainFrame.requestFocus();
             }
             if (keyPressed == 27){ // ESC
-                this.gameState = 5;
+                this.gameState = 6;
             }
             else if (keyPressed >= 37 && keyPressed <= 40) {
                 this.keyPressed = keyPressed;

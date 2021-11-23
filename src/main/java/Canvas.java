@@ -55,6 +55,7 @@ public class Canvas {
         JPanel jPanel;
         JLabel jLabel;
         ProductContinueExit productContinueExit;
+        ProductInfo productInfo;
         ProductGetUserName productGetUserName;
         ProductTimer productTimer;
         this.jFrame.getContentPane().removeAll();
@@ -97,6 +98,14 @@ public class Canvas {
                     //this.jFrame.getContentPane().add(jPanel);
                     //this.jFrame.revalidate();
                     // this.jFrame.getContentPane().add(new JLabel(""));
+                    break;
+                case "main.java.ProductInfo":
+                    productInfo = (ProductInfo) jPanel;
+                    productInfo.setLayout(null);
+                    productInfo.bContinue.setBounds((this.jFrame.getWidth()/2)+10, 400, 140, 50);
+                    productInfo.bExit.setBounds((this.jFrame.getWidth()/2)-150, 400, 140, 50);
+                    this.jFrame.getContentPane().add(jPanel);
+                    this.jFrame.revalidate();
                     break;
                 case "main.java.ProductTimer":
                     productTimer = (ProductTimer) jPanel;

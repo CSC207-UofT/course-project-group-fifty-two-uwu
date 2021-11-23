@@ -23,6 +23,7 @@ public class ProductContinueExit extends JPanel{
     JLabel welcome2 = new JLabel("");
     File pathNameStart = new File("src/main/resources/iconStart.png");
     File pathNameInfo = new File("src/main/resources/iconInfo.png");
+    File pathNameExit = new File("src/main/resources/iconExit.png");
     ImageIcon imageIconStart;
     ImageIcon imageIconInfo;
     ImageIcon imageIconExit;
@@ -51,6 +52,14 @@ public class ProductContinueExit extends JPanel{
         catch (IOException e) {
             found = false;
             System.out.println("Image for ProductContinueExit Info not found");
+        }
+        try {
+            bufferedImage = ImageIO.read(pathNameExit);
+            bExit.setIcon(new ImageIcon(bufferedImage));
+        }
+        catch (IOException e) {
+            found = false;
+            System.out.println("Image for ProductContinueExit Exit not found");
         }
         bStart.addActionListener(new ActionListener() {
             @Override
