@@ -1,15 +1,15 @@
-package main.java;
+package main.java.Entities;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class FactoryB extends Factory{
+public class FactoryB extends Factory {
     //The factory that 'produces' ProductB
-    BufferedImage shape;
-    boolean found = true;
-    File pathName = new File("src/main/resources/missileSuper.png");
+    private BufferedImage shape;
+    private boolean found = true;
+    private File pathName = new File("src/main/resources/missileSuper.png");
 
     public FactoryB(){
         try {

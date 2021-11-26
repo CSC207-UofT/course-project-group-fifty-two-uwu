@@ -1,0 +1,222 @@
+package main.java.Controller;
+
+import main.java.Entities.ProductName;
+import main.java.Entities.ProductMainMenu;
+import main.java.UI.Canvas;
+import main.java.Entities.ProductInfo;
+import main.java.UI.Console;
+import main.java.UseCases.GameLogic;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Scanner;
+import javax.swing.*;
+
+public class GameState extends JFrame {
+    //keeps track of the game stage, the position of the image that the user can control (target/pilot),
+    //and the clock. It calls on class Console to get user input and decides on the stage of the game, e.g., 0 - in
+    //progress, 9 - exit. It passes target coordinates and the clock value to class
+    //Canvas and calls on class Canvas to paint the screen
+    final private String START = "start";
+    final private String INFO = "info";
+    final private String EXIT = "exit";
+    Console console;
+    Canvas canvas;
+    GameLogic gameLogic;
+    Iterator<JPanel> iterator;
+    public static final int CANVAS_WIDTH = 700;
+    public static final int CANVAS_HEIGHT = 600;
+    private final JFrame mainFrame;
+    private int keyPressed;
+    private int gameState; // 0 - start, 1 - exit continue, 9 - exit
+    private final long startTime;
+    private boolean paintIsAllowed = true;
+    private boolean doSomething = true;
+    private String username = "";
+    private JTextField jTextField = new JTextField("Welcome in GameState.");
+    ProductName productName = new ProductName();
+    ProductMainMenu productMainMenu = new ProductMainMenu();
+    JLabel jLabel;
+    JButton bStart;
+    JButton bInfo;
+    JButton bExit;
+
+    public GameState(){
+        mainFrame = new JFrame("Missile Mayhem");
+        // mainFrame.setLayout(null);
+        mainFrame.getContentPane();
+        mainFrame.setSize(CANVAS_WIDTH,CANVAS_HEIGHT);
+        mainFrame.setVisible(true);
+        this.getUserName();
+        if (this.username.equals("")) {
+            gameState = 7;
+        }
+        else {
+            gameState = 5;
+        }
+        // gameState = 0; // for testing only to be deleted
+        gameLogic = new GameLogic(this.mainFrame);
+        gameLogic.setUserName(this.username);
+        iterator = gameLogic.iterator();
+        this.console = new Console(this.mainFrame);
+        // this.canvas = new Canvas(this.mainFrame, iterator);
+        this.canvas = new Canvas(mainFrame);
+        startTime = System.currentTimeMillis();
+    }
+
+    public void getUserName(){
+        try {
+            File file = new File("stats.txt");
+            Scanner scanner = new Scanner(file);
+            String text = "";
+            while (scanner.hasNextLine()) {
+                text = text + " " + scanner.nextLine();
+            }
+            scanner.close();
+            this.username = text;
+            System.out.println("GameState user name = " + text);
+        } catch (FileNotFoundException e) {
+            System.out.println("Reading error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void update(){
+        JPanel jPanel;
+        String jButtonEvent;
+        // Iterator<JPanel> iterator = gameLogic.iterator();
+        // gameLogic.update(gameState);
+        // System.out.println("GameState --> gameState = " + gameState);
+        if (this.gameState == 5) {
+            paintIsAllowed = false;
+            if (doSomething) {
+                // System.out.println("GameState >>> gameState = " + gameState);
+                doSomething = false;
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                this.mainFrame.getContentPane().add(productMainMenu);
+                this.mainFrame.revalidate();
+                productMainMenu.getJLabel().setText(productMainMenu.getJLabel().getText() + " " + this.username);
+                this.mainFrame.repaint();
+            }
+            if (productMainMenu.getEvent().length() > 0) {
+                if (productMainMenu.getEvent().equals(START)) {
+                    gameState = 0;
+                }
+                else if (productMainMenu.getEvent().equals(INFO)) {
+                    gameState = 6;
+                }
+                else if (productMainMenu.getEvent().equals(EXIT)) {
+                    gameState = 9;
+                }
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                paintIsAllowed = true;
+                doSomething = true;
+            }
+        }
+        else if (this.gameState == 6) {
+            while (iterator.hasNext()){
+                jPanel = iterator.next();
+                if (jPanel.getClass().getName().equals("main.java.Entities.ProductInfo")) {
+                    jButtonEvent = ((ProductInfo) jPanel).getEvent();
+//                    switch (jButtonEvent) {
+//                        case "continue" -> {
+//                            this.gameState = 0;
+//                            System.out.println("From 6 to 0");
+//                        };
+//                        case "exit" -> {
+//                            this.gameState = 9;
+//                            System.out.println("From 6 to 9");
+//                        }
+//                    }
+                }
+            }
+        }
+        else if (this.gameState == 7) {
+            paintIsAllowed = false;
+            if (doSomething) {
+                doSomething = false;
+
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                this.mainFrame.getContentPane().add(productName);
+                this.mainFrame.revalidate();
+                this.mainFrame.repaint();
+            }
+            // System.out.println("GameState gameState = 7 username = " + productTest.getUsername());
+            if (productName.getUsername().length() > 1) {
+                System.out.println("GameState gameState = 7 B");
+                setUsername(productName.getUsername());
+                writeToFile(productName.getUsername());
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                paintIsAllowed = true;
+                doSomething = true;
+                this.gameState = 5;
+            }
+        }
+        if (paintIsAllowed) {
+            gameLogic.update(this.gameState);
+            this.setKeyPressed(console.getKeyPressed());
+            this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+            this.canvas.paint();
+        }
+    }
+    public void setKeyPressed(int keyPressed) {
+        if (this.gameState == 0) {
+            if (!mainFrame.hasFocus()){
+                mainFrame.requestFocus();
+            }
+            if (keyPressed == 27){ // ESC
+                this.gameState = 6;
+            }
+            else if (keyPressed >= 37 && keyPressed <= 40) {
+                this.keyPressed = keyPressed;
+            }
+            else {
+                this.keyPressed = keyPressed;
+            }
+        }
+        else if (this.gameState == 1) {
+            if (keyPressed == 27){ // ESC
+                this.gameState = 9; // Will exit
+            }
+            else if (keyPressed != 0){
+                this.gameState = 0; // Will continue
+            }
+        }
+        if (keyPressed != 0) {
+            System.out.println("key = " + keyPressed + " state = " + this.gameState);
+        }
+    }
+
+    public void writeToFile(String str) {
+        try {
+            FileWriter fileWriter = new FileWriter("stats.txt");
+            fileWriter.write(str);
+            fileWriter.close();
+            System.out.println("Successfully wrote to the file");
+        } catch (IOException e) {
+            System.out.println("Writing error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void setUsername(String s){
+        this.username = s;
+    }
+
+    public void closeMainFrame(){
+        mainFrame.dispose();
+    }
+
+    public int getGameState() {return this.gameState;}
+
+    public String getTimeElapsed(){
+        return String.valueOf((System.currentTimeMillis() - this.startTime)/1000);
+    }
+}

@@ -2,13 +2,10 @@
  *
  */
 
-package main.java;
+package main.java.Controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 /* This class contains main(), where all the action begins
  * main() will first create GameState whose constructor will create the canvas
