@@ -1,4 +1,4 @@
-package main.java;
+package main.java.Entities;
 
 public class TrajectoryB {
     //The Trajectory class for the missiles
@@ -35,7 +35,7 @@ public class TrajectoryB {
         double bc = Math.sqrt((cx - bx)*(cx - bx) + (cy - by)*(cy - by));
         temp = Math.acos((ab*ab + ac*ac - bc*bc)/((1)*(2*ab*ac)));
         // standard Math.PI/80 = 2.25 degrees
-        double ANGLE = Math.PI / 90;
+        double ANGLE = Math.PI / 110;
         isOnTarget = Math.abs(temp) < ANGLE;
         // calculate the new value for direction vector
         if(!isOnTarget){
@@ -47,7 +47,7 @@ public class TrajectoryB {
             }
         }
         // standard speed = 3
-        int DELTA = 3;
+        int DELTA = 4;
         this.x += DELTA * Math.cos(this.v);
         this.y += DELTA * Math.sin(this.v);
     }

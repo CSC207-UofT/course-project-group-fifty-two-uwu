@@ -1,4 +1,4 @@
-package main.java;
+package main.java.UI;
 
 import javax.swing.*;
 import java.awt.event.*;

@@ -1,4 +1,4 @@
-package main.java;
+package main.java.Entities;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -7,11 +7,10 @@ import java.io.IOException;
 
 public class FactoryP {
     //The factory that 'produces' ProductP
-    BufferedImage shape = null;
+    private BufferedImage shape = null;
     private int x_axis = 100;
     private int y_axis = 100;
-
-    File pathName = new File("src/main/resources/pilot.png");
+    private File pathName = new File("src/main/resources/pilot.png");
 
     public FactoryP(){
         try {

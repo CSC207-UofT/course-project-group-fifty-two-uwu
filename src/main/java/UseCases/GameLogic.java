@@ -1,4 +1,9 @@
-package main.java;
+package main.java.UseCases;
+
+import main.java.Entities.FactoryB;
+import main.java.Entities.ProductP;
+import main.java.Entities.ProductTimer;
+import main.java.Entities.ProductMainMenu;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -9,19 +14,23 @@ public class GameLogic implements Iterable<JPanel>{
     //of JPanels for painting and a list of the same size with boolean values. The
     //second list indicates which components are to be painted for a given game
     //stage. It implements the Iterator Design Pattern and its iterator can
-    //be used elsewhere in code to easy scan all paintable components
+    //be used elsewhere in code to easy scan all components that can be painted
+    private String event = "";
     private final ArrayList<JPanel> jPanels = new ArrayList<>();
     private final ArrayList<Boolean> booleans = new ArrayList<>();
+    private JFrame jFrame;
+    private String username = "";
+    private boolean gamePaused = false;
 
-    public GameLogic(){
-        jPanels.add(new ProductGetUserName());
-        jPanels.add(new ProductContinueExit());
-        jPanels.add(new ProductInfo());
+    public GameLogic(JFrame jFrame){
+        this.jFrame = jFrame;
+//        ProductTestB productTestB = new ProductTestB();
+        jPanels.add(new ProductMainMenu());
         jPanels.add(new ProductTimer());
         jPanels.add(new ProductP());
-        jPanels.add(new ProductA());
+//        jPanels.add(new ProductA());
         FactoryB factoryB = new FactoryB();
-        jPanels.add(factoryB.getProduct(-50, -50, Math.PI/5));
+        jPanels.add(factoryB.getProduct(200, 100, Math.PI/5));
         jPanels.add(factoryB.getProduct(-1000, 1000, Math.PI/5));
         jPanels.add(factoryB.getProduct(1000, -1000, Math.PI/5));
         for (int i = 0; i < jPanels.size(); i++){
@@ -30,30 +39,22 @@ public class GameLogic implements Iterable<JPanel>{
     }
 
     public void update(int gameState){
-        if (gameState == 5){
-            setAllFalse();
-            setItemTrue(1);
-        }
-        else if (gameState == 0){
+        // System.out.println("GameLogic gameState = " + gameState);
+        if (gameState == 0){
             setAllTrue();
             setItemFalse(0);
-            setItemFalse(1);
-            setItemFalse(2);
         }
-        else if (gameState == 7){
+        else if (gameState == 5){
             setAllFalse();
             setItemTrue(0);
         }
         else if (gameState == 6){
             setAllFalse();
-            setItemTrue(2);
+            setItemTrue(0);
         }
     }
 
-    public void updateProductContinueExit(String s){
-        ProductContinueExit productContinueExit = (ProductContinueExit) jPanels.get(1);
-        productContinueExit.setWelcome(s);
-    }
+    public void setUserName(String s){this.username = s;}
 
     // Helper to activate all products
     private void setAllTrue(){
@@ -118,7 +119,8 @@ public class GameLogic implements Iterable<JPanel>{
     }
 
     public static void main(String[] args) {
-        GameLogic gl = new GameLogic();
+        JFrame jFrame = new JFrame();
+        GameLogic gl = new GameLogic(jFrame);
         Iterator<JPanel> it = gl.iterator();
         JPanel item;
 

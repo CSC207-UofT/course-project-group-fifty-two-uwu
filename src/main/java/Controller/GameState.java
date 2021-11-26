@@ -1,4 +1,11 @@
-package main.java;
+package main.java.Controller;
+
+import main.java.Entities.ProductName;
+import main.java.Entities.ProductMainMenu;
+import main.java.UI.Canvas;
+import main.java.Entities.ProductInfo;
+import main.java.UI.Console;
+import main.java.UseCases.GameLogic;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +20,9 @@ public class GameState extends JFrame {
     //and the clock. It calls on class Console to get user input and decides on the stage of the game, e.g., 0 - in
     //progress, 9 - exit. It passes target coordinates and the clock value to class
     //Canvas and calls on class Canvas to paint the screen
+    final private String START = "start";
+    final private String INFO = "info";
+    final private String EXIT = "exit";
     Console console;
     Canvas canvas;
     GameLogic gameLogic;
@@ -24,7 +34,15 @@ public class GameState extends JFrame {
     private int gameState; // 0 - start, 1 - exit continue, 9 - exit
     private final long startTime;
     private boolean paintIsAllowed = true;
+    private boolean doSomething = true;
     private String username = "";
+    private JTextField jTextField = new JTextField("Welcome in GameState.");
+    ProductName productName = new ProductName();
+    ProductMainMenu productMainMenu = new ProductMainMenu();
+    JLabel jLabel;
+    JButton bStart;
+    JButton bInfo;
+    JButton bExit;
 
     public GameState(){
         mainFrame = new JFrame("Missile Mayhem");
@@ -39,11 +57,13 @@ public class GameState extends JFrame {
         else {
             gameState = 5;
         }
-        this.console = new Console(this.mainFrame);
-        this.canvas = new Canvas(this.mainFrame);
-        gameLogic = new GameLogic();
-        gameLogic.updateProductContinueExit(username);
+        // gameState = 0; // for testing only to be deleted
+        gameLogic = new GameLogic(this.mainFrame);
+        gameLogic.setUserName(this.username);
         iterator = gameLogic.iterator();
+        this.console = new Console(this.mainFrame);
+        // this.canvas = new Canvas(this.mainFrame, iterator);
+        this.canvas = new Canvas(mainFrame);
         startTime = System.currentTimeMillis();
     }
 
@@ -57,6 +77,7 @@ public class GameState extends JFrame {
             }
             scanner.close();
             this.username = text;
+            System.out.println("GameState user name = " + text);
         } catch (FileNotFoundException e) {
             System.out.println("Reading error occurred.");
             e.printStackTrace();
@@ -66,77 +87,83 @@ public class GameState extends JFrame {
     public void update(){
         JPanel jPanel;
         String jButtonEvent;
-        String jTextFieldEvent;
+        // Iterator<JPanel> iterator = gameLogic.iterator();
         // gameLogic.update(gameState);
+        // System.out.println("GameState --> gameState = " + gameState);
         if (this.gameState == 5) {
-            while (iterator.hasNext()){
-                jPanel = iterator.next();
-                if (jPanel.getClass().getName().equals("main.java.ProductContinueExit")) {
-                    jButtonEvent = ((ProductContinueExit) jPanel).getEvent();
-                    switch (jButtonEvent) {
-                        case "start" -> {
-                            this.gameState = 0;
-                            System.out.println("From 5 to 0");
-                        }
-                        case "info" -> {
-                            this.gameState = 6;
-                            System.out.println("From 5 to 6");
-                        }
-                        case "exit" -> {
-                            this.gameState = 9;
-                            System.out.println("From 5 to 9");
-                        }
-                    }
+            paintIsAllowed = false;
+            if (doSomething) {
+                // System.out.println("GameState >>> gameState = " + gameState);
+                doSomething = false;
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                this.mainFrame.getContentPane().add(productMainMenu);
+                this.mainFrame.revalidate();
+                productMainMenu.getJLabel().setText(productMainMenu.getJLabel().getText() + " " + this.username);
+                this.mainFrame.repaint();
+            }
+            if (productMainMenu.getEvent().length() > 0) {
+                if (productMainMenu.getEvent().equals(START)) {
+                    gameState = 0;
                 }
+                else if (productMainMenu.getEvent().equals(INFO)) {
+                    gameState = 6;
+                }
+                else if (productMainMenu.getEvent().equals(EXIT)) {
+                    gameState = 9;
+                }
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                paintIsAllowed = true;
+                doSomething = true;
             }
         }
         else if (this.gameState == 6) {
             while (iterator.hasNext()){
                 jPanel = iterator.next();
-                if (jPanel.getClass().getName().equals("main.java.ProductInfo")) {
+                if (jPanel.getClass().getName().equals("main.java.Entities.ProductInfo")) {
                     jButtonEvent = ((ProductInfo) jPanel).getEvent();
-                    switch (jButtonEvent) {
-                        case "continue" -> {
-                            this.gameState = 0;
-                            System.out.println("From 6 to 0");
-                        }
-                        case "exit" -> {
-                            this.gameState = 9;
-                            System.out.println("From 6 to 9");
-                        }
-                    }
+//                    switch (jButtonEvent) {
+//                        case "continue" -> {
+//                            this.gameState = 0;
+//                            System.out.println("From 6 to 0");
+//                        };
+//                        case "exit" -> {
+//                            this.gameState = 9;
+//                            System.out.println("From 6 to 9");
+//                        }
+//                    }
                 }
             }
         }
         else if (this.gameState == 7) {
-            while (iterator.hasNext()){
-                jPanel = iterator.next();
-                if (jPanel.getClass().getName().equals("main.java.ProductGetUserName")) {
-                    jTextFieldEvent = ((ProductGetUserName) jPanel).getEvent();
-                    // System.out.println("In GameState event = " + jTextFieldEvent);
-                    if (jTextFieldEvent.length() > 0) {
-                        System.out.println("In GameState event2 = " + jTextFieldEvent);
-                        writeToFile(jTextFieldEvent);
-                        this.gameState = 5;
-                        this.username = jTextFieldEvent;
-                        gameLogic.updateProductContinueExit(this.username);
-                        paintIsAllowed = true;
-                        System.out.println("From 7 to 5");
-                    }
-                    else if (paintIsAllowed){
-                        paintIsAllowed = false;
-                        gameLogic.update(gameState);
-                        this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-                        this.canvas.paint(this.iterator);
-                    }
-                }
+            paintIsAllowed = false;
+            if (doSomething) {
+                doSomething = false;
+
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                this.mainFrame.getContentPane().add(productName);
+                this.mainFrame.revalidate();
+                this.mainFrame.repaint();
+            }
+            // System.out.println("GameState gameState = 7 username = " + productTest.getUsername());
+            if (productName.getUsername().length() > 1) {
+                System.out.println("GameState gameState = 7 B");
+                setUsername(productName.getUsername());
+                writeToFile(productName.getUsername());
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                paintIsAllowed = true;
+                doSomething = true;
+                this.gameState = 5;
             }
         }
         if (paintIsAllowed) {
-            gameLogic.update(gameState);
+            gameLogic.update(this.gameState);
             this.setKeyPressed(console.getKeyPressed());
             this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-            this.canvas.paint(this.iterator);
+            this.canvas.paint();
         }
     }
     public void setKeyPressed(int keyPressed) {
@@ -177,6 +204,10 @@ public class GameState extends JFrame {
             System.out.println("Writing error occurred.");
             e.printStackTrace();
         }
+    }
+
+    public void setUsername(String s){
+        this.username = s;
     }
 
     public void closeMainFrame(){

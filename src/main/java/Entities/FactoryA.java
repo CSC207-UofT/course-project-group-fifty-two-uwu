@@ -1,4 +1,4 @@
-package main.java;
+package main.java.Entities;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -11,7 +11,7 @@ public class FactoryA {
     private int x_axis = 10;
     private int y_axis = 10;
     private double direction = Math.PI/5;
-    boolean found = true;
+    private boolean found = true;
 
     File pathName = new File("src/main/resources/target.png");
 
