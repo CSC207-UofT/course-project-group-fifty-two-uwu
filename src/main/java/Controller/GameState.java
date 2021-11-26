@@ -23,6 +23,7 @@ public class GameState extends JFrame {
     final private String START = "start";
     final private String INFO = "info";
     final private String EXIT = "exit";
+    final private String CONTINUE = "continue";
     Console console;
     Canvas canvas;
     GameLogic gameLogic;
@@ -39,6 +40,7 @@ public class GameState extends JFrame {
     private JTextField jTextField = new JTextField("Welcome in GameState.");
     ProductName productName = new ProductName();
     ProductMainMenu productMainMenu = new ProductMainMenu();
+    ProductInfo productInfo = new ProductInfo();
     JLabel jLabel;
     JButton bStart;
     JButton bInfo;
@@ -119,23 +121,34 @@ public class GameState extends JFrame {
             }
         }
         else if (this.gameState == 6) {
-            while (iterator.hasNext()){
-                jPanel = iterator.next();
-                if (jPanel.getClass().getName().equals("main.java.Entities.ProductInfo")) {
-                    jButtonEvent = ((ProductInfo) jPanel).getEvent();
-//                    switch (jButtonEvent) {
-//                        case "continue" -> {
-//                            this.gameState = 0;
-//                            System.out.println("From 6 to 0");
-//                        };
-//                        case "exit" -> {
-//                            this.gameState = 9;
-//                            System.out.println("From 6 to 9");
-//                        }
-//                    }
+            paintIsAllowed = false;
+            if (doSomething) {
+                // System.out.println("GameState >>> gameState = " + gameState);
+                doSomething = false;
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                this.mainFrame.getContentPane().add(productInfo);
+                this.mainFrame.revalidate();
+                this.mainFrame.repaint();
+            }
+            // System.out.println("GameState state = 6 event = " + productInfo.getEvent());
+            if (productInfo.getEvent().length() > 0) {
+                if (productInfo.getEvent().equals(CONTINUE)) {
+                    System.out.println("GameState code = " + CONTINUE + " 6 --> 0");
+                    gameState = 0;
                 }
+                else if (productInfo.getEvent().equals(EXIT)){
+                    System.out.println("GameState code = " + EXIT + " 6 --> 9");
+                    gameState = 9;
+                }
+                productInfo.setEvent("");
+                this.mainFrame.getContentPane().removeAll();
+                this.mainFrame.getContentPane().revalidate();
+                paintIsAllowed = true;
+                doSomething = true;
             }
         }
+
         else if (this.gameState == 7) {
             paintIsAllowed = false;
             if (doSomething) {

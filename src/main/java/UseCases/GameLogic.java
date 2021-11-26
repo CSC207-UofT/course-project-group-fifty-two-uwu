@@ -25,7 +25,7 @@ public class GameLogic implements Iterable<JPanel>{
     public GameLogic(JFrame jFrame){
         this.jFrame = jFrame;
 //        ProductTestB productTestB = new ProductTestB();
-        jPanels.add(new ProductMainMenu());
+        // jPanels.add(new ProductMainMenu());
         jPanels.add(new ProductTimer());
         jPanels.add(new ProductP());
 //        jPanels.add(new ProductA());
@@ -42,15 +42,7 @@ public class GameLogic implements Iterable<JPanel>{
         // System.out.println("GameLogic gameState = " + gameState);
         if (gameState == 0){
             setAllTrue();
-            setItemFalse(0);
-        }
-        else if (gameState == 5){
-            setAllFalse();
-            setItemTrue(0);
-        }
-        else if (gameState == 6){
-            setAllFalse();
-            setItemTrue(0);
+            // setItemFalse(0);
         }
     }
 
