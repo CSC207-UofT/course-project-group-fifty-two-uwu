@@ -2,8 +2,8 @@ package main.java.Controller;
 
 import main.java.Entities.ProductName;
 import main.java.Entities.ProductMainMenu;
-import main.java.Entities.ProductInfo;
 import main.java.UI.Canvas;
+import main.java.Entities.ProductInfo;
 import main.java.UI.Console;
 import main.java.UseCases.GameLogic;
 
@@ -24,6 +24,7 @@ public class GameState extends JFrame {
     final private String INFO = "info";
     final private String EXIT = "exit";
     final private String CONTINUE = "continue";
+    final private String NEW_USER_NAME = "newUsername";
     Console console;
     Canvas canvas;
     GameLogic gameLogic;
@@ -99,16 +100,25 @@ public class GameState extends JFrame {
         else if (this.gameState == 5) {
             paintIsAllowed = false;
             if (doSomething) {
-                // System.out.println("GameState >>> gameState = " + gameState);
+                System.out.println("GameState >>> gameState = " + gameState);
                 doSomething = false;
                 this.mainFrame.getContentPane().removeAll();
                 this.mainFrame.getContentPane().revalidate();
+                System.out.println("GameState >>> check 1");
                 this.mainFrame.getContentPane().add(productMainMenu);
+                System.out.println("GameState >>> check 2");
                 this.mainFrame.revalidate();
-                productMainMenu.getJLabel().setText(productMainMenu.getJLabel().getText() + " " + this.username);
+                System.out.println("GameState >>> check 3");
+                // productMainMenu. getJLabel().setText(productMainMenu.getJLabel().getText() + " " + this.username);
+                productMainMenu.setUsername(this.username);
+                System.out.println("GameState >>> check 4");
+                productMainMenu.setEvent("");
+                System.out.println("GameState >>> check 5");
                 this.mainFrame.repaint();
+                System.out.println("GameState >>> check 6");
             }
             if (productMainMenu.getEvent().length() > 0) {
+                System.out.println("GameState >>> gameState = 7 event = " + productMainMenu.getEvent().length());
                 if (productMainMenu.getEvent().equals(START)) {
                     gameParameters.setStartTime(System.currentTimeMillis());
                     gameState = 0;
@@ -116,9 +126,14 @@ public class GameState extends JFrame {
                 else if (productMainMenu.getEvent().equals(INFO)) {
                     gameState = 6;
                 }
+                else if (productMainMenu.getEvent().equals(NEW_USER_NAME)) {
+                    System.out.println("GameState >>> gameState get new username");
+                    gameState = 7;
+                }
                 else if (productMainMenu.getEvent().equals(EXIT)) {
                     gameState = 9;
                 }
+                productMainMenu.getJLabel().setText("");
                 this.mainFrame.getContentPane().removeAll();
                 this.mainFrame.getContentPane().revalidate();
                 paintIsAllowed = true;
@@ -153,23 +168,23 @@ public class GameState extends JFrame {
                 doSomething = true;
             }
         }
-
         else if (this.gameState == 7) {
             paintIsAllowed = false;
             if (doSomething) {
+                System.out.println("GameState gameState = 7 do something username = " + productName.getUsername());
                 doSomething = false;
-
                 this.mainFrame.getContentPane().removeAll();
                 this.mainFrame.getContentPane().revalidate();
                 this.mainFrame.getContentPane().add(productName);
                 this.mainFrame.revalidate();
                 this.mainFrame.repaint();
             }
-            // System.out.println("GameState gameState = 7 username = " + productTest.getUsername());
+            System.out.println("GameState gameState = 7 username = " + productName.getUsername());
             if (productName.getUsername().length() > 1) {
                 System.out.println("GameState gameState = 7 B");
                 setUsername(productName.getUsername());
                 writeToFile(productName.getUsername());
+                productName.setUsername("");
                 this.mainFrame.getContentPane().removeAll();
                 this.mainFrame.getContentPane().revalidate();
                 paintIsAllowed = true;

@@ -42,7 +42,9 @@ public class GameLogic implements Iterable<JPanel>{
         // System.out.println("GameLogic gameState = " + gameState);
         if (gameState == 0){
             setAllTrue();
-            // setItemFalse(0);
+        }
+        else if (gameState == 7){
+            setAllFalse();
         }
     }
 
