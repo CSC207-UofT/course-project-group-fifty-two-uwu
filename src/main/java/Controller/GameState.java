@@ -2,8 +2,8 @@ package main.java.Controller;
 
 import main.java.Entities.ProductName;
 import main.java.Entities.ProductMainMenu;
-import main.java.UI.Canvas;
 import main.java.Entities.ProductInfo;
+import main.java.UI.Canvas;
 import main.java.UI.Console;
 import main.java.UseCases.GameLogic;
 
@@ -27,6 +27,7 @@ public class GameState extends JFrame {
     Console console;
     Canvas canvas;
     GameLogic gameLogic;
+    GameParameters gameParameters;
     Iterator<JPanel> iterator;
     public static final int CANVAS_WIDTH = 700;
     public static final int CANVAS_HEIGHT = 600;
@@ -48,7 +49,6 @@ public class GameState extends JFrame {
 
     public GameState(){
         mainFrame = new JFrame("Missile Mayhem");
-        // mainFrame.setLayout(null);
         mainFrame.getContentPane();
         mainFrame.setSize(CANVAS_WIDTH,CANVAS_HEIGHT);
         mainFrame.setVisible(true);
@@ -59,13 +59,12 @@ public class GameState extends JFrame {
         else {
             gameState = 5;
         }
-        // gameState = 0; // for testing only to be deleted
-        gameLogic = new GameLogic(this.mainFrame);
-        gameLogic.setUserName(this.username);
-        iterator = gameLogic.iterator();
+        this.gameLogic = new GameLogic(this.mainFrame);
+        this.gameLogic.setUserName(this.username);
+        this.iterator = gameLogic.iterator();
         this.console = new Console(this.mainFrame);
-        // this.canvas = new Canvas(this.mainFrame, iterator);
-        this.canvas = new Canvas(mainFrame);
+        this.gameParameters = new GameParameters();
+        this.canvas = new Canvas(mainFrame, gameParameters);
         startTime = System.currentTimeMillis();
     }
 
@@ -92,7 +91,12 @@ public class GameState extends JFrame {
         // Iterator<JPanel> iterator = gameLogic.iterator();
         // gameLogic.update(gameState);
         // System.out.println("GameState --> gameState = " + gameState);
-        if (this.gameState == 5) {
+        if (this.gameState == 0) {
+            if (gameParameters.isCollisionDetected()){
+                System.out.println("BOOM");
+            }
+        }
+        else if (this.gameState == 5) {
             paintIsAllowed = false;
             if (doSomething) {
                 // System.out.println("GameState >>> gameState = " + gameState);
@@ -106,6 +110,7 @@ public class GameState extends JFrame {
             }
             if (productMainMenu.getEvent().length() > 0) {
                 if (productMainMenu.getEvent().equals(START)) {
+                    gameParameters.setStartTime(System.currentTimeMillis());
                     gameState = 0;
                 }
                 else if (productMainMenu.getEvent().equals(INFO)) {

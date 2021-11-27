@@ -1,5 +1,6 @@
 package main.java.UI;
 
+import main.java.Controller.GameParameters;
 import main.java.Entities.ProductB;
 import main.java.Entities.ProductP;
 import main.java.Entities.ProductTimer;
@@ -12,23 +13,28 @@ public class Canvas {
     //Initially, this class creates a set of products which during the game, can be
     //added to or remove from the canvas. This class also calls on products to
     private final JFrame jFrame;
+    private final GameParameters gameParameters;
     private int targetX = 200;
     private int targetY = 200;
 
-    public Canvas(JFrame jFrame){
+    public Canvas(JFrame jFrame, GameParameters gameParameters){
         this.jFrame = jFrame;
         this.jFrame.setVisible(true);
+        this.gameParameters = gameParameters;
     }
 
     public void update(Iterator<JPanel> iterator, int key, String timeElapsed){
         JPanel jPanel;
-        long currentTime = System.currentTimeMillis();
+        // long currentTime = System.currentTimeMillis();
         this.jFrame.getContentPane().removeAll();
         this.jFrame.getContentPane().revalidate();
         while (iterator.hasNext()){
             jPanel = iterator.next();
             if (jPanel.getClass().getName().contains("ProductB")) {
                 ((ProductB) jPanel).update(this.targetX, this.targetY);
+                if (((ProductB) jPanel).isCollisionDetected()){
+                    this.gameParameters.setCollisionDetected(true);
+                }
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("ProductP")) {
@@ -40,7 +46,7 @@ public class Canvas {
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("ProductTimer")) {
-                ((ProductTimer) jPanel).updateClock(currentTime);
+                ((ProductTimer) jPanel).updateClock(gameParameters.getGameTime());
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             this.jFrame.getContentPane().add(jPanel);

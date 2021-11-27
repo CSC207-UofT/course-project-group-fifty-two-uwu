@@ -16,6 +16,7 @@ public class ProductB extends JPanel {
     private double vector;
     private final BufferedImage shape;
     private final TrajectoryB trajectoryB = new TrajectoryB();
+    private double distance;
 
     public ProductB(int x, int y, double v, BufferedImage img){
         this.x = x;
@@ -37,7 +38,8 @@ public class ProductB extends JPanel {
         this.x = trajectoryB.getX();
         this.y = trajectoryB.getY();
         this.vector = trajectoryB.getV();
-        // repaint(); // not necessary if repaint is done somewhere else
+        this.distance = Math.sqrt( ((this.x - targetX)*(this.x - targetX)) +
+                ((this.y - targetY)*(this.y - targetY)));
     }
 
     public int getX(){
@@ -46,5 +48,9 @@ public class ProductB extends JPanel {
 
     public int getY(){
         return this.y;
+    }
+
+    public boolean isCollisionDetected(){
+        return distance < 3;
     }
 }
