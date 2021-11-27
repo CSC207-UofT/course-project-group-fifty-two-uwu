@@ -3,6 +3,7 @@ package main.java.UI;
 import main.java.Controller.GameParameters;
 import main.java.Entities.ProductB;
 import main.java.Entities.ProductP;
+import main.java.Entities.ProductSputnik;
 import main.java.Entities.ProductTimer;
 
 import javax.swing.*;
@@ -33,6 +34,13 @@ public class Canvas {
             if (jPanel.getClass().getName().contains("ProductB")) {
                 ((ProductB) jPanel).update(this.targetX, this.targetY);
                 if (((ProductB) jPanel).isCollisionDetected()){
+                    this.gameParameters.setCollisionDetected(true);
+                }
+                // System.out.println("Canvas update added " + jPanel.getClass().getName());
+            }
+            else if (jPanel.getClass().getName().contains("ProductSputnik")) {
+                ((ProductSputnik) jPanel).update(this.targetX, this.targetY);
+                if (((ProductSputnik) jPanel).isCollisionDetected()){
                     this.gameParameters.setCollisionDetected(true);
                 }
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());

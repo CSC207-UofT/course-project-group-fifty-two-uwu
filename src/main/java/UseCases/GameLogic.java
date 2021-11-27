@@ -1,9 +1,6 @@
 package main.java.UseCases;
 
-import main.java.Entities.FactoryB;
-import main.java.Entities.ProductP;
-import main.java.Entities.ProductTimer;
-import main.java.Entities.ProductMainMenu;
+import main.java.Entities.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -25,11 +22,13 @@ public class GameLogic implements Iterable<JPanel>{
     public GameLogic(JFrame jFrame){
         this.jFrame = jFrame;
 //        ProductTestB productTestB = new ProductTestB();
-        // jPanels.add(new ProductMainMenu());
+//        jPanels.add(new ProductMainMenu());
         jPanels.add(new ProductTimer());
         jPanels.add(new ProductP());
 //        jPanels.add(new ProductA());
         FactoryB factoryB = new FactoryB();
+        FactorySputnik factorySputnik = new FactorySputnik();
+        jPanels.add(factorySputnik.getProduct(10, 10, Math.PI/5));
         jPanels.add(factoryB.getProduct(200, 100, Math.PI/5));
         jPanels.add(factoryB.getProduct(-1000, 1000, Math.PI/5));
         jPanels.add(factoryB.getProduct(1000, -1000, Math.PI/5));
