@@ -26,8 +26,8 @@ public class ProductInfo extends JPanel{
 
     public ProductInfo(){
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
-        jLabel.setText("Pause - ESC");
-        jLabel.setBounds(210, 150, 300, 28);
+        jLabel.setText("<html>Pause - ESC <br>Arrow Keys - Movement</html>");
+        jLabel.setBounds(210, 150, 300, 100);
 
         imageIconContinue = new ImageIcon();
         try {
