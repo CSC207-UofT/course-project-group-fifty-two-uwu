@@ -7,39 +7,47 @@ import java.io.IOException;
 
 public class FactoryP {
     //The factory that 'produces' ProductP
-    private BufferedImage shape = null;
-    private int x_axis = 100;
-    private int y_axis = 100;
-    private File pathName = new File("src/main/resources/pilot.png");
+    private BufferedImage shapePilot = null;
+    private BufferedImage shapeBoom = null;
+    private int x_axis = 200;
+    private int y_axis = 200;
+    private File pathNamePilot = new File("src/main/resources/pilot.png");
+    private File pathNameBoom = new File("src/main/resources/explosion.png");
 
     public FactoryP(){
         try {
-            shape = ImageIO.read(pathName);
+            shapePilot = ImageIO.read(pathNamePilot);
         }
         catch (IOException e) {
-            System.out.println("Image for FactoryA not found");
+            System.out.println("Image for pilot.png not found");
         }
-        System.out.println("Image created in Factory P");
+        System.out.println("Image pilot.png created in Factory P");
+        try {
+            shapeBoom = ImageIO.read(pathNameBoom);
+        }
+        catch (IOException e) {
+            System.out.println("Image for explosion.png not found");
+        }
+        System.out.println("Image explosion.png created in Factory P");
     }
 
     public void setX_axis(int x_axis){
         this.x_axis = x_axis;
     }
-
     public void setY_axis(int y_axis){
         this.y_axis = y_axis;
     }
-
     public int getX_axis(){
         return this.x_axis;
     }
-
     public int getY_axis(){
         return this.y_axis;
     }
-
-    public BufferedImage getShape(){
-        return this.shape;
+    public BufferedImage getShapePilot(){
+        return this.shapePilot;
+    }
+    public BufferedImage getShapeBoom(){
+        return this.shapeBoom;
     }
 }
 

@@ -32,7 +32,7 @@ public class MainLoop {
         boolean gameIsOver = false;
         GameState gameState = new GameState();
 //        GameState.setUserName(readFromFile());
-        long sleepTime = 10;
+        long sleepTime = 18;
         long awakeTime = System.currentTimeMillis();
         while(!gameIsOver){
             while(System.currentTimeMillis() < awakeTime) {
