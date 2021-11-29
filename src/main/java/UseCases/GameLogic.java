@@ -28,7 +28,7 @@ public class GameLogic implements Iterable<JPanel>{
         jPanels.add(new ProductTimer());
         jPanels.add(new ProductHitCounter());
         jPanels.add(new ProductP());
-        jPanels.add(new GameOver());
+        jPanels.add(new ProductGameOver());
         FactoryB factoryB = new FactoryB();
         FactorySputnik factorySputnik = new FactorySputnik();
         jPanels.add(factorySputnik.getProduct(10, 10, Math.PI/5));

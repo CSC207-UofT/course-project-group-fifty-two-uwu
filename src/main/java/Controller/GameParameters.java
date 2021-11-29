@@ -11,6 +11,7 @@ public class GameParameters {
     boolean boomOn = false;
     int hits = 0;
     private String event = "";
+    private String topFive = "";
 
     public void setStartTime(long startTime) {
         this.startTime = startTime;
@@ -78,6 +79,7 @@ public class GameParameters {
     }
     public void pauseGame(){this.pauseTime = System.currentTimeMillis();}
     public void startGame(){this.gameStarted = true;}
+    public void setTopFive(String str){this.topFive = str;}
     public void setEvent(String event){this.event = event;}
     public void setHits(){this.hits++;}
     public long getGameTime(){
@@ -86,4 +88,5 @@ public class GameParameters {
     public boolean isGameStarted(){return this.gameStarted;}
     public String getEvent(){return this.event;}
     public int getHits(){return this.hits;}
+    public String getTopFive(){return this.topFive;}
 }

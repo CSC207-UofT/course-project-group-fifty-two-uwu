@@ -5,6 +5,7 @@ import main.java.Entities.ProductMainMenu;
 import main.java.UI.Canvas;
 import main.java.Entities.ProductInfo;
 import main.java.UI.Console;
+import main.java.UI.ScoreBoard;
 import main.java.UseCases.GameLogic;
 
 import java.awt.event.WindowAdapter;
@@ -39,6 +40,7 @@ public class GameState extends JFrame {
     Canvas canvas;
     GameLogic gameLogic;
     GameParameters gameParameters;
+    private ScoreBoard scoreBoard;
     Iterator<JPanel> iterator;
     public static final int CANVAS_WIDTH = 700;
     public static final int CANVAS_HEIGHT = 600;
@@ -76,6 +78,7 @@ public class GameState extends JFrame {
         this.console = new Console(this.mainFrame);
         this.gameParameters = new GameParameters();
         this.canvas = new Canvas(mainFrame, gameParameters);
+        this.scoreBoard = new ScoreBoard();
         startTime = System.currentTimeMillis();
     }
 
@@ -228,6 +231,8 @@ public class GameState extends JFrame {
 //                System.out.println("GameState A gameState = " + STATE_GAME_OVER);
                 doSomething = false;
                 gameLogic.update(this.gameState);
+                scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
+                gameParameters.setTopFive(scoreBoard.topFive());
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
 //                this.mainFrame.getContentPane().removeAll();

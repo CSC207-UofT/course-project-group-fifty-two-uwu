@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class GameOver extends JPanel{
+public class ProductGameOver extends JPanel{
     final private String RETRY = "retry";
     final private String EXIT = "exit";
     private String event = "";
@@ -19,7 +19,7 @@ public class GameOver extends JPanel{
     private JButton bExit =new JButton("Exit");
     private JLabel jLabel = new JLabel();
     private JLabel jLabelTopScores = new JLabel();
-//    private File pathNameContinue = new File("src/main/resources/iconContinue.png");
+    private File pathNameRetry = new File("src/main/resources/iconRetry.png");
     private File pathNameExit = new File("src/main/resources/iconExit.png");
     private File pathBackground = new File("src/main/resources/backgroundMainMenu.png");
 //    private ImageIcon imageIconContinue;
@@ -28,7 +28,7 @@ public class GameOver extends JPanel{
     private BufferedImage bufferedImage;
     private GameParameters gameParameters;
 
-    public GameOver(){
+    public ProductGameOver(){
         jLabel.setFont(new Font("MS Song", Font.BOLD, 32));
         jLabel.setText("");
         jLabel.setBounds(210, 150, 300, 100);
@@ -43,14 +43,13 @@ public class GameOver extends JPanel{
 //                "<li>7 - \u9ebb\u8fa3\u9999\u9505</li><li>D</li>" +
 //                "<li>E</li></ul></html>";
         jLabelTopScores.setText(text);
-//        imageIconContinue = new ImageIcon();
-//        try {
-//            bufferedImage = ImageIO.read(pathNameContinue);
-//            bContinue.setIcon(new ImageIcon(bufferedImage));
-//        }
-//        catch (IOException e) {
-//            System.out.println("Image for ProductInfo Continue not found");
-//        }
+        try {
+            bufferedImage = ImageIO.read(pathNameRetry);
+            bRetry.setIcon(new ImageIcon(bufferedImage));
+        }
+        catch (IOException e) {
+            System.out.println("Image for ProductInfo Exit not found");
+        }
         try {
             bufferedImage = ImageIO.read(pathNameExit);
             bExit.setIcon(new ImageIcon(bufferedImage));
@@ -102,4 +101,5 @@ public class GameOver extends JPanel{
     public JButton getBRetry(){return this.bRetry;}
     public JButton getBExit(){return this.bExit;}
     public JLabel getJLabel(){return this.jLabel;}
+    public JLabel getJLabelTopScores(){return this.jLabelTopScores;}
 }

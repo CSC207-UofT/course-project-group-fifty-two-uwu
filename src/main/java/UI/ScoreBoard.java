@@ -114,6 +114,21 @@ public class ScoreBoard {
         return tuples;
     }
 
+    public String topFive(){
+        String output = "<html>";
+        ArrayList<Tuple> tuples = getTopScores();
+        int limit = tuples.size();
+        if (limit > 5){
+            limit = 5;
+        }
+        for (int i = 0; i < limit; i++) {
+            output = output + String.valueOf(i + 1) + ". " + tuples.get(i).getStr() +
+                    ": " + String.valueOf(tuples.get(i).getNum()) + " seconds<br>";
+        }
+        output = output + "</html>";
+        return output;
+    }
+
     public void addScoreOLD(String name, int score) {
         Map<String, Integer> map = new HashMap<>();
         map.put("Bob", 1);
@@ -255,5 +270,4 @@ public class ScoreBoard {
         public void setStr(String str){this.str = str;}
         public void setNum(int num){this.num = num;}
     }
-
 }

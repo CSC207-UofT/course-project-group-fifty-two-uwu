@@ -2,6 +2,7 @@ package main.java.UI;
 
 import main.java.Controller.GameParameters;
 import main.java.Entities.*;
+import main.java.Entities.ProductGameOver;
 
 import javax.swing.*;
 import java.util.Iterator;
@@ -49,8 +50,9 @@ public class Canvas {
             else if (jPanel.getClass().getName().contains("GameOver")) {
                 String info = "<html><div style='text-align: center;'>Game Over! <br>Score ";
                 info = info + this.gameParameters.getScore() + " seconds</div></html>";
-                ((GameOver) jPanel).getJLabel().setText(info);
-                ((GameOver) jPanel).injectGameParameters(this.gameParameters);
+                ((ProductGameOver) jPanel).getJLabel().setText(info);
+                ((ProductGameOver) jPanel).getJLabelTopScores().setText(this.gameParameters.getTopFive());
+                ((ProductGameOver) jPanel).injectGameParameters(this.gameParameters);
                 System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("ProductP")) {
