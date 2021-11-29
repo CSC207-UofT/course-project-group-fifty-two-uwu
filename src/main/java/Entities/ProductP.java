@@ -11,35 +11,37 @@ public class ProductP extends JPanel {
     //and displayed. This is the JPanel for the character/person that the user will be controlling.
     private int x;
     private int y;
-    private BufferedImage shape;
+    private BufferedImage shapePilot;
+    private BufferedImage shapeBoom;
     private int speed;
+    private boolean boomOn = false;
 
     public ProductP(){
         FactoryP factoryP =  new FactoryP();
         this.x = factoryP.getX_axis();
         this.y = factoryP.getY_axis();
-        this.shape = factoryP.getShape();
+        this.shapePilot = factoryP.getShapePilot();
+        this.shapeBoom = factoryP.getShapeBoom();
         this.speed = 10;
     }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(this.shape, this.x, this.y, null);
+        g2d.drawImage(this.shapePilot, this.x, this.y, null);
+        if (boomOn) {
+            g2d.drawImage(this.shapeBoom, this.x - 5, this.y - 5, null);
+        }
     }
 
     public void update(int key){
         if (key == 37){this.x = this.x - this.speed;} // Left Key
-
         if (key == 38){this.y = this.y - this.speed;} // Down Key
-
         if (key == 39){this.x = this.x + this.speed;} // Right Key
-
         if (key == 40){this.y = this.y + this.speed;} // Up Key
-
         // System.out.println("Product P x = " + this.x + " y = " + this.y);
     }
-
+    public void setBoomOn(boolean boonOn){this.boomOn = boonOn;}
+    public boolean isBoomOn(){return boomOn;}
     public int getX(){return this.x;}
-
     public int getY(){return this.y;}
 }

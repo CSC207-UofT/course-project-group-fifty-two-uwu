@@ -1,10 +1,7 @@
 package main.java.UI;
 
 import main.java.Controller.GameParameters;
-import main.java.Entities.ProductB;
-import main.java.Entities.ProductP;
-import main.java.Entities.ProductSputnik;
-import main.java.Entities.ProductTimer;
+import main.java.Entities.*;
 
 import javax.swing.*;
 import java.util.Iterator;
@@ -35,6 +32,7 @@ public class Canvas {
                 ((ProductB) jPanel).update(this.targetX, this.targetY);
                 if (((ProductB) jPanel).isCollisionDetected()){
                     this.gameParameters.setCollisionDetected(true);
+                    this.gameParameters.setCollisionDetected(true);
                 }
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
@@ -42,14 +40,30 @@ public class Canvas {
                 ((ProductSputnik) jPanel).update(this.targetX, this.targetY);
                 if (((ProductSputnik) jPanel).isCollisionDetected()){
                     this.gameParameters.setCollisionDetected(true);
+                    this.gameParameters.setCollisionDetected(true);
                 }
-                // System.out.println("Canvas update added " + jPanel.getClass().getName());
+            }
+            else if (jPanel.getClass().getName().contains("ProductHitCounter")) {
+                ((ProductHitCounter) jPanel).update(this.gameParameters.getHits());
+            }
+            else if (jPanel.getClass().getName().contains("GameOver")) {
+                String info = "<html><div style='text-align: center;'>Game Over! <br>Score ";
+                info = info + this.gameParameters.getScore() + " seconds</div></html>";
+                ((GameOver) jPanel).getJLabel().setText(info);
+                ((GameOver) jPanel).injectGameParameters(this.gameParameters);
+                System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("ProductP")) {
                 if (key >= 37 && key <= 40) {
                     ((ProductP) jPanel).update(key);
                     this.targetX = jPanel.getX();
                     this.targetY = jPanel.getY();
+                }
+                if (this.gameParameters.isBoomOn()){
+                    ((ProductP) jPanel).setBoomOn(true);
+                }
+                else {
+                    ((ProductP) jPanel).setBoomOn(false);
                 }
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
@@ -63,7 +77,6 @@ public class Canvas {
     }
 
     public void paint(){
-        // System.out.println("Canvas paint " + this.jFrame.isVisible());
         this.jFrame.repaint();
     }
 }

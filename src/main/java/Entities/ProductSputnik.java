@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class ProductSputnik extends JPanel {
     //This class is of type JPanel so that they can be added to JFrame
@@ -34,14 +35,36 @@ public class ProductSputnik extends JPanel {
     }
 
     public void update(int targetX, int targetY) {
-        if (!(this.x > 0 && this.x < 700 && this.y > 0 && this.y < 600)){
-            trajectoryB.update(this.x, this.y, this.vector, targetX, targetY);
-            this.vector = trajectoryB.getV();
-            this.x = trajectoryB.getX();
-            this.y = trajectoryB.getY();
+        int DELTA = 5;
+        if (!(this.x > -20 && this.x < 720 && this.y > -20 && this.y < 620)){
+            // System.out.println("Sputnik x = " + this.x + " y = " + this.y);
+            this.x = -20 + (int)(Math.random() * ((740) + 1));
+            this.y = -20;
+            //
+            //     (x, y)
+            //     *
+            //     * *
+            //     *  *
+            //     *   *
+            //     ******
+            //            (targetX, targetY)
+            //
+            double hypotenuse = (this.y - targetY) * (this.y - targetY);
+            hypotenuse = hypotenuse + ((this.x - targetX) * (this.x - targetX));
+            hypotenuse = Math.sqrt(hypotenuse);
+            this.vector = Math.abs(this.y - targetY)/hypotenuse;
+            // this.vector = 2* Math.PI - Math.asin(this.vector);
+            if (this.x < targetX){
+                this.vector = Math.asin(this.vector);
+            }
+            else {
+                this.vector = Math.asin(this.vector) + Math.PI/2;
+            }
+            this.x += DELTA * Math.cos(this.vector);
+            this.y += DELTA * Math.sin(this.vector);
+            // System.out.println("Sputnik x = " + this.x + " y = " + this.y + " v = " + this.vector);
         }
         else {
-            int DELTA = 4;
             this.x += DELTA * Math.cos(this.vector);
             this.y += DELTA * Math.sin(this.vector);
         }
@@ -58,6 +81,6 @@ public class ProductSputnik extends JPanel {
     }
 
     public boolean isCollisionDetected(){
-        return distance < 2;
+        return distance < 10;
     }
 }
