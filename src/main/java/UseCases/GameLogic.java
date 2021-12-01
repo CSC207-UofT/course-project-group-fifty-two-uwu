@@ -17,12 +17,16 @@ public class GameLogic implements Iterable<JPanel>{
     private String username = "";
     private boolean gamePaused = false;
     private final int PANEL_GAME_OVER = 3;
+
     private final int STATE_IN_PROGRESS = 0;
     private final int STATE_GAME_START = 5;
     private final int STATE_GAME_PAUSE = 6;
     private final int STATE_USER_NAME = 7;
     private final int STATE_GAME_OVER = 8;
     private final int STATE_EXIT = 9;
+
+    private final String PATH_REGULAR = "regular";
+    private final String PATH_FAULTY = "faulty";
 
     public GameLogic(){
         jPanels.add(new ProductTimer());
@@ -31,11 +35,11 @@ public class GameLogic implements Iterable<JPanel>{
         jPanels.add(new ProductGameOver());
         FactoryB factoryB = new FactoryB();
         FactorySputnik factorySputnik = new FactorySputnik();
-        jPanels.add(factorySputnik.getProduct(10, 10, Math.PI/5));
-        jPanels.add(factorySputnik.getProduct(-50, 800, Math.PI/5));
-        jPanels.add(factoryB.getProduct(200, 100, Math.PI/5));
-        jPanels.add(factoryB.getProduct(-1000, 1000, Math.PI/5));
-        jPanels.add(factoryB.getProduct(1000, -1000, Math.PI/5));
+        jPanels.add(factorySputnik.getProduct(10, 10, Math.PI/5, PATH_REGULAR));
+        jPanels.add(factorySputnik.getProduct(-50, 800, Math.PI/5, PATH_REGULAR));
+        jPanels.add(factoryB.getProduct(200, 100, Math.PI/5, PATH_FAULTY));
+        jPanels.add(factoryB.getProduct(-1000, 1000, Math.PI/5, PATH_FAULTY));
+        jPanels.add(factoryB.getProduct(1000, -1000, Math.PI/5, PATH_REGULAR));
         for (int i = 0; i < jPanels.size(); i++){
             booleans.add(true);
         }

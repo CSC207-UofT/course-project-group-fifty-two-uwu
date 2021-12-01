@@ -145,10 +145,6 @@ public class GameState extends JFrame {
                     System.out.println("GameState >>> gameState get new username");
                     gameState = STATE_USER_NAME;
                 }
-                else if (productMainMenu.getEvent().equals(NEW_USER_NAME)) {
-                    System.out.println("GameState >>> gameState get new username");
-                    gameState = 7;
-                }
                 else if (productMainMenu.getEvent().equals(EXIT)) {
                     gameState = STATE_EXIT;
                 }
