@@ -1,7 +1,5 @@
 package main.java.Entities;
 
-import main.java.Entities.TrajectoryB;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -15,15 +13,24 @@ public class ProductB extends JPanel {
     private int y;
     private double vector;
     private final BufferedImage shape;
-    private final TrajectoryB trajectoryB = new TrajectoryB();
+    private final steerable flightPath;
     private double distance;
+    private final String PATH_REGULAR = "regular";
+    private final String PATH_FAULTY = "faulty";
 
-    public ProductB(int x, int y, double v, BufferedImage img){
+    public ProductB(int x, int y, double v, BufferedImage img, String route){
         this.x = x;
         this.y = y;
         this.vector = v;
         this.shape = img;
+        if (route.equals(PATH_FAULTY)){
+            flightPath = new PathOrbitFaulty();
+        }
+        else {
+            flightPath = new TrajectoryB();
+        }
     }
+
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         int midX = this.shape.getWidth() / 2;
@@ -34,10 +41,10 @@ public class ProductB extends JPanel {
     }
 
     public void update(int targetX, int targetY){
-        trajectoryB.update(this.x, this.y, this.vector, targetX, targetY);
-        this.x = trajectoryB.getX();
-        this.y = trajectoryB.getY();
-        this.vector = trajectoryB.getV();
+        flightPath.update(this.x, this.y, this.vector, targetX, targetY);
+        this.x = flightPath.getX();
+        this.y = flightPath.getY();
+        this.vector = flightPath.getV();
         this.distance = Math.sqrt( ((this.x - targetX)*(this.x - targetX)) +
                 ((this.y - targetY)*(this.y - targetY)));
     }

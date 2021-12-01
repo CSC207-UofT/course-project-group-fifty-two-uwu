@@ -38,7 +38,11 @@ public class ProductP extends JPanel {
         if (key == 38){this.y = this.y - this.speed;} // Down Key
         if (key == 39){this.x = this.x + this.speed;} // Right Key
         if (key == 40){this.y = this.y + this.speed;} // Up Key
-        // System.out.println("Product P x = " + this.x + " y = " + this.y);
+        if (this.x < 2){ this.x = 2;}
+        if (this.x > 330){ this.x = 330;}
+        if (this.y < 2){ this.y = 2;}
+        if (this.y > 270){ this.y = 270;}
+        System.out.println(this.x + " " + this.y);
     }
     public void setBoomOn(boolean boonOn){this.boomOn = boonOn;}
     public boolean isBoomOn(){return boomOn;}

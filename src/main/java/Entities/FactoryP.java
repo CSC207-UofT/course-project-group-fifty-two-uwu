@@ -31,12 +31,6 @@ public class FactoryP {
         System.out.println("Image explosion.png created in Factory P");
     }
 
-    public void setX_axis(int x_axis){
-        this.x_axis = x_axis;
-    }
-    public void setY_axis(int y_axis){
-        this.y_axis = y_axis;
-    }
     public int getX_axis(){
         return this.x_axis;
     }

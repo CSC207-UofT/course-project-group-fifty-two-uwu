@@ -2,15 +2,27 @@ package main.java.Entities;
 
 /**
  * @author Terry
- * @version 4
- * @since November 10, 2021
+ * @version 1
+ * @since November 30, 2021
  */
-public class TrajectoryB implements steerable {
+public class PathOrbitFaulty implements steerable {
     private int x; // x coordinate
     private int y; // y coordinate
     private double v; // direction vector in gradients
     private final int DELTA = 3; // increment per single update
     private final double ANGLE = Math.PI / 90; // Math.PI /80 = 2.25 degrees
+    /**
+     * BUG_FREQUENCY is the maximum number of flicks that
+     * the steerable will attempt to reach the target
+     * with swapped coordinates. Must be greater than 1.
+     */
+    private final int BUG_FREQUENCY = 60;
+    /**
+     * the number of flicks that this steerable will chase
+     * a target with swapped coordinates. this number
+     * decreases with every call to update();
+     */
+    private int bug = 0;
 
     /**
      * Updates coordinates and direction of this steerable
@@ -20,6 +32,16 @@ public class TrajectoryB implements steerable {
      * if not isOnTarget then adjusts the direction by ANGLE; and
      * calculates new coordinates based on DELTA.
      *
+     * The method also generates a random integer with range
+     * 0 to BUG_FREQUENCY*4 - 1;
+     * if the random number is the maximum, then assigns
+     * the random number to bug;
+     * variable bug is decreased by one at each update();
+     * if bug is greater than zero the coordinates of the target
+     * are swapped and the steerable chases the target at a wrong
+     * position, which simulates a faulty navigation system of
+     * the steerable.
+     *
      * @param x     x coordinate of the steerable
      * @param y     y coordinate of the steerable
      * @param v     direction of the steerable
@@ -27,9 +49,23 @@ public class TrajectoryB implements steerable {
      * @param targetY    y coordinate of the target
      */
     public void update(int x, int y, double v, int targetX, int targetY){
-        boolean isLeft = true;
         this.x = x;
         this.y = y;
+        int swap = 0; // a temporary variable for swapping target coordinates
+        boolean isLeft = true;
+
+
+        if (0 >= bug) { // time to set fault on
+            if (BUG_FREQUENCY*2 - 1 == (int)(Math.random() * (BUG_FREQUENCY*2 - 1)) + 1) {
+                bug = BUG_FREQUENCY;
+            }
+        }
+        else { // swap target coordinates
+            bug--;
+            swap = targetX;
+            targetX = targetY;
+            targetY = swap;
+        }
         /**
          * Is the target on the left side of this steerable?
          * For greater precision doubles are used
@@ -46,6 +82,7 @@ public class TrajectoryB implements steerable {
         double by = ay + 100 * Math.sin(this.v);
         isLeft = ((bx-ax)*(targetY-ay) - (by-ay)*(targetX-ax)) < 0;
         boolean isOnTarget = true;;
+        double temp;
         /**
          * Calculate the angle between ab and ac using the cosine law.
          * Since c^2 = a^2 + b^2 -2ab*cos angle
@@ -54,7 +91,6 @@ public class TrajectoryB implements steerable {
         double ab = Math.sqrt((bx - ax)*(bx - ax) + (by - ay)*(by - ay));
         double ac = Math.sqrt((targetX - ax)*(targetX - ax) + (targetY - ay)*(targetY - ay));
         double bc = Math.sqrt((targetX - bx)*(targetX - bx) + (targetY - by)*(targetY - by));
-        double temp;
         temp = Math.acos((ab*ab + ac*ac - bc*bc)/((1)*(2*ab*ac)));
         /**
          * Is there a need to adjust the direction?
@@ -90,4 +126,5 @@ public class TrajectoryB implements steerable {
     public double getV(){
         return this.v;
     }
+
 }

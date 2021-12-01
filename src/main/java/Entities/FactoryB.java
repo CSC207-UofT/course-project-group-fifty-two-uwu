@@ -22,8 +22,7 @@ public class FactoryB extends Factory {
         System.out.println("Image created in Factory B");
     }
 
-    @Override
-    public ProductB getProduct(int x, int y, double v){
-        return new ProductB(x, y, v, shape);
+    public ProductB getProduct(int x, int y, double v, String route){
+        return new ProductB(x, y, v, shape, route);
     }
 }

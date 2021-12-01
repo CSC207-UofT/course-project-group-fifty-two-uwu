@@ -5,6 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Terry
+ * @version 2
+ * @since November 23, 2021
+ */
 public class FactorySputnik extends Factory {
     //The factory that 'produces' ProductSputnic
     private BufferedImage shape;
@@ -23,8 +28,7 @@ public class FactorySputnik extends Factory {
         System.out.println("Image missleSputnic created in FactorySputnic");
     }
 
-    @Override
-    public ProductSputnik getProduct(int x, int y, double v){
-        return new ProductSputnik(x, y, v, shape);
+    public ProductSputnik getProduct(int x, int y, double v, String s){
+        return new ProductSputnik(x, y, v, shape, s);
     }
 }
