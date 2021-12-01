@@ -32,7 +32,7 @@ public class CanvasTest {
         final int CANVAS_HEIGHT = 600;
 
         FactoryB factoryB = new FactoryB();
-        JPanel productB = factoryB.getProduct(50, 50, Math.PI/5);
+        JPanel productB = factoryB.getProduct(50, 50, Math.PI/5, "faulty");
         //JPanel productContinueExit = new ProductContinueExit();
 //        {
 //            @Override
