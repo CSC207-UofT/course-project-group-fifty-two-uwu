@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * @author Yan Nowaczek yan.nowaczek@yahoo.com
+ * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
  * @version 11 lat update December 1, 2021
  * @since November 9, 2021
  */
