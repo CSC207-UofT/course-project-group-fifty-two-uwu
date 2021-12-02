@@ -1,4 +1,4 @@
-package test.main.java.UseCases;
+package main.java.UseCases;
 
 import junit.framework.TestCase;
 
