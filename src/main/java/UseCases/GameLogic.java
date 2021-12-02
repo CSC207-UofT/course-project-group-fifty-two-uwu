@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 /**
  * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
- * @version 11 lat update December 1, 2021
+ * @version 12 lat update December 2, 2021
  * @since November 9, 2021
  */
 public class GameLogic implements Iterable<JPanel>{
@@ -38,20 +38,24 @@ public class GameLogic implements Iterable<JPanel>{
      * Adds true to the array of Booleans (one for each JPanel).
      */
     public GameLogic(){
-        jPanels.add(new ProductTimer());
-        jPanels.add(new ProductHitCounter());
-        jPanels.add(new ProductP());
-        jPanels.add(new ProductGameOver());
-        FactoryB factoryB = new FactoryB();
+        jPanels.add(new Clock());
+        jPanels.add(new HitCounter());
+        jPanels.add(new Pilot());
+        jPanels.add(new ScreenGameOver());
+        jPanels.add(new ScreenInfo());
+        jPanels.add(new ScreenName());
+        jPanels.add(new ScreenMainMenu());
+
+        FactoryMissile factoryMissile = new FactoryMissile();
         FactorySputnik factorySputnik = new FactorySputnik();
         // names of strategies or trajectories followed by moving objects
         String PATH_REGULAR = "regular";
         String PATH_FAULTY = "faulty";
         jPanels.add(factorySputnik.getProduct(10, 10, Math.PI/5, PATH_REGULAR));
         jPanels.add(factorySputnik.getProduct(-50, 800, Math.PI/5, PATH_REGULAR));
-        jPanels.add(factoryB.getProduct(200, 100, Math.PI/5, PATH_FAULTY));
-        jPanels.add(factoryB.getProduct(-1000, 1000, Math.PI/5, PATH_FAULTY));
-        jPanels.add(factoryB.getProduct(1000, -1000, Math.PI/5, PATH_REGULAR));
+        jPanels.add(factoryMissile.getProduct(200, 100, Math.PI/5, PATH_FAULTY));
+        jPanels.add(factoryMissile.getProduct(-1000, 1000, Math.PI/5, PATH_FAULTY));
+        jPanels.add(factoryMissile.getProduct(1000, -1000, Math.PI/5, PATH_REGULAR));
         for (int i = 0; i < jPanels.size(); i++){
             booleans.add(true);
         }
@@ -64,20 +68,33 @@ public class GameLogic implements Iterable<JPanel>{
      */
     public void update(int gameState){
         int PANEL_GAME_OVER = 3;
+        int PANEL_GAME_PAUSE = 4;
+        int PANEL_GAME_NAME = 5;
+        int PANEL_GAME_MENU = 6;
         // stages of the game
         int STATE_IN_PROGRESS = 0;
         int STATE_GAME_START = 5;
+        int STATE_GAME_PAUSE = 6;
         int STATE_USER_NAME = 7;
         int STATE_GAME_OVER = 8;
         if (gameState == STATE_IN_PROGRESS){
             setAllTrue();
+            setItemFalse(PANEL_GAME_PAUSE);
             setItemFalse(PANEL_GAME_OVER);
+            setItemFalse(PANEL_GAME_NAME);
+            setItemFalse(PANEL_GAME_MENU);
         }
         else if (gameState == STATE_GAME_START){
             setAllFalse();
+            setItemTrue(PANEL_GAME_MENU);
+        }
+        else if (gameState == STATE_GAME_PAUSE){
+            setAllFalse();
+            setItemTrue(PANEL_GAME_PAUSE);
         }
         else if (gameState == STATE_USER_NAME){
             setAllFalse();
+            setItemTrue(PANEL_GAME_NAME);
         }
         else if (gameState == STATE_GAME_OVER){
             setAllFalse();

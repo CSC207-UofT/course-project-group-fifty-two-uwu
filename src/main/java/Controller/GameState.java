@@ -1,15 +1,10 @@
 package main.java.Controller;
 
-import main.java.Entities.ProductName;
-import main.java.Entities.ProductMainMenu;
 import main.java.UI.Canvas;
-import main.java.Entities.ProductInfo;
 import main.java.UI.Console;
 import main.java.UI.ScoreBoard;
 import main.java.UseCases.GameLogic;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -49,12 +44,12 @@ public class GameState extends JFrame {
     private int gameState; // 0 - start, 1 - exit continue, 9 - exit
     private final long startTime;
     private boolean paintIsAllowed = true;
-    private boolean doSomething = true;
+    private boolean doSomethingOnce = true;
     private String username = "";
     private JTextField jTextField = new JTextField("Welcome in GameState.");
-    ProductName productName = new ProductName();
-    ProductMainMenu productMainMenu = new ProductMainMenu();
-    ProductInfo productInfo = new ProductInfo();
+    // ProductName productName = new ProductName();
+    // ProductMainMenu productMainMenu = new ProductMainMenu();
+    // ProductInfo productInfo = new ProductInfo();
     JLabel jLabel;
     JButton bStart;
     JButton bInfo;
@@ -77,7 +72,7 @@ public class GameState extends JFrame {
         this.iterator = gameLogic.iterator();
         this.console = new Console(this.mainFrame);
         this.gameParameters = new GameParameters();
-        this.canvas = new Canvas(mainFrame, gameParameters);
+        this.canvas = new Canvas(this.mainFrame, gameParameters);
         this.scoreBoard = new ScoreBoard();
         startTime = System.currentTimeMillis();
     }
@@ -113,122 +108,77 @@ public class GameState extends JFrame {
         }
         else if (this.gameState == STATE_GAME_START) {
             paintIsAllowed = false;
-            if (doSomething) {
-//                System.out.println("GameState >>> gameState = " + gameState);
-                doSomething = false;
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-//                System.out.println("GameState >>> check 1");
-                this.mainFrame.getContentPane().add(productMainMenu);
-//                System.out.println("GameState >>> check 2");
-                this.mainFrame.revalidate();
-//                System.out.println("GameState >>> check 3");
-                // productMainMenu. getJLabel().setText(productMainMenu.getJLabel().getText() + " " + this.username);
-                productMainMenu.setUsername(this.username);
-//                System.out.println("GameState >>> check 4");
-                productMainMenu.setEvent("");
-//                System.out.println("GameState >>> check 5");
-                this.mainFrame.repaint();
-//                System.out.println("GameState >>> check 6");
+            if (doSomethingOnce) {
+                // System.out.println("GameState >>> gameState = " + gameState);
+                this.doSomethingOnce = false;
+                this.gameParameters.setUsername(this.username);
+                this.gameLogic.update(this.gameState);
+                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.paint();
             }
-            if (productMainMenu.getEvent().length() > 0) {
-//                System.out.println("GameState >>> gameState = 7 event = " + productMainMenu.getEvent().length());
-                if (productMainMenu.getEvent().equals(START)) {
+            if (this.gameParameters.getEvent().length() > 0){
+                if (this.gameParameters.getEvent().equals(START)) {
                     gameParameters.setStartTime(System.currentTimeMillis());
                     gameParameters.startGame();
                     gameState = STATE_IN_PROGRESS;
                 }
-                else if (productMainMenu.getEvent().equals(INFO)) {
-                    gameState = STATE_GAME_PAUSE;
-                }
-                else if (productMainMenu.getEvent().equals(NEW_USER_NAME)) {
+                else if (this.gameParameters.getEvent().equals(NEW_USER_NAME)) {
                     System.out.println("GameState >>> gameState get new username");
                     gameState = STATE_USER_NAME;
                 }
-                else if (productMainMenu.getEvent().equals(EXIT)) {
+                else if (this.gameParameters.getEvent().equals(INFO)) {
+                    System.out.println("GameState >>> gameState get new username");
+                    gameState = STATE_GAME_PAUSE;
+                }
+                else if (this.gameParameters.getEvent().equals(EXIT)) {
                     gameState = STATE_EXIT;
                 }
-                productMainMenu.getJLabel().setText("");
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
+                this.gameParameters.setEvent("");
                 paintIsAllowed = true;
-                doSomething = true;
+                doSomethingOnce = true;
             }
         }
         else if (this.gameState == STATE_GAME_PAUSE) {
             paintIsAllowed = false;
-            if (doSomething) {
+            if (doSomethingOnce) {
                 // System.out.println("GameState >>> gameState = " + gameState);
-                doSomething = false;
+                this.doSomethingOnce = false;
                 this.gameParameters.pauseGame();
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-                this.mainFrame.getContentPane().add(productInfo);
-                this.mainFrame.revalidate();
-                this.mainFrame.repaint();
+                this.gameLogic.update(this.gameState);
+                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.paint();
             }
-            // System.out.println("GameState state = 6 event = " + productInfo.getEvent());
-            if (this.productInfo.getEvent().length() > 0) {
-                if (this.productInfo.getEvent().equals(CONTINUE)) {
+            //String tempEvent = this.gameParameters.getEvent();
+            //System.out.println("GameState state = 6 event = " + tempEvent);
+            if (this.gameParameters.getEvent().length() > 1) {
+                //System.out.println("GameState stage 1");
+                if (this.gameParameters.getEvent().equals(CONTINUE)) {
+                    //System.out.println("GameState stage 2");
                     if (this.gameParameters.isGameStarted()){
                         System.out.println("GameState code = " + CONTINUE + " 6 --> 0");
                         this.gameParameters.resumeGame();
                         this.gameState = STATE_IN_PROGRESS;
                     }
                     else {
+                        System.out.println("GameState code = " + CONTINUE + " 6 --> 5");
                         this.gameState = STATE_GAME_START;
                     }
                 }
-                else if (productInfo.getEvent().equals(EXIT)){
+                else if (this.gameParameters.getEvent().equals(EXIT)){
                     System.out.println("GameState code = " + EXIT + " 6 --> 9");
                     gameState = STATE_EXIT;
                 }
-                productInfo.setEvent("");
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
                 paintIsAllowed = true;
-                doSomething = true;
+                doSomethingOnce = true;
             }
+            this.gameParameters.setEvent("");
         }
         else if (this.gameState == STATE_USER_NAME) {
             paintIsAllowed = false;
-            if (doSomething) {
+            if (doSomethingOnce) {
 //                System.out.println("GameState gameState = 7 do something username = " + productName.getUsername());
-                doSomething = false;
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-                this.mainFrame.getContentPane().add(productName);
-                this.mainFrame.revalidate();
-                this.mainFrame.repaint();
-                // JTextField gets focus
-                // it does not work though
-                this.mainFrame.addWindowListener( new WindowAdapter() {
-                    public void windowOpened( WindowEvent e ){
-                        productName.getTextField().requestFocus();
-                    }
-                });
-            }
-           // System.out.println("GameState gameState = 7 username = " + productName.getUsername());
-            if (productName.getUsername().length() > 1) {
-//                System.out.println("GameState gameState = 7 B");
-                setUsername(productName.getUsername());
-                writeToFile(productName.getUsername());
-                productName.setUsername("");
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-                paintIsAllowed = true;
-                doSomething = true;
-                this.gameState = STATE_GAME_START;
-            }
-        }
-        else if (this.gameState == STATE_GAME_OVER){
-            paintIsAllowed = false;
-            if (doSomething) {
-//                System.out.println("GameState A gameState = " + STATE_GAME_OVER);
-                doSomething = false;
-                gameLogic.update(this.gameState);
-                scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
-                gameParameters.setTopFive(scoreBoard.topFive());
+                doSomethingOnce = false;
+                this.gameLogic.update(this.gameState);
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
 //                this.mainFrame.getContentPane().removeAll();
@@ -236,6 +186,35 @@ public class GameState extends JFrame {
 //                this.mainFrame.getContentPane().add(productName);
 //                this.mainFrame.revalidate();
 //                this.mainFrame.repaint();
+//                // JTextField gets focus
+//                // it does not work though
+//                this.mainFrame.addWindowListener( new WindowAdapter() {
+//                    public void windowOpened( WindowEvent e ){
+//                        productName.getTextField().requestFocus();
+//                    }
+//                });
+            }
+            // System.out.println("GameState gameState = 7 username = " + productName.getUsername());
+            if (this.gameParameters.getEvent().length() > 1) {
+//                System.out.println("GameState gameState = 7 B");
+                setUsername(this.gameParameters.getEvent());
+                writeToFile(this.gameParameters.getEvent());
+                paintIsAllowed = true;
+                doSomethingOnce = true;
+                this.gameState = STATE_GAME_START;
+                this.gameParameters.setEvent("");
+            }
+        }
+        else if (this.gameState == STATE_GAME_OVER){
+            paintIsAllowed = false;
+            if (doSomethingOnce) {
+//                System.out.println("GameState A gameState = " + STATE_GAME_OVER);
+                doSomethingOnce = false;
+                gameLogic.update(this.gameState);
+                scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
+                gameParameters.setTopFive(scoreBoard.topFive());
+                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.paint();
             }
             //System.out.println("GameState B gameState = " + STATE_GAME_OVER);
             if (this.gameParameters.getEvent().length() > 1) {
@@ -247,7 +226,7 @@ public class GameState extends JFrame {
                 }
                 this.gameParameters.clear();
                 paintIsAllowed = true;
-                doSomething = true;
+                doSomethingOnce = true;
             }
         }
         if (paintIsAllowed) {

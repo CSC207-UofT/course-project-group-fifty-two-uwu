@@ -28,7 +28,7 @@ public class FactorySputnik extends Factory {
         System.out.println("Image missleSputnic created in FactorySputnic");
     }
 
-    public ProductSputnik getProduct(int x, int y, double v, String s){
-        return new ProductSputnik(x, y, v, shape, s);
+    public Sputnik getProduct(int x, int y, double v, String s){
+        return new Sputnik(x, y, v, shape, s);
     }
 }
