@@ -1,13 +1,10 @@
 package main.java.Entities;
 
-import main.java.Entities.TrajectoryB;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public class ProductSputnik extends JPanel {
     //This class is of type JPanel so that they can be added to JFrame
@@ -16,7 +13,7 @@ public class ProductSputnik extends JPanel {
     private int y;
     private double vector;
     private final BufferedImage shape;
-    private final steerable flightPath;
+    private final Steerable flightPath;
     private double distance;
     private final String PATH_REGULAR = "regular";
     private final String PATH_FAULTY = "faulty";

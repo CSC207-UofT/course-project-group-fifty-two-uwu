@@ -5,7 +5,7 @@ package main.java.Entities;
  * @version 1
  * @since November 30, 2021
  */
-public class PathOrbitFaulty implements steerable {
+public class PathOrbitFaulty implements Steerable {
     private int x; // x coordinate
     private int y; // y coordinate
     private double v; // direction vector in gradients

@@ -12,9 +12,8 @@ public class ProductHitCounter extends JPanel{
     public ProductHitCounter(){
         this.jLabel.setText("score");
         this.jLabel.setFont(new Font("SansSerif", Font.PLAIN, 36));
-        this.jLabel.setOpaque(true);
+        this.jLabel.setOpaque(false);
         this.jLabel.setBorder(new EmptyBorder(4, 20, 4, 4));
-        // this.jLabel.setBackground(Color.BLACK);
         this.jLabel.setForeground(Color.BLACK);
         this.jLabel.setLayout(null);
         this.jLabel.setBounds(605, 510, 120, 36);

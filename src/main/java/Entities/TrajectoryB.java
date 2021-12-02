@@ -5,7 +5,7 @@ package main.java.Entities;
  * @version 4
  * @since November 10, 2021
  */
-public class TrajectoryB implements steerable {
+public class TrajectoryB implements Steerable {
     private int x; // x coordinate
     private int y; // y coordinate
     private double v; // direction vector in gradients

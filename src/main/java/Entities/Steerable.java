@@ -5,7 +5,7 @@ package main.java.Entities;
  * @version 1
  * @since November 30, 2021
  */
-public interface steerable {
+public interface Steerable {
     public void update(int positionX, int positionY, double direction, int targetX, int targetY);
     public int getX();
     public int getY();

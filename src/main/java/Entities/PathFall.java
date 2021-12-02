@@ -5,7 +5,7 @@ package main.java.Entities;
  * @version 1
  * @since November 30, 2021
  */
-public class PathFall implements steerable {
+public class PathFall implements Steerable {
     private int x; // x coordinate
     private int y; // y coordinate
     private double v; // direction vector in gradients

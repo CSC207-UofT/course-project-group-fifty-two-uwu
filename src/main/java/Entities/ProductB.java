@@ -13,7 +13,7 @@ public class ProductB extends JPanel {
     private int y;
     private double vector;
     private final BufferedImage shape;
-    private final steerable flightPath;
+    private final Steerable flightPath;
     private double distance;
     private final String PATH_REGULAR = "regular";
     private final String PATH_FAULTY = "faulty";

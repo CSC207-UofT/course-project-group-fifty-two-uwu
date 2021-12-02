@@ -6,28 +6,37 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * @author Yan Nowaczek yan.nowaczek@yahoo.com
+ * @version 11 lat update December 1, 2021
+ * @since November 9, 2021
+ */
 public class GameLogic implements Iterable<JPanel>{
-    //This is where the user cases are implemented. It creates a list
-    //of JPanels for painting and a list of the same size with boolean values. The
-    //second list indicates which components are to be painted for a given game
-    //stage. It implements the Iterator Design Pattern and its iterator can
-    //be used elsewhere in code to easy scan all components that can be painted
+    /**
+     * Creates a list of JPanels to be added to JFrame and displayed.
+     * <p>
+     * Creates two array lists: one for JPanels and one for Booleans.
+     * The first list contains JPanels of three types:
+     * 1 - objects that move on their own and cannot be controlled by user;
+     * 2 - objects that the user can move around (to avoid missiles);
+     * 3 - stationary objects to get input from the user.
+     * The second list is of the same size and its boolean elements
+     * indicate that the JPanel with the same index is active at a given
+     * stage of the game.
+     * Implements iterator that allows other parts of the program to
+     * scan all active JPanels.
+     */
     private final ArrayList<JPanel> jPanels = new ArrayList<>();
     private final ArrayList<Boolean> booleans = new ArrayList<>();
-    private String username = "";
+    private String username = ""; // username
     private boolean gamePaused = false;
-    private final int PANEL_GAME_OVER = 3;
-
-    private final int STATE_IN_PROGRESS = 0;
-    private final int STATE_GAME_START = 5;
     private final int STATE_GAME_PAUSE = 6;
-    private final int STATE_USER_NAME = 7;
-    private final int STATE_GAME_OVER = 8;
     private final int STATE_EXIT = 9;
 
-    private final String PATH_REGULAR = "regular";
-    private final String PATH_FAULTY = "faulty";
-
+    /**
+     * Adds JPanels to the array of JPanels.
+     * Adds true to the array of Booleans (one for each JPanel).
+     */
     public GameLogic(){
         jPanels.add(new ProductTimer());
         jPanels.add(new ProductHitCounter());
@@ -35,6 +44,9 @@ public class GameLogic implements Iterable<JPanel>{
         jPanels.add(new ProductGameOver());
         FactoryB factoryB = new FactoryB();
         FactorySputnik factorySputnik = new FactorySputnik();
+        // names of strategies or trajectories followed by moving objects
+        String PATH_REGULAR = "regular";
+        String PATH_FAULTY = "faulty";
         jPanels.add(factorySputnik.getProduct(10, 10, Math.PI/5, PATH_REGULAR));
         jPanels.add(factorySputnik.getProduct(-50, 800, Math.PI/5, PATH_REGULAR));
         jPanels.add(factoryB.getProduct(200, 100, Math.PI/5, PATH_FAULTY));
@@ -45,9 +57,19 @@ public class GameLogic implements Iterable<JPanel>{
         }
     }
 
+    /**
+     * Updates the array of Booleans to indicate which JPanels
+     * are displayable in a given stage or state of the game.
+     * @param gameState     integer indicating the state of the game
+     */
     public void update(int gameState){
-        // System.out.println("GameLogic gameState = " + gameState);
-        if (gameState == 0){
+        int PANEL_GAME_OVER = 3;
+        // stages of the game
+        int STATE_IN_PROGRESS = 0;
+        int STATE_GAME_START = 5;
+        int STATE_USER_NAME = 7;
+        int STATE_GAME_OVER = 8;
+        if (gameState == STATE_IN_PROGRESS){
             setAllTrue();
             setItemFalse(PANEL_GAME_OVER);
         }
@@ -58,43 +80,63 @@ public class GameLogic implements Iterable<JPanel>{
             setAllFalse();
         }
         else if (gameState == STATE_GAME_OVER){
-            System.out.println("GameLogic state = " + STATE_GAME_OVER);
             setAllFalse();
             setItemTrue(PANEL_GAME_OVER);
         }
     }
 
-    public void setUserName(String s){this.username = s;}
+    /**
+     * Sets username
+     * @param username  String username
+     */
+    public void setUserName(String username){this.username = username;}
 
-    // Helper to activate all products
+    /**
+     * This helper methods turns all JPanels on.
+     */
     private void setAllTrue(){
         for (int i = 0; i < this.booleans.size(); i++){
             this.booleans.set(i, true);
         }
     }
 
-    // Helper to deactivate all products
+    /**
+     * This helper methods deactivates all JPanels
+     */
     private void setAllFalse(){
         for (int i = 0; i < this.booleans.size(); i++){
             this.booleans.set(i, false);
         }
     }
 
-    // Helper make a product active
-    private void setItemTrue(int idx){
+    /**
+     * Activates JPanel with given index
+     * @param index     index in the array of Booleans
+     */
+    private void setItemTrue(int index){
         // System.out.println("setItemTrue for " + idx);
-        this.booleans.set(idx, true);
+        this.booleans.set(index, true);
     }
 
-    // Helper make a product active
-    private void setItemFalse(int idx){
-        this.booleans.set(idx, false);
+    /**
+     * Deactivates JPanel with the given index
+     * @param index     index in the array of Booleans
+     */
+    private void setItemFalse(int index){
+        this.booleans.set(index, false);
     }
 
-    // return the first true index for a given index
-    private int getTrueNext(int idx){
+    /**
+     * Returns the index of the first item in the array of Booleans that
+     * follows the item with the input index. If such item is not found
+     * then it reuturns -1. If the array of Booleans is empty then returns -1.
+     *
+     * @param index     the input index
+     * @return          the index of the next treu item
+     */
+    private int getTrueNext(int index){
         if (!this.booleans.isEmpty()) {
-            for (int i = idx + 1; i < this.booleans.size(); i++) {
+            for (int i = index + 1; i < this.booleans.size(); i++) {
                 if (this.booleans.get(i)) {
                     return i;
                 }
@@ -103,25 +145,59 @@ public class GameLogic implements Iterable<JPanel>{
         return -1;
     }
 
-    private JPanel getJPanel(int idx){
-        return this.jPanels.get(idx);
+    /**
+     * Return the JPanel with given index from the array of JPanels.
+     *
+     * @param index     index of the JPanel to return
+     * @return          JPanel of the given index
+     */
+    private JPanel getJPanel(int index){
+        return this.jPanels.get(index);
     }
 
 
+    /**
+     * Return new object of type Iterator.
+     * @return      Iterator<JPanel>
+     */
     @Override
     public Iterator<JPanel> iterator() {
         return new Itr();
     }
 
+    /**
+     * This class implements Iterator.
+     * Its two methods enable scanning of the list of JPanels
+     * provided these JPanels are active.
+     */
     private class Itr implements Iterator<JPanel>{
-        private int current = -1;
+        /**
+         * The value of current is always set to -1 at initialization
+         * and when the last element has been return. It is set to -1
+         * because the search for next starts at index current + 1 and
+         * the first index in the array is 0.
+         * It is important to set the current back to -1 when the last
+         * element has been return because the interator may be used
+         * more than once.
+         */
+        private int current = -1; // current is -1 at the start
 
+        /**
+         * Examines the index of the next item. If the next index is not -1
+         * then that indicates that the next index exists.
+         * @return      boolean that indicates that there is a next index
+         */
         @Override
         public boolean hasNext() {
             current = getTrueNext(current);
             return current >= 0;
         }
 
+        /**
+         * Returns IPanel for the given index
+         *
+         * @return      JPanel from the array of JPanels
+         */
         @Override
         public JPanel next() {
             return getJPanel(current);
