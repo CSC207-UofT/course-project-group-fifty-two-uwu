@@ -1,26 +1,30 @@
 package main.java.Entities;
 
+import main.java.Controller.GameParameters;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ProductName extends JPanel{
+public class ScreenName extends JPanel{
     private TextField textField = new TextField();
     private JLabel jLabel = new JLabel();
     private String username = "";
+    private GameParameters gameParameters;
 
-    public ProductName(){
+    public ScreenName(){
         this.textField.setFont(new Font("SansSerif", Font.BOLD, 18));
         this.textField.setText("");
         this.textField.setBounds(200, 200, 240, 28);
         this.textField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                        System.out.println("The entered text is: " + event.getActionCommand());
-                        setUsername(event.getActionCommand());
-                    }
-                });
+                System.out.println("The entered text is: " + event.getActionCommand());
+                // setUsername(event.getActionCommand());
+                gameParameters.setEvent(event.getActionCommand());
+            }
+        });
         jLabel.setFont(new Font("MS Song", Font.BOLD, 14));
         jLabel.setText("Enter your name | \u4f60\u7684\u540d\u5b57 " + this.username);
         jLabel.setBounds(202, 170, 240, 28);
@@ -38,6 +42,8 @@ public class ProductName extends JPanel{
         // System.out.println("Product getUsername = " + this.username);
         return this.username;
     }
+
+    public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
 
     public JLabel getJLabel(){
         return this.jLabel;

@@ -1,5 +1,7 @@
 package main.java.Entities;
 
+import main.java.Controller.GameParameters;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ProductInfo extends JPanel{
+public class ScreenInfo extends JPanel{
     final private String CONTINUE = "continue";
     final private String EXIT = "exit";
     private String event = "";
@@ -23,8 +25,9 @@ public class ProductInfo extends JPanel{
     private ImageIcon imageIconExit;
     private Image background;
     private BufferedImage bufferedImage;
+    private GameParameters gameParameters;
 
-    public ProductInfo(){
+    public ScreenInfo(){
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
         jLabel.setText("<html>Pause - ESC <br>Arrow Keys - Movement</html>");
         jLabel.setBounds(210, 150, 300, 100);
@@ -54,15 +57,17 @@ public class ProductInfo extends JPanel{
         bContinue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("bStart e = " + e.toString());
-                setEvent(CONTINUE);
+                // System.out.println("ProductInfo bContinue e = " + e.toString());
+                // setEvent(CONTINUE);
+                gameParameters.setEvent(CONTINUE);
             }
         });
         bExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("bStart e = " + e.toString());
-                setEvent(EXIT);
+                // System.out.println("ProductInfo bExit e = " + e.toString());
+                // setEvent(EXIT);
+                gameParameters.setEvent(EXIT);
             }
         });
         bContinue.setBounds(200, 340, 140, 50);
@@ -79,6 +84,7 @@ public class ProductInfo extends JPanel{
         g.drawImage(background, 0, 0, null);
     }
 
+    public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
     public void setEvent(String s){
         this.event = s;
     }

@@ -4,13 +4,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class ProductTimer extends JPanel{
+public class Clock extends JPanel{
     //This class is of type JPanel so that they can be added to JFrame
     //and displayed. This is the JPanel for the timer. This product class uses JLabel.
     private final JLabel jLabel = new JLabel();
 //    private final Timer timer;
 
-    public ProductTimer(){
+    public Clock(){
 //        timer = new Timer(47, e -> {
 //            updateClockDisplay();
 //            repaint();

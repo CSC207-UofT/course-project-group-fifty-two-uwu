@@ -31,8 +31,8 @@ public class CanvasTest {
         final int CANVAS_WIDTH = 700;
         final int CANVAS_HEIGHT = 600;
 
-        FactoryB factoryB = new FactoryB();
-        JPanel productB = factoryB.getProduct(50, 50, Math.PI/5, "");
+        FactoryMissile factoryMissile = new FactoryMissile();
+        JPanel productB = factoryMissile.getProduct(50, 50, Math.PI/5, "");
         //JPanel productContinueExit = new ProductContinueExit();
 //        {
 //            @Override
@@ -42,7 +42,7 @@ public class CanvasTest {
 //        };
 //        productContinueExit.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        JPanel productTest = new ProductName();
+        JPanel productTest = new ScreenName();
 //        {
 //            @Override
 //            public Dimension getPreferredSize() {
@@ -50,8 +50,8 @@ public class CanvasTest {
 //            };
 //        };
 
-        JPanel productTestB = new ProductMainMenu();
-        ProductTimer productTimer = new ProductTimer();
+        JPanel productTestB = new ScreenMainMenu();
+        Clock clock = new Clock();
 
         JFrame f = new JFrame("Tester for JPanels");
         f.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -77,7 +77,7 @@ public class CanvasTest {
             while(System.currentTimeMillis() < awakeTime) {
                 // do nothing
             }
-            ((ProductB) productB).update(200, 200);
+            ((Missile) productB).update(200, 200);
             canvasTest.paint();
             System.out.println("In system Test");
             awakeTime += sleepTime;

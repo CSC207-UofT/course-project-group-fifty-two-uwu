@@ -1,5 +1,7 @@
 package main.java.Entities;
 
+import main.java.Controller.GameParameters;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ProductMainMenu extends JPanel{
+public class ScreenMainMenu extends JPanel{
     final private String START = "start";
     final private String INFO = "info";
     final private String EXIT = "exit";
@@ -27,8 +29,9 @@ public class ProductMainMenu extends JPanel{
     private JLabel jLabel = new JLabel();
     private String username = "";
     private String event = "";
+    private GameParameters gameParameters;
 
-    public ProductMainMenu() {
+    public ScreenMainMenu() {
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
         jLabel.setText(WELCOME + this.username);
         jLabel.setBounds(210, 150, 300, 28);
@@ -65,6 +68,7 @@ public class ProductMainMenu extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 // System.out.println("bStart e = " + e.toString());
                 setEvent(START);
+                gameParameters.setEvent(START);
             }
         });
         bInfo.addActionListener(new ActionListener() {
@@ -72,6 +76,7 @@ public class ProductMainMenu extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 // System.out.println("bInfo e = " + e.toString());
                 setEvent(INFO);
+                gameParameters.setEvent(INFO);
             }
         });
         bExit.addActionListener(new ActionListener() {
@@ -79,6 +84,7 @@ public class ProductMainMenu extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 // System.out.println("bExit e = " + e.toString());
                 setEvent(EXIT);
+                gameParameters.setEvent(EXIT);
             }
         });
         bNewUsername.addActionListener(new ActionListener() {
@@ -86,6 +92,7 @@ public class ProductMainMenu extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 // System.out.println("bExit e = " + e.toString());
                 setEvent(NEW_USER_NAME);
+                gameParameters.setEvent(NEW_USER_NAME);
             }
         });
         bStart.setBounds(270, 200, 140, 50);
@@ -107,6 +114,7 @@ public class ProductMainMenu extends JPanel{
         this.username = s;
         jLabel.setText(WELCOME + s);
     };
+    public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
     public String getEvent(){
         return this.event;
     }
@@ -119,5 +127,9 @@ public class ProductMainMenu extends JPanel{
     }
     public JLabel getJLabel(){
         return this.jLabel;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

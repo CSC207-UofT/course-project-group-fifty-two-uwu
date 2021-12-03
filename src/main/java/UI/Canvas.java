@@ -2,7 +2,7 @@ package main.java.UI;
 
 import main.java.Controller.GameParameters;
 import main.java.Entities.*;
-import main.java.Entities.ProductGameOver;
+import main.java.Entities.ScreenGameOver;
 
 import javax.swing.*;
 import java.util.Iterator;
@@ -29,48 +29,61 @@ public class Canvas {
         this.jFrame.getContentPane().revalidate();
         while (iterator.hasNext()){
             jPanel = iterator.next();
-            if (jPanel.getClass().getName().contains("ProductB")) {
-                ((ProductB) jPanel).update(this.targetX, this.targetY);
-                if (((ProductB) jPanel).isCollisionDetected()){
+            if (jPanel.getClass().getName().contains("Missile")) {
+                ((Missile) jPanel).update(this.targetX, this.targetY);
+                if (((Missile) jPanel).isCollisionDetected()){
                     this.gameParameters.setCollisionDetected(true);
                     this.gameParameters.setCollisionDetected(true);
                 }
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
-            else if (jPanel.getClass().getName().contains("ProductSputnik")) {
-                ((ProductSputnik) jPanel).update(this.targetX, this.targetY);
-                if (((ProductSputnik) jPanel).isCollisionDetected()){
+            else if (jPanel.getClass().getName().contains("Sputnik")) {
+                ((Sputnik) jPanel).update(this.targetX, this.targetY);
+                if (((Sputnik) jPanel).isCollisionDetected()){
                     this.gameParameters.setCollisionDetected(true);
                     this.gameParameters.setCollisionDetected(true);
                 }
             }
-            else if (jPanel.getClass().getName().contains("ProductHitCounter")) {
-                ((ProductHitCounter) jPanel).update(this.gameParameters.getHits());
+            else if (jPanel.getClass().getName().contains("HitCounter")) {
+                ((HitCounter) jPanel).update(this.gameParameters.getHits());
             }
-            else if (jPanel.getClass().getName().contains("GameOver")) {
-                String info = "<html><div style='text-align: center;'>Game Over! <br>Score ";
-                info = info + this.gameParameters.getScore() + " seconds</div></html>";
-                ((ProductGameOver) jPanel).getJLabel().setText(info);
-                ((ProductGameOver) jPanel).getJLabelTopScores().setText(this.gameParameters.getTopFive());
-                ((ProductGameOver) jPanel).injectGameParameters(this.gameParameters);
+            else if (jPanel.getClass().getName().contains("ScreenInfo")) {
+                ((ScreenInfo) jPanel).injectGameParameters(this.gameParameters);
                 System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
-            else if (jPanel.getClass().getName().contains("ProductP")) {
+            else if (jPanel.getClass().getName().contains("ScreenMainMenu")) {
+                ((ScreenMainMenu) jPanel).injectGameParameters(this.gameParameters);
+                ((ScreenMainMenu) jPanel).setUsername(this.gameParameters.getUsername());
+                System.out.println("Canvas update added " + jPanel.getClass().getName());
+            }
+            else if (jPanel.getClass().getName().contains("ScreenName")) {
+                ((ScreenName) jPanel).injectGameParameters(this.gameParameters);
+                System.out.println("Canvas update added " + jPanel.getClass().getName());
+            }
+            else if (jPanel.getClass().getName().contains("ScreenGameOver")) {
+                String info = "<html><div style='text-align: center;'>Game Over! <br>Score ";
+                info = info + this.gameParameters.getScore() + " seconds</div></html>";
+                ((ScreenGameOver) jPanel).getJLabel().setText(info);
+                ((ScreenGameOver) jPanel).getJLabelTopScores().setText(this.gameParameters.getTopFive());
+                ((ScreenGameOver) jPanel).injectGameParameters(this.gameParameters);
+                System.out.println("Canvas update added " + jPanel.getClass().getName());
+            }
+            else if (jPanel.getClass().getName().contains("Pilot")) {
                 if (key >= 37 && key <= 40) {
-                    ((ProductP) jPanel).update(key);
+                    ((Pilot) jPanel).update(key);
                     this.targetX = jPanel.getX();
                     this.targetY = jPanel.getY();
                 }
                 if (this.gameParameters.isBoomOn()){
-                    ((ProductP) jPanel).setBoomOn(true);
+                    ((Pilot) jPanel).setBoomOn(true);
                 }
                 else {
-                    ((ProductP) jPanel).setBoomOn(false);
+                    ((Pilot) jPanel).setBoomOn(false);
                 }
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
-            else if (jPanel.getClass().getName().contains("ProductTimer")) {
-                ((ProductTimer) jPanel).updateClock(gameParameters.getGameTime());
+            else if (jPanel.getClass().getName().contains("Clock")) {
+                ((Clock) jPanel).updateClock(gameParameters.getGameTime());
                 // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             this.jFrame.getContentPane().add(jPanel);

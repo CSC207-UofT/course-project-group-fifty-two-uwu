@@ -1,4 +1,4 @@
-import main.java.Entities.ProductB;
+import main.java.Entities.Missile;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +21,7 @@ public class TestJPanelPaint {
         File pathName = new File("src/main/resources/missileSuper.png");
         try {
             shape = ImageIO.read(pathName);
-            JPanel q = new ProductB(100, 100, 0.3, shape, "");
+            JPanel q = new Missile(100, 100, 0.3, shape, "");
             q.isVisible();
             f.add(q);
             q.setLayout(null);

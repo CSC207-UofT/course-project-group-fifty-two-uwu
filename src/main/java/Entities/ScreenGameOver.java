@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ProductGameOver extends JPanel{
+public class ScreenGameOver extends JPanel{
     final private String RETRY = "retry";
     final private String EXIT = "exit";
     private String event = "";
@@ -28,7 +28,7 @@ public class ProductGameOver extends JPanel{
     private BufferedImage bufferedImage;
     private GameParameters gameParameters;
 
-    public ProductGameOver(){
+    public ScreenGameOver(){
         jLabel.setFont(new Font("MS Song", Font.BOLD, 32));
         jLabel.setText("");
         jLabel.setBounds(210, 150, 300, 100);
