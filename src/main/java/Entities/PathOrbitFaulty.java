@@ -1,9 +1,9 @@
 package main.java.Entities;
 
 /**
- * @author Terry
- * @version 1
- * @since November 30, 2021
+ * @author Edward
+ * @version 2
+ * @since December 1, 2021
  */
 public class PathOrbitFaulty implements Steerable {
     private int x; // x coordinate
@@ -65,6 +65,11 @@ public class PathOrbitFaulty implements Steerable {
             swap = targetX;
             targetX = targetY;
             targetY = swap;
+            // arbitrary change for special case when swap does not do anything
+            if (targetX == targetY){
+                targetX = 300;
+                targetY = 400;
+            }
         }
         /**
          * Is the target on the left side of this steerable?
