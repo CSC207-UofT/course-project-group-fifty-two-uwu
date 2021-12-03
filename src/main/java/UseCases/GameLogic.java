@@ -56,6 +56,7 @@ public class GameLogic implements Iterable<JPanel>{
         jPanels.add(factoryMissile.getProduct(200, 100, Math.PI/5, PATH_FAULTY));
         jPanels.add(factoryMissile.getProduct(-1000, 1000, Math.PI/5, PATH_FAULTY));
         jPanels.add(factoryMissile.getProduct(1000, -1000, Math.PI/5, PATH_REGULAR));
+        jPanels.add(new Background());
         for (int i = 0; i < jPanels.size(); i++){
             booleans.add(true);
         }
