@@ -49,16 +49,16 @@ public class Canvas {
             }
             else if (jPanel.getClass().getName().contains("ScreenInfo")) {
                 ((ScreenInfo) jPanel).injectGameParameters(this.gameParameters);
-                System.out.println("Canvas update added " + jPanel.getClass().getName());
+                // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("ScreenMainMenu")) {
                 ((ScreenMainMenu) jPanel).injectGameParameters(this.gameParameters);
                 ((ScreenMainMenu) jPanel).setUsername(this.gameParameters.getUsername());
-                System.out.println("Canvas update added " + jPanel.getClass().getName());
+                // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("ScreenName")) {
                 ((ScreenName) jPanel).injectGameParameters(this.gameParameters);
-                System.out.println("Canvas update added " + jPanel.getClass().getName());
+                // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("ScreenGameOver")) {
                 String info = "<html><div style='text-align: center;'>Game Over! <br>Score ";
@@ -66,7 +66,7 @@ public class Canvas {
                 ((ScreenGameOver) jPanel).getJLabel().setText(info);
                 ((ScreenGameOver) jPanel).getJLabelTopScores().setText(this.gameParameters.getTopFive());
                 ((ScreenGameOver) jPanel).injectGameParameters(this.gameParameters);
-                System.out.println("Canvas update added " + jPanel.getClass().getName());
+                // System.out.println("Canvas update added " + jPanel.getClass().getName());
             }
             else if (jPanel.getClass().getName().contains("Pilot")) {
                 if (key >= 37 && key <= 40) {

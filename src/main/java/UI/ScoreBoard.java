@@ -157,12 +157,12 @@ public class ScoreBoard {
             else {
                 for (int j = 0; j < result.size(); j++){
                     if (tuples.get(i).getNum() > result.get(j).getNum()){
-                        System.out.println("greater");
+                        // System.out.println("greater");
                         result.add(j, tuples.get(i));
                         break;
                     }
                     else if (j == result.size() - 1){
-                        System.out.println("at the tail");
+                        //System.out.println("at the tail");
                         result.add(tuples.get(i));
                         break;
                     }
