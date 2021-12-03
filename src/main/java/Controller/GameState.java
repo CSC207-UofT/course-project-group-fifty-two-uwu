@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
+import javax.sound.sampled.*;
 import javax.swing.*;
 
 /**
@@ -132,7 +133,7 @@ public class GameState extends JFrame {
      * Depending on the event, it switched to a different state.
      * It continuously updates GameLogic and Canvas when the game is in progress.
      */
-    public void update(){
+    public void update() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
         /**
          * When the game is in progress, the number of hits indicates
          * when to switch to the GameOver state. The max number of hits is 11.
@@ -164,6 +165,24 @@ public class GameState extends JFrame {
                 this.gameLogic.update(this.gameState);
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
+
+
+                // to store current position
+                Long currentFrame;
+                Clip clip;
+                // current status of clip
+                String status;
+                AudioInputStream audioInputStream;
+                String filePath;
+                audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/SoundBegin.wav"));
+                // create clip reference
+                clip = AudioSystem.getClip();
+                // open audioInputStream to the clip
+                clip.open(audioInputStream);
+                // clip.loop(Clip.LOOP_CONTINUOUSLY);
+                clip.loop(0);
+
+
             }
             if (this.gameParameters.getEvent().length() > 0){
                 if (this.gameParameters.getEvent().equals(START)) {
@@ -203,6 +222,23 @@ public class GameState extends JFrame {
                 this.gameLogic.update(this.gameState);
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
+
+                // to store current position
+                Long currentFrame;
+                Clip clip;
+                // current status of clip
+                String status;
+                AudioInputStream audioInputStream;
+                String filePath;
+                audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/SoundPause.wav"));
+                // create clip reference
+                clip = AudioSystem.getClip();
+                // open audioInputStream to the clip
+                clip.open(audioInputStream);
+                // clip.loop(Clip.LOOP_CONTINUOUSLY);
+                clip.loop(0);
+
+
             }
             if (this.gameParameters.getEvent().length() > 1) {
                 if (this.gameParameters.getEvent().equals(CONTINUE)) {
@@ -267,6 +303,23 @@ public class GameState extends JFrame {
                 gameParameters.setTopFive(scoreBoard.topFive());
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
+
+
+                // to store current position
+                Long currentFrame;
+                Clip clip;
+                // current status of clip
+                String status;
+                AudioInputStream audioInputStream;
+                String filePath;
+                audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/SoundGameOver.wav"));
+                // create clip reference
+                clip = AudioSystem.getClip();
+                // open audioInputStream to the clip
+                clip.open(audioInputStream);
+                // clip.loop(Clip.LOOP_CONTINUOUSLY);
+                clip.loop(0);
+
             }
             if (this.gameParameters.getEvent().length() > 1) {
                 if (this.gameParameters.getEvent().equals(EXIT)){

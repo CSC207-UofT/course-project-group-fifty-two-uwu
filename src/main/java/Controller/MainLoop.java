@@ -1,5 +1,9 @@
 package main.java.Controller;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
+
 /**
  * @author Edward
  * @version 3
@@ -22,7 +26,7 @@ public class MainLoop {
      *
      * @param args      unused standard parameters of main()
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         long sleepTime = 18; // update every 18 milliseconds
         boolean gameIsOver = false; // will stop the loop
         // create a new game
