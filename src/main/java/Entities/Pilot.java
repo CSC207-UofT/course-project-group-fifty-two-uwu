@@ -37,7 +37,7 @@ public class Pilot extends JPanel {
     /**
      * This method draws a Graphics class object, g, and put it at a certain coordinate
      *
-     * @param g the graphics that will be drawn as the pilot
+     * @param g the graphics that will be drawn
      */
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
