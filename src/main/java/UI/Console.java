@@ -25,9 +25,9 @@ public class Console implements KeyListener, ActionListener, MouseMotionListener
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 27){   //this is the code for the escape key
-            System.out.println("ESC pressed");
-        }
+//        if (e.getKeyCode() == 27){   //this is the code for the escape key
+//            System.out.println("ESC pressed");
+//        }
         this.keyPressed = e.getKeyCode();
     }
 
