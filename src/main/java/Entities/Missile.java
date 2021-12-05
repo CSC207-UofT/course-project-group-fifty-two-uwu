@@ -5,12 +5,15 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-
+/**
+ * @author Yan Nowaczek
+ * @version 2
+ * @since November 23, 2021
+ *
+ * This class is of type JPanel so that they can be added to JFrame
+ * and displayed. This is the JPanel of the missile.
+ */
 public class Missile extends JPanel {
-    /**
-     * This class is of type JPanel so that they can be added to JFrame
-     * and displayed. This is the JPanel of the missile.
-     */
     private int x;
     private int y;
     private double vector;

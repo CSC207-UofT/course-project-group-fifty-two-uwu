@@ -10,11 +10,11 @@ import java.awt.*;
  * @since November 10, 2021
  */
 
+/**
+ * This class is of type JPanel so that they can be added to JFrame
+ * and displayed. This is the JPanel for the timer. This product class uses JLabel.
+ */
 public class HitCounter extends JPanel{
-    /**
-     * This class is of type JPanel so that they can be added to JFrame
-     * and displayed. This is the JPanel for the timer. This product class uses JLabel.
-     */
     private final JLabel jLabel = new JLabel();
 
     /**

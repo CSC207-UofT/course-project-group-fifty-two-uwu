@@ -11,6 +11,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Edward
+ * @version 2
+ * @since Dec 2, 2021
+ * This class is used to load and display the background of the game
+ */
 public class Background extends JPanel{
     private File pathNameBackground = new File("src/main/resources/backgroundInGame.png");
     private BufferedImage bufferedImage;

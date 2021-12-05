@@ -3,10 +3,18 @@ package main.java.Entities;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+/**
+ * @author Yan Nowaczek
+ * @version 2
+ * @since November 23, 2021
+ *
+ * This class is of type JPanel so that they can be added to JFrame
+ * and displayed. This is the JPanel for the timer. This product class uses JLabel.
+ **/
 
 public class Clock extends JPanel{
-    //This class is of type JPanel so that they can be added to JFrame
-    //and displayed. This is the JPanel for the timer. This product class uses JLabel.
+
+
     private final JLabel jLabel = new JLabel();
 //    private final Timer timer;
 
@@ -36,10 +44,20 @@ public class Clock extends JPanel{
 //        this.timer.stop();
 //    }
 
+    /**
+     * Returns the component of the clock
+     *
+     * @return the jLabel components
+     */
     public JLabel getComponent(){
         return this.jLabel;
     }
 
+    /**
+     * Updates the clock
+     *
+     * @param t a long object that represents the time
+     */
     public void updateClock(long t){
         // long t = System.currentTimeMillis();
         t = t / 100;
@@ -56,6 +74,12 @@ public class Clock extends JPanel{
         }
         update(minutes + ":" + seconds + "." + milliseconds);
     }
+
+    /**
+     * a setter function to set the text in this.jLabel
+     *
+     * @param s the string that you want to set the text in this.jLabel to
+     */
     public void update(String s){
         this.jLabel.setText(s);
     }
