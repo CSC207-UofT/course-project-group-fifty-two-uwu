@@ -11,6 +11,8 @@ public class GameParameters {
     boolean boomOn = false;
     int hits = 0;
     private String event = "";
+    private String topFive = "";
+    private String username = "";
 
     public void setStartTime(long startTime) {
         this.startTime = startTime;
@@ -58,8 +60,6 @@ public class GameParameters {
         return collisionPaused;
     }
 
-
-
     public String getScore(){
         long secondsPassed = (System.currentTimeMillis() - this.startTime)/1000;
         return String.valueOf(secondsPassed);
@@ -78,12 +78,22 @@ public class GameParameters {
     }
     public void pauseGame(){this.pauseTime = System.currentTimeMillis();}
     public void startGame(){this.gameStarted = true;}
-    public void setEvent(String event){this.event = event;}
+    public void setUsername(String username){this.username = username;}
+    public void setTopFive(String str){this.topFive = str;}
+    public void setEvent(String event){
+        this.event = event;
+        // System.out.println("GameParameters new event = " + event);
+    }
     public void setHits(){this.hits++;}
+    public String getUsername(){return this.username;}
     public long getGameTime(){
         return System.currentTimeMillis() - this.startTime;
     }
     public boolean isGameStarted(){return this.gameStarted;}
-    public String getEvent(){return this.event;}
+    public String getEvent(){
+        // System.out.println("GameParameters returned event = " + this.event);
+        return this.event;
+    }
     public int getHits(){return this.hits;}
+    public String getTopFive(){return this.topFive;}
 }

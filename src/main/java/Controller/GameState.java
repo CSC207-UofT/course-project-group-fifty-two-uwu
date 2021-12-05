@@ -1,68 +1,97 @@
 package main.java.Controller;
 
-import main.java.Entities.ProductName;
-import main.java.Entities.ProductMainMenu;
 import main.java.UI.Canvas;
-import main.java.Entities.ProductInfo;
 import main.java.UI.Console;
+import main.java.UI.ScoreBoard;
+import main.java.UI.SoundEffect;
 import main.java.UseCases.GameLogic;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
+import javax.sound.sampled.*;
 import javax.swing.*;
 
+/**
+ * GameState keeps track of the game stage, the position of the image that the user
+ * can control (target/pilot), and the clock. It calls on class Console to get user
+ * input and decides on the stage of the game, e.g., 0 - in progress, 9 - exit.
+ * It passes target coordinates and the clock value to class Canvas and calls on
+ * class Canvas to paint the screen.
+ *
+ * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
+ * @author Terry
+ * @author Edward
+ * @version G
+ * @since 1.0 November 7, 2021
+ */
 public class GameState extends JFrame {
-    //keeps track of the game stage, the position of the image that the user can control (target/pilot),
-    //and the clock. It calls on class Console to get user input and decides on the stage of the game, e.g., 0 - in
-    //progress, 9 - exit. It passes target coordinates and the clock value to class
-    //Canvas and calls on class Canvas to paint the screen
+    /**
+     * These are Strings to capture events
+     */
     final private String START = "start";
     final private String INFO = "info";
     final private String EXIT = "exit";
     final private String CONTINUE = "continue";
     final private String RETRY = "retry";
     final private String NEW_USER_NAME = "newUsername";
-    private final int STATE_IN_PROGRESS = 0;
-    private final int STATE_GAME_START = 5;
-    private final int STATE_GAME_PAUSE = 6;
-    private final int STATE_USER_NAME = 7;
-    private final int STATE_GAME_OVER = 8;
-    private final int STATE_EXIT = 9;
+    final private String CHANGE_THEME = "changeTheme";
+    /**
+     * GameStates are stored as integers
+     */
+    private final int STATE_IN_PROGRESS = 0; // Game is in progress
+    private final int STATE_GAME_START = 5; // Contains MainMenu and Start button
+    private final int STATE_GAME_PAUSE = 6; // Pause screen and pauses the clock
+    private final int STATE_USER_NAME = 7; // Username input Screen
+    private final int STATE_GAME_OVER = 8; // GameOver screen
+    private final int STATE_EXIT = 9; // This state terminates the program, the variable is passed to MainLoop
 
-    Console console;
-    Canvas canvas;
-    GameLogic gameLogic;
-    GameParameters gameParameters;
-    Iterator<JPanel> iterator;
-    public static final int CANVAS_WIDTH = 700;
-    public static final int CANVAS_HEIGHT = 600;
+    /**
+     * All 5 classes are created
+     */
+    private final Console console; // Key input
+    private final Canvas canvas; // Displays JPanels
+    private final GameLogic gameLogic; // Assembles JPanels into an array
+    private final GameParameters gameParameters; // A board to exchange game state values
+    private final ScoreBoard scoreBoard; // A reader and a writer
+    private final Iterator<JPanel> iterator; // An array of active JPanels
+    private final SoundEffect soundEffect = new SoundEffect();
+
     private final JFrame mainFrame;
-    private int keyPressed;
-    private int gameState; // 0 - start, 1 - exit continue, 9 - exit
-    private final long startTime;
-    private boolean paintIsAllowed = true;
-    private boolean doSomething = true;
-    private String username = "";
-    private JTextField jTextField = new JTextField("Welcome in GameState.");
-    ProductName productName = new ProductName();
-    ProductMainMenu productMainMenu = new ProductMainMenu();
-    ProductInfo productInfo = new ProductInfo();
-    JLabel jLabel;
-    JButton bStart;
-    JButton bInfo;
-    JButton bExit;
 
-    public GameState(){
-        mainFrame = new JFrame("Missile Mayhem");
-        mainFrame.getContentPane();
-        mainFrame.setSize(CANVAS_WIDTH,CANVAS_HEIGHT);
-        mainFrame.setVisible(true);
+    /**
+     * This class communicates with UseCase classes using
+     * only Strings, integers, and booleans.
+     */
+    private int keyPressed;
+    private int gameState;
+    private final long startTime; // This is when the game starts in milliseconds
+    private boolean paintIsAllowed = true; // Repeated painting disabled for stationary JPanels
+    private boolean doSomethingOnce = true; // A sequence needs to be executed only once
+    private String username = "";
+    private String theme = "light";
+
+    /**
+     * At start, the following happens:
+     * -    JFrame is created and resized
+     * -    Username is imported from an external file
+     * -    If the user doesn't exist, then the input screen is displayed
+     * -    Otherwise, the user is directed to the MainMenu
+     * -    Initializes: GameLogic, Iterator, GameParameters, Console, Canvas, and Scoreboard
+     */
+    public GameState() throws IOException {
+        this.mainFrame = new JFrame("Missile Mayhem");
+        this.mainFrame.getContentPane();
+        /**
+         * JFrame window size
+         */
+        int CANVAS_WIDTH = 700;
+        int CANVAS_HEIGHT = 600;
+        this.mainFrame.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+        this.mainFrame.setVisible(true);
         this.getUserName();
         if (this.username.equals("")) {
             gameState = STATE_USER_NAME;
@@ -70,15 +99,23 @@ public class GameState extends JFrame {
         else {
             gameState = STATE_GAME_START;
         }
-        this.gameLogic = new GameLogic();
-        this.gameLogic.setUserName(this.username);
+        this.scoreBoard = new ScoreBoard();
+        this.theme = this.scoreBoard.readTheme();
+        if (this.theme.equals("")) {this.theme = "light";} // default
+        this.gameLogic = new GameLogic(this.theme);
         this.iterator = gameLogic.iterator();
         this.console = new Console(this.mainFrame);
         this.gameParameters = new GameParameters();
-        this.canvas = new Canvas(mainFrame, gameParameters);
-        startTime = System.currentTimeMillis();
+        this.canvas = new Canvas(this.mainFrame, gameParameters);
+        this.startTime = System.currentTimeMillis();
     }
 
+    /**
+     * Reads the username stored in stats.txt, if there is none,
+     * it updates the username with empty string.
+     * The user will be directed to input screen if
+     * no name is in stats.txt
+     */
     public void getUserName(){
         try {
             File file = new File("stats.txt");
@@ -89,154 +126,167 @@ public class GameState extends JFrame {
             }
             scanner.close();
             this.username = text;
-            System.out.println("GameState user name = " + text);
         } catch (FileNotFoundException e) {
-            System.out.println("Reading error occurred.");
+            System.out.println("Error occured while reading stats.txt.");
             e.printStackTrace();
         }
     }
 
-    public void update(){
-        JPanel jPanel;
-        String jButtonEvent;
+    /**
+     * Performs various actions depending on the state of the game.
+     * If the state involves a stationary JPanel, then it waits for event.
+     * Depending on the event, it switched to a different state.
+     * It continuously updates GameLogic and Canvas when the game is in progress.
+     */
+    public void update() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+        /**
+         * When the game is in progress, the number of hits indicates
+         * when to switch to the GameOver state. The max number of hits is 11.
+         */
         if (this.gameState == STATE_IN_PROGRESS) {
             if (gameParameters.isCollisionDetected()){
-                //System.out.println("BOOM");
                 gameParameters.setHits();
+                this.soundEffect.playSoundEffect(this.gameState);
                 if (gameParameters.getHits() > 10){
                     this.gameState = STATE_GAME_OVER;
                 }
             }
         }
+        /**
+         * This is the state where it will display the MainMenu.
+         * The first part is executed once.
+         * -    username can be new and GameParameters must be updated
+         * -    GameLogic is invoked only once to
+         *      turn on the MainMenu panel.
+         * -    Canvas is invoked only once to update and display the JPanel.
+         * The second part waits for an input from the user.
+         * -    Depending on the value of the event, a new gameState is selected.
+         * -    The no-paint and do-it-once variables are set to true.
+         */
         else if (this.gameState == STATE_GAME_START) {
             paintIsAllowed = false;
-            if (doSomething) {
-//                System.out.println("GameState >>> gameState = " + gameState);
-                doSomething = false;
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-//                System.out.println("GameState >>> check 1");
-                this.mainFrame.getContentPane().add(productMainMenu);
-//                System.out.println("GameState >>> check 2");
-                this.mainFrame.revalidate();
-//                System.out.println("GameState >>> check 3");
-                // productMainMenu. getJLabel().setText(productMainMenu.getJLabel().getText() + " " + this.username);
-                productMainMenu.setUsername(this.username);
-//                System.out.println("GameState >>> check 4");
-                productMainMenu.setEvent("");
-//                System.out.println("GameState >>> check 5");
-                this.mainFrame.repaint();
-//                System.out.println("GameState >>> check 6");
+            if (doSomethingOnce) {
+                this.doSomethingOnce = false;
+                this.gameParameters.setUsername(this.username);
+                this.gameLogic.update(this.gameState, this.theme);
+                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.paint();
+                this.soundEffect.playSoundEffect(this.gameState);
             }
-            if (productMainMenu.getEvent().length() > 0) {
-//                System.out.println("GameState >>> gameState = 7 event = " + productMainMenu.getEvent().length());
-                if (productMainMenu.getEvent().equals(START)) {
+            if (this.gameParameters.getEvent().length() > 0){
+                if (this.gameParameters.getEvent().equals(START)) {
                     gameParameters.setStartTime(System.currentTimeMillis());
                     gameParameters.startGame();
                     gameState = STATE_IN_PROGRESS;
                 }
-                else if (productMainMenu.getEvent().equals(INFO)) {
-                    gameState = STATE_GAME_PAUSE;
-                }
-                else if (productMainMenu.getEvent().equals(NEW_USER_NAME)) {
+                else if (this.gameParameters.getEvent().equals(NEW_USER_NAME)) {
                     System.out.println("GameState >>> gameState get new username");
                     gameState = STATE_USER_NAME;
                 }
-                else if (productMainMenu.getEvent().equals(NEW_USER_NAME)) {
+                else if (this.gameParameters.getEvent().equals(INFO)) {
                     System.out.println("GameState >>> gameState get new username");
-                    gameState = 7;
+                    gameState = STATE_GAME_PAUSE;
                 }
-                else if (productMainMenu.getEvent().equals(EXIT)) {
+                else if (this.gameParameters.getEvent().equals(EXIT)) {
                     gameState = STATE_EXIT;
                 }
-                productMainMenu.getJLabel().setText("");
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-                paintIsAllowed = true;
-                doSomething = true;
+                if (this.gameParameters.getEvent().equals(CHANGE_THEME)) {
+                    changeTheme();
+                    this.gameLogic.update(this.gameState, this.theme);
+                    this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                    this.canvas.paint();
+                    this.gameParameters.setEvent("");
+                }
+                else {
+                    this.gameParameters.setEvent("");
+                    paintIsAllowed = true;
+                    doSomethingOnce = true;
+                }
             }
         }
+        /**
+         * When the game is paused, the appropriate panel is
+         * displayed and there are no repeated calls for
+         * displaying the JPanels. The program waits for the input.
+         * If the event is CONTINUE and the game already started,
+         * GameParameters are notified to adjust the game time.
+         * If the event is EXIT, then the game terminates.
+         */
         else if (this.gameState == STATE_GAME_PAUSE) {
             paintIsAllowed = false;
-            if (doSomething) {
-                // System.out.println("GameState >>> gameState = " + gameState);
-                doSomething = false;
+            if (doSomethingOnce) {
+                this.doSomethingOnce = false;
                 this.gameParameters.pauseGame();
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-                this.mainFrame.getContentPane().add(productInfo);
-                this.mainFrame.revalidate();
-                this.mainFrame.repaint();
+                this.gameLogic.update(this.gameState, this.theme);
+                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.paint();
+                this.soundEffect.playSoundEffect(this.gameState);
             }
-            // System.out.println("GameState state = 6 event = " + productInfo.getEvent());
-            if (this.productInfo.getEvent().length() > 0) {
-                if (this.productInfo.getEvent().equals(CONTINUE)) {
+            if (this.gameParameters.getEvent().length() > 1) {
+                if (this.gameParameters.getEvent().equals(CONTINUE)) {
                     if (this.gameParameters.isGameStarted()){
                         System.out.println("GameState code = " + CONTINUE + " 6 --> 0");
                         this.gameParameters.resumeGame();
                         this.gameState = STATE_IN_PROGRESS;
                     }
                     else {
+                        System.out.println("GameState code = " + CONTINUE + " 6 --> 5");
                         this.gameState = STATE_GAME_START;
                     }
                 }
-                else if (productInfo.getEvent().equals(EXIT)){
+                else if (this.gameParameters.getEvent().equals(EXIT)){
                     System.out.println("GameState code = " + EXIT + " 6 --> 9");
                     gameState = STATE_EXIT;
                 }
-                productInfo.setEvent("");
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
                 paintIsAllowed = true;
-                doSomething = true;
+                doSomethingOnce = true;
             }
+            this.gameParameters.setEvent("");
         }
+        /**
+         * The user is asked to input a username.
+         * The continuous repainting of JPanels
+         * is stopped, waiting for the input.
+         * The input must be at least 2 characters.
+         * After that, the game is changed to MainMenu.
+         */
         else if (this.gameState == STATE_USER_NAME) {
             paintIsAllowed = false;
-            if (doSomething) {
-//                System.out.println("GameState gameState = 7 do something username = " + productName.getUsername());
-                doSomething = false;
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-                this.mainFrame.getContentPane().add(productName);
-                this.mainFrame.revalidate();
-                this.mainFrame.repaint();
-                // JTextField gets focus
-                // it does not work though
-                this.mainFrame.addWindowListener( new WindowAdapter() {
-                    public void windowOpened( WindowEvent e ){
-                        productName.getTextField().requestFocus();
-                    }
-                });
-            }
-           // System.out.println("GameState gameState = 7 username = " + productName.getUsername());
-            if (productName.getUsername().length() > 1) {
-//                System.out.println("GameState gameState = 7 B");
-                setUsername(productName.getUsername());
-                writeToFile(productName.getUsername());
-                productName.setUsername("");
-                this.mainFrame.getContentPane().removeAll();
-                this.mainFrame.getContentPane().revalidate();
-                paintIsAllowed = true;
-                doSomething = true;
-                this.gameState = STATE_GAME_START;
-            }
-        }
-        else if (this.gameState == STATE_GAME_OVER){
-            paintIsAllowed = false;
-            if (doSomething) {
-//                System.out.println("GameState A gameState = " + STATE_GAME_OVER);
-                doSomething = false;
-                gameLogic.update(this.gameState);
+            if (doSomethingOnce) {
+                doSomethingOnce = false;
+                this.gameLogic.update(this.gameState, this.theme);
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
-//                this.mainFrame.getContentPane().removeAll();
-//                this.mainFrame.getContentPane().revalidate();
-//                this.mainFrame.getContentPane().add(productName);
-//                this.mainFrame.revalidate();
-//                this.mainFrame.repaint();
             }
-            //System.out.println("GameState B gameState = " + STATE_GAME_OVER);
+            if (this.gameParameters.getEvent().length() > 1) {
+                setUsername(this.gameParameters.getEvent());
+                writeToFile(this.gameParameters.getEvent());
+                paintIsAllowed = true;
+                doSomethingOnce = true;
+                this.gameState = STATE_GAME_START;
+                this.gameParameters.setEvent("");
+            }
+        }
+        /**
+         * In this state, the GameOver screen is displayed
+         * once, and the program awaits for the input.
+         * If the input is RETRY, then GameParameters are
+         * set to default values and the user is directed
+         * to the MainMenu. The GameOver screen displays
+         * the score of the current user and the TopFive
+         * high scores, fetched from an external file.
+         */
+        else if (this.gameState == STATE_GAME_OVER){
+            paintIsAllowed = false;
+            if (doSomethingOnce) {
+                doSomethingOnce = false;
+                gameLogic.update(this.gameState, this.theme);
+                scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
+                gameParameters.setTopFive(scoreBoard.topFive());
+                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.paint();
+                this.soundEffect.playSoundEffect(this.gameState);
+            }
             if (this.gameParameters.getEvent().length() > 1) {
                 if (this.gameParameters.getEvent().equals(EXIT)){
                     this.gameState = STATE_EXIT;
@@ -246,17 +296,30 @@ public class GameState extends JFrame {
                 }
                 this.gameParameters.clear();
                 paintIsAllowed = true;
-                doSomething = true;
+                doSomethingOnce = true;
             }
         }
+        /**
+         * This sequence is executed when there is no stationary
+         * panel displayed.
+         */
         if (paintIsAllowed) {
-            gameLogic.update(this.gameState);
+            gameLogic.update(this.gameState, this.theme);
             this.setKeyPressed(console.getKeyPressed());
             this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
             this.canvas.paint();
         }
     }
 
+    /**
+     * This method handles the keys entered while
+     * the game is in progress.
+     * If the user enters ESC, the game state changes
+     * to 6, which is pause.
+     * If the user enters any of the arrow keys, the pilot will move.
+     *
+     * @param keyPressed    The integer value of the key
+     */
     public void setKeyPressed(int keyPressed) {
         if (this.gameState == STATE_IN_PROGRESS) {
             if (!mainFrame.hasFocus()){
@@ -272,42 +335,46 @@ public class GameState extends JFrame {
                 this.keyPressed = keyPressed;
             }
         }
-        else if (this.gameState == 1) {
-            if (keyPressed == 27){ // ESC
-                this.gameState = STATE_EXIT; // Will exit
-            }
-            else if (keyPressed != 0){
-                this.gameState = STATE_IN_PROGRESS; // Will continue
-            }
-        }
-        if (keyPressed != 0) {
-            System.out.println("key = " + keyPressed + " state = " + this.gameState);
-        }
     }
 
-    public void writeToFile(String str) {
+    /**
+     * Writes the username into an external file, stats.txt.
+     *
+     * @param username   String for username
+     */
+    public void writeToFile(String username) {
         try {
             FileWriter fileWriter = new FileWriter("stats.txt");
-            fileWriter.write(str);
+            fileWriter.write(username);
             fileWriter.close();
-            System.out.println("Successfully wrote to the file");
         } catch (IOException e) {
-            System.out.println("Writing error occurred.");
+            System.out.println("Writing error occurred when writing to stats.txt.");
             e.printStackTrace();
         }
     }
 
-    public void setUsername(String s){
-        this.username = s;
-    }
-
-    public void closeMainFrame(){
-        mainFrame.dispose();
-    }
-
-    public int getGameState() {return this.gameState;}
-
+    /**
+     * Returns a String with the number of seconds
+     * from the start of the game.
+     *
+     * @return  A String of elapsed seconds
+     */
     public String getTimeElapsed(){
         return String.valueOf((System.currentTimeMillis() - this.startTime)/1000);
     }
+
+    private void changeTheme(){
+        if (this.theme.equals("light")){
+            this.theme = "dark";
+        }
+        else if (this.theme.equals("dark")){
+            this.theme = "light";
+        }
+        this.scoreBoard.writeTheme(this.theme);
+    }
+
+    public void setUsername(String s){this.username = s;}
+    public void closeMainFrame(){mainFrame.dispose();}
+    public int getGameState() {return this.gameState;}
+
 }

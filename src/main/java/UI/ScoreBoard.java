@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * @author Terry
- * @version 1
- * @since November 29, 2021
+ * @author Edward
+ * @version 2
+ * @since December 1, 2021
  */
 public class ScoreBoard {
+    private final String fileForName = "name.txt"; // to store this username
+    private final String fileForScores = "scores.txt"; // to store names and scores
+    private final String fileForThemes = "scores.txt"; // to store names and scores
 
     /**
      * Stores this user's name and score in scores.txt
@@ -31,8 +34,9 @@ public class ScoreBoard {
     public void addScore(String name, int score) {
         ArrayList<Tuple> tuples = new ArrayList<>();
         tuples = getTopScores();
-        boolean isNotListed = true;
-
+        boolean isNotListed = true; // is this username on file?
+        name = name.trim();
+        // scan and update this username if on file with a lower score
         for (int i = 0; i < tuples.size(); i++){
             if (tuples.get(i).getStr().equals(name)){
                 if (tuples.get(i).getNum() > score){
@@ -45,39 +49,17 @@ public class ScoreBoard {
                 }
             }
         }
-
-        // test
-        System.out.println("\ntuples A >>>>");
-        for (int i = 0; i < tuples.size(); i++){
-            System.out.println(tuples.get(i).getStr() + " " + tuples.get(i).getNum());
-        }
-
         if (isNotListed) {
-            tuples.add(new Tuple(name, score));
+            tuples.add(new Tuple(name, score)); // added new username
         }
-
-        //test
-        System.out.println("tuples B >>>>");
-        for (int i = 0; i < tuples.size(); i++){
-            System.out.println(tuples.get(i).getStr() + " " + tuples.get(i).getNum());
-        }
-
         // sort
         tuples = sortTupleList(tuples);
-
-        //test
-        System.out.println("tuples C >>>>");
-        for (int i = 0; i < tuples.size(); i++){
-            System.out.println(tuples.get(i).getStr() + " " + tuples.get(i).getNum());
-        }
-
         try {
-            FileWriter fileWriter = new FileWriter("scores.txt", false);  //overrides file
+            FileWriter fileWriter = new FileWriter(fileForScores, false);  //overrides file
             for (int i = 0; i < tuples.size(); i++){
                 fileWriter.write(tuples.get(i).getStr() + ":" + tuples.get(i).getNum() + "\n");
             }
             fileWriter.close();
-            // System.out.println("Successfully updated scores.txt");
         } catch (IOException e) {
             System.out.println("Error occurred while writing to scores.txt");
             e.printStackTrace();
@@ -114,84 +96,42 @@ public class ScoreBoard {
         return tuples;
     }
 
-    public void addScoreOLD(String name, int score) {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("Bob", 1);
-        // this user already has a higher score
-        if (map.containsKey(name) && map.get(name) >= score){
-            return;
+    /**
+     * Returns a formatted listing of top five scores.
+     *
+     * @return      "<html>1. Name score seconds<br>2. Name score ... </html>
+     */
+    public String topFive(){
+        String output = "<html>";
+        ArrayList<Tuple> tuples = getTopScores();
+        int limit = tuples.size();
+        // only top five are needed
+        if (limit > 5){
+            limit = 5;
         }
-        else {
-            map.put(name, score);
-            // sort the map by value
-            System.out.println("before sort " + map);
-            map = sortByValue(map);
-            System.out.println("after sort  " + map);
+        for (int i = 0; i < limit; i++) {
+            output = output + String.valueOf(i + 1) + ". " + tuples.get(i).getStr() +
+                    ": " + String.valueOf(tuples.get(i).getNum()) + " seconds<br>";
         }
+        output = output + "</html>";
+        return output;
+    }
+
+    /**
+     * Creates a new file named "name.txt" to store this username
+     */
+    public void createFile(){
+        File file = new File(fileForName);
         try {
-            FileWriter fileWriter = new FileWriter("scores.txt", false);  //overrides file
-            for (String key : map.keySet()){
-                fileWriter.write(key + ":" + map.get(key) + "\n");
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName());
+            } else {
+                System.out.println("File already exists.");
             }
-            fileWriter.close();
-            // System.out.println("Successfully updated scores.txt");
         } catch (IOException e) {
-            System.out.println("Error occurred while writing to scores.txt");
+            System.out.println("File access error occurred.");
             e.printStackTrace();
         }
-    }
-
-    public Map<String, Integer> getTopScoresOLD(){
-        Map<String, Integer> map = new HashMap<>();
-        try {
-            File file = new File("scores.txt");
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String[] tokens = scanner.nextLine().split(":");
-                map.put(tokens[0], Integer.valueOf(tokens[1]));
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Error occurred while reading scores.txt");
-            e.printStackTrace();
-        }
-        System.out.println(map);
-        return map;
-    }
-
-    public  Map<String, Integer> sortByValue(Map<String, Integer> map){
-        ArrayList<Tuple> tuples = new ArrayList<>();
-        for (String key : map.keySet()) {
-            System.out.println("for " + key);
-            Tuple tuple = new Tuple(key, map.get(key));
-            if (tuples.isEmpty()) {
-                System.out.println("tuples are empty");
-                tuples.add(tuple);
-            }
-            else {
-                int idx = 0;
-                for (int i = 0; i < tuples.size(); i++){
-                    // System.out.println("i = " + i + "tuples.size() = " + tuples.size());
-                    if (map.get(key) > tuples.get(i).getNum()){
-                        tuples.add(i, tuple);
-                        break;
-                    }
-                    else if (i == tuples.size()){
-                        tuples.add(tuple);
-                        break;
-                    }
-                }
-            }
-            System.out.println("tuples so far:");
-            for (int i = 0; i < tuples.size(); i++){
-                System.out.println("tuples[" + i + "] = " + tuples.get(i).getStr() + " " + tuples.get(i).getNum());
-            }
-        }
-        map.clear();
-        for (Tuple tuple : tuples) {
-            map.put(tuple.getStr(), tuple.getNum());
-        }
-        return map;
     }
 
     /**
@@ -212,31 +152,60 @@ public class ScoreBoard {
     public ArrayList<Tuple> sortTupleList(ArrayList<Tuple> tuples){
         ArrayList<Tuple> result = new ArrayList<>();
         for (int i = 0; i < tuples.size(); i++){
-            System.out.println("tuples i = " + i + " name = " + tuples.get(i).getStr() + " " + tuples.get(i).getNum());
             if (result.isEmpty()){
                 result.add(tuples.get(i));
             }
             else {
                 for (int j = 0; j < result.size(); j++){
-                    System.out.println("result j = " + j + " name = " + result.get(j).getStr() + " " + result.get(j).getNum());
                     if (tuples.get(i).getNum() > result.get(j).getNum()){
-                        System.out.println("greater");
+                        // System.out.println("greater");
                         result.add(j, tuples.get(i));
                         break;
                     }
                     else if (j == result.size() - 1){
-                        System.out.println("at the tail");
+                        //System.out.println("at the tail");
                         result.add(tuples.get(i));
                         break;
                     }
                 }
             }
-            System.out.println("result so far: ");
-            for (int k = 0; k < result.size(); k++){
-                System.out.println("result[" + k + "] = " + result.get(k).getStr() + " " + result.get(k).getNum());
-            }
         }
         return result;
+    }
+
+    /**
+     * Records the theme selected by user
+     *
+     * @param theme     String for the game background: light or dark
+     */
+    public void writeTheme(String theme){
+        try {
+            FileWriter fileWriter = new FileWriter("theme.txt");
+            fileWriter.write(theme);
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Writing error occurred when writing to theme.txt.");
+            e.printStackTrace();
+        }
+    }
+
+    public String readTheme() throws IOException {
+        String text = "";
+        try {
+            File file = new File("theme.txt");
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                text = text + " " + scanner.nextLine();
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error occurred while reading theme.txt.");
+            FileWriter fileWriter = new FileWriter("theme.txt");
+            fileWriter.write("light");
+            fileWriter.close();
+            // e.printStackTrace();
+        }
+        return text.trim();
     }
 
     /**
@@ -255,5 +224,4 @@ public class ScoreBoard {
         public void setStr(String str){this.str = str;}
         public void setNum(int num){this.num = num;}
     }
-
 }
