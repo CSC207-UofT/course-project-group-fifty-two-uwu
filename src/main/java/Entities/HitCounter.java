@@ -14,7 +14,7 @@ public class HitCounter extends JPanel{
         this.jLabel.setFont(new Font("SansSerif", Font.PLAIN, 36));
         this.jLabel.setOpaque(false);
         this.jLabel.setBorder(new EmptyBorder(4, 20, 4, 4));
-        this.jLabel.setForeground(Color.CYAN);
+        this.jLabel.setForeground(Color.RED);
         this.jLabel.setLayout(null);
         this.jLabel.setBounds(605, 510, 120, 36);
         setLayout(null);

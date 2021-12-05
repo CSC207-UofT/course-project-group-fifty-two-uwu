@@ -52,12 +52,10 @@ public class Missile extends JPanel {
     public int getX(){
         return this.x;
     }
-
     public int getY(){
         return this.y;
     }
-
     public boolean isCollisionDetected(){
-        return distance < 3;
+        return distance < 4;
     }
 }

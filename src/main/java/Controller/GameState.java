@@ -3,6 +3,7 @@ package main.java.Controller;
 import main.java.UI.Canvas;
 import main.java.UI.Console;
 import main.java.UI.ScoreBoard;
+import main.java.UI.SoundEffect;
 import main.java.UseCases.GameLogic;
 
 import java.io.File;
@@ -37,6 +38,7 @@ public class GameState extends JFrame {
     final private String CONTINUE = "continue";
     final private String RETRY = "retry";
     final private String NEW_USER_NAME = "newUsername";
+    final private String CHANGE_THEME = "changeTheme";
     /**
      * GameStates are stored as integers
      */
@@ -56,6 +58,7 @@ public class GameState extends JFrame {
     private final GameParameters gameParameters; // A board to exchange game state values
     private final ScoreBoard scoreBoard; // A reader and a writer
     private final Iterator<JPanel> iterator; // An array of active JPanels
+    private final SoundEffect soundEffect = new SoundEffect();
 
     private final JFrame mainFrame;
 
@@ -69,6 +72,7 @@ public class GameState extends JFrame {
     private boolean paintIsAllowed = true; // Repeated painting disabled for stationary JPanels
     private boolean doSomethingOnce = true; // A sequence needs to be executed only once
     private String username = "";
+    private String theme = "light";
 
     /**
      * At start, the following happens:
@@ -78,7 +82,7 @@ public class GameState extends JFrame {
      * -    Otherwise, the user is directed to the MainMenu
      * -    Initializes: GameLogic, Iterator, GameParameters, Console, Canvas, and Scoreboard
      */
-    public GameState(){
+    public GameState() throws IOException {
         this.mainFrame = new JFrame("Missile Mayhem");
         this.mainFrame.getContentPane();
         /**
@@ -95,13 +99,14 @@ public class GameState extends JFrame {
         else {
             gameState = STATE_GAME_START;
         }
-        this.gameLogic = new GameLogic();
-        this.gameLogic.setUserName(this.username);
+        this.scoreBoard = new ScoreBoard();
+        this.theme = this.scoreBoard.readTheme();
+        if (this.theme.equals("")) {this.theme = "light";} // default
+        this.gameLogic = new GameLogic(this.theme);
         this.iterator = gameLogic.iterator();
         this.console = new Console(this.mainFrame);
         this.gameParameters = new GameParameters();
         this.canvas = new Canvas(this.mainFrame, gameParameters);
-        this.scoreBoard = new ScoreBoard();
         this.startTime = System.currentTimeMillis();
     }
 
@@ -141,6 +146,7 @@ public class GameState extends JFrame {
         if (this.gameState == STATE_IN_PROGRESS) {
             if (gameParameters.isCollisionDetected()){
                 gameParameters.setHits();
+                this.soundEffect.playSoundEffect(this.gameState);
                 if (gameParameters.getHits() > 10){
                     this.gameState = STATE_GAME_OVER;
                 }
@@ -162,27 +168,10 @@ public class GameState extends JFrame {
             if (doSomethingOnce) {
                 this.doSomethingOnce = false;
                 this.gameParameters.setUsername(this.username);
-                this.gameLogic.update(this.gameState);
+                this.gameLogic.update(this.gameState, this.theme);
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
-
-
-                // to store current position
-                Long currentFrame;
-                Clip clip;
-                // current status of clip
-                String status;
-                AudioInputStream audioInputStream;
-                String filePath;
-                audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/SoundBegin.wav"));
-                // create clip reference
-                clip = AudioSystem.getClip();
-                // open audioInputStream to the clip
-                clip.open(audioInputStream);
-                // clip.loop(Clip.LOOP_CONTINUOUSLY);
-                clip.loop(0);
-
-
+                this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 0){
                 if (this.gameParameters.getEvent().equals(START)) {
@@ -201,9 +190,18 @@ public class GameState extends JFrame {
                 else if (this.gameParameters.getEvent().equals(EXIT)) {
                     gameState = STATE_EXIT;
                 }
-                this.gameParameters.setEvent("");
-                paintIsAllowed = true;
-                doSomethingOnce = true;
+                if (this.gameParameters.getEvent().equals(CHANGE_THEME)) {
+                    changeTheme();
+                    this.gameLogic.update(this.gameState, this.theme);
+                    this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
+                    this.canvas.paint();
+                    this.gameParameters.setEvent("");
+                }
+                else {
+                    this.gameParameters.setEvent("");
+                    paintIsAllowed = true;
+                    doSomethingOnce = true;
+                }
             }
         }
         /**
@@ -219,26 +217,10 @@ public class GameState extends JFrame {
             if (doSomethingOnce) {
                 this.doSomethingOnce = false;
                 this.gameParameters.pauseGame();
-                this.gameLogic.update(this.gameState);
+                this.gameLogic.update(this.gameState, this.theme);
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
-
-                // to store current position
-                Long currentFrame;
-                Clip clip;
-                // current status of clip
-                String status;
-                AudioInputStream audioInputStream;
-                String filePath;
-                audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/SoundPause.wav"));
-                // create clip reference
-                clip = AudioSystem.getClip();
-                // open audioInputStream to the clip
-                clip.open(audioInputStream);
-                // clip.loop(Clip.LOOP_CONTINUOUSLY);
-                clip.loop(0);
-
-
+                this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 1) {
                 if (this.gameParameters.getEvent().equals(CONTINUE)) {
@@ -272,7 +254,7 @@ public class GameState extends JFrame {
             paintIsAllowed = false;
             if (doSomethingOnce) {
                 doSomethingOnce = false;
-                this.gameLogic.update(this.gameState);
+                this.gameLogic.update(this.gameState, this.theme);
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
             }
@@ -298,28 +280,12 @@ public class GameState extends JFrame {
             paintIsAllowed = false;
             if (doSomethingOnce) {
                 doSomethingOnce = false;
-                gameLogic.update(this.gameState);
+                gameLogic.update(this.gameState, this.theme);
                 scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
                 gameParameters.setTopFive(scoreBoard.topFive());
                 this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
                 this.canvas.paint();
-
-
-                // to store current position
-                Long currentFrame;
-                Clip clip;
-                // current status of clip
-                String status;
-                AudioInputStream audioInputStream;
-                String filePath;
-                audioInputStream = AudioSystem.getAudioInputStream(new File("src/main/resources/SoundGameOver.wav"));
-                // create clip reference
-                clip = AudioSystem.getClip();
-                // open audioInputStream to the clip
-                clip.open(audioInputStream);
-                // clip.loop(Clip.LOOP_CONTINUOUSLY);
-                clip.loop(0);
-
+                this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 1) {
                 if (this.gameParameters.getEvent().equals(EXIT)){
@@ -338,7 +304,7 @@ public class GameState extends JFrame {
          * panel displayed.
          */
         if (paintIsAllowed) {
-            gameLogic.update(this.gameState);
+            gameLogic.update(this.gameState, this.theme);
             this.setKeyPressed(console.getKeyPressed());
             this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
             this.canvas.paint();
@@ -396,6 +362,17 @@ public class GameState extends JFrame {
     public String getTimeElapsed(){
         return String.valueOf((System.currentTimeMillis() - this.startTime)/1000);
     }
+
+    private void changeTheme(){
+        if (this.theme.equals("light")){
+            this.theme = "dark";
+        }
+        else if (this.theme.equals("dark")){
+            this.theme = "light";
+        }
+        this.scoreBoard.writeTheme(this.theme);
+    }
+
     public void setUsername(String s){this.username = s;}
     public void closeMainFrame(){mainFrame.dispose();}
     public int getGameState() {return this.gameState;}

@@ -4,18 +4,24 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Displays the seconds and 1/10 of the second of the game duration
+ * The seconds a user survives represents the score.
+ * <p>
+ * This class is of type JPanel. It can be added to JFrame and displayed.
+ *
+ * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
+ * @author Edward
+ * @version B   December 3, 2021
+ * @since 1.0   November 10, 2021
+ */
 public class Clock extends JPanel{
-    //This class is of type JPanel so that they can be added to JFrame
-    //and displayed. This is the JPanel for the timer. This product class uses JLabel.
-    private final JLabel jLabel = new JLabel();
-//    private final Timer timer;
+    private final JLabel jLabel = new JLabel(); // the clock is displayed as JLabel
 
+    /**
+     * Sets attributes to the clock and places it at the right bottom corner
+     */
     public Clock(){
-//        timer = new Timer(47, e -> {
-//            updateClockDisplay();
-//            repaint();
-//        });
-//        timer.start();
         this.jLabel.setText("clock");
         this.jLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
         this.jLabel.setOpaque(true);
@@ -28,20 +34,15 @@ public class Clock extends JPanel{
         add(jLabel);
     }
 
-//    public void restartTimer(){
-//        this.timer.restart();
-//    }
-
-//    public void stopTimer() {
-//        this.timer.stop();
-//    }
-
     public JLabel getComponent(){
         return this.jLabel;
     }
 
+    /**
+     * Converts milliseconds to a string format
+     * @param t long for milliseconds
+     */
     public void updateClock(long t){
-        // long t = System.currentTimeMillis();
         t = t / 100;
         String milliseconds = String.valueOf(t % 10);
         t = t / 10;
@@ -56,10 +57,19 @@ public class Clock extends JPanel{
         }
         update(minutes + ":" + seconds + "." + milliseconds);
     }
-    public void update(String s){
-        this.jLabel.setText(s);
+    /**
+     * Updates the clock jLabel
+     * @param gameTime string representation of the clock's milliseconds
+     */
+    public void update(String gameTime){
+        this.jLabel.setText(gameTime);
     }
 
-    public void paintComponent(Graphics g) {
-    }
+    /**
+     * A necessary method. Without it only the clock will be displayed.
+     * The reason is unknown.
+     *
+     * @param g abstract class for all graphics contexts to enable a program to draw
+     */
+    public void paintComponent(Graphics g) {}
 }

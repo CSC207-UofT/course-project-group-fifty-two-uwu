@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ScreenMainMenu extends JPanel{
+public class ScreenMainMenuDark extends JPanel{
     final private String START = "start";
     final private String INFO = "info";
     final private String EXIT = "exit";
@@ -29,16 +29,17 @@ public class ScreenMainMenu extends JPanel{
     private File pathNameExit = new File("src/main/resources/iconExit.png");
     private File pathNameNewUsename = new File("src/main/resources/iconNewUsername.png");
     private File pathNameChangeTheme = new File("src/main/resources/iconChangeTheme.png");
-    private File pathNameBackground = new File("src/main/resources/backgroundInGame.png");
+    private File pathNameBackground = new File("src/main/resources/backgroundInGameDark.png");
     private JLabel jLabel = new JLabel();
     private String username = "";
     private String event = "";
     private GameParameters gameParameters;
     private BufferedImage background;
 
-    public ScreenMainMenu() {
+    public ScreenMainMenuDark() {
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
         jLabel.setText(WELCOME + this.username);
+        jLabel.setForeground(Color.CYAN);
         jLabel.setBounds(210, 150, 300, 28);
         try {
             bufferedImage = ImageIO.read(pathNameStart);
