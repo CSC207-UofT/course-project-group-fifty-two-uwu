@@ -33,7 +33,7 @@ public class HitCounter extends JPanel{
     }
 
     /**
-     * The getter function for4 this.jLabel.
+     * The getter function for this.jLabel.
      *
      * @return a JLabel object
      */
@@ -41,6 +41,11 @@ public class HitCounter extends JPanel{
         return this.jLabel;
     }
 
+    /**
+     * Update the hit counter to the current number
+     *
+     * @param hits an integer, the hit counter
+     */
     public void update(int hits){
         this.jLabel.setText(Integer.toString(hits));
     }
