@@ -14,7 +14,7 @@ public class GameLogicTest extends TestCase {
     }
 
     public void testIterator() {
-        GameLogic gl = new GameLogic();
+        GameLogic gl = new GameLogic("aaa");
         Iterator<JPanel> it = gl.iterator();
         JPanel item;
         int count = 0;
