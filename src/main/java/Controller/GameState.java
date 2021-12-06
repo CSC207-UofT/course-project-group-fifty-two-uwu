@@ -5,6 +5,7 @@ import main.java.UI.Console;
 import main.java.UI.ScoreBoard;
 import main.java.UI.SoundEffect;
 import main.java.UseCases.GameLogic;
+import main.java.UseCases.Inspector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,6 +55,7 @@ public class GameState extends JFrame {
      */
     private final Console console; // Key input
     private final Canvas canvas; // Displays JPanels
+    private final Inspector inspector; //
     private final GameLogic gameLogic; // Assembles JPanels into an array
     private final GameParameters gameParameters; // A board to exchange game state values
     private final ScoreBoard scoreBoard; // A reader and a writer
@@ -106,7 +108,8 @@ public class GameState extends JFrame {
         this.iterator = gameLogic.iterator();
         this.console = new Console(this.mainFrame);
         this.gameParameters = new GameParameters();
-        this.canvas = new Canvas(this.mainFrame, gameParameters);
+        this.canvas = new Canvas(this.mainFrame);
+        this.inspector = new Inspector(this.mainFrame, this.gameParameters);
         this.startTime = System.currentTimeMillis();
     }
 
@@ -169,8 +172,8 @@ public class GameState extends JFrame {
                 this.doSomethingOnce = false;
                 this.gameParameters.setUsername(this.username);
                 this.gameLogic.update(this.gameState, this.theme);
-                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-                this.canvas.paint();
+                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 0){
@@ -193,8 +196,8 @@ public class GameState extends JFrame {
                 if (this.gameParameters.getEvent().equals(CHANGE_THEME)) {
                     changeTheme();
                     this.gameLogic.update(this.gameState, this.theme);
-                    this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-                    this.canvas.paint();
+                    this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                    this.canvas.update(this.iterator);
                     this.gameParameters.setEvent("");
                 }
                 else {
@@ -218,8 +221,8 @@ public class GameState extends JFrame {
                 this.doSomethingOnce = false;
                 this.gameParameters.pauseGame();
                 this.gameLogic.update(this.gameState, this.theme);
-                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-                this.canvas.paint();
+                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 1) {
@@ -255,8 +258,8 @@ public class GameState extends JFrame {
             if (doSomethingOnce) {
                 doSomethingOnce = false;
                 this.gameLogic.update(this.gameState, this.theme);
-                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-                this.canvas.paint();
+                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.update(this.iterator);
             }
             if (this.gameParameters.getEvent().length() > 1) {
                 setUsername(this.gameParameters.getEvent());
@@ -283,8 +286,8 @@ public class GameState extends JFrame {
                 gameLogic.update(this.gameState, this.theme);
                 scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
                 gameParameters.setTopFive(scoreBoard.topFive());
-                this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-                this.canvas.paint();
+                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 1) {
@@ -306,8 +309,8 @@ public class GameState extends JFrame {
         if (paintIsAllowed) {
             gameLogic.update(this.gameState, this.theme);
             this.setKeyPressed(console.getKeyPressed());
-            this.canvas.update(this.iterator, keyPressed, getTimeElapsed());
-            this.canvas.paint();
+            this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+            this.canvas.update(this.iterator);
         }
     }
 
