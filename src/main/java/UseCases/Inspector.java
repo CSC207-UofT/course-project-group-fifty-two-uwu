@@ -2,20 +2,55 @@ package main.java.UseCases;
 
 import main.java.Controller.GameParameters;
 import main.java.Entities.*;
-
 import javax.swing.*;
 import java.util.Iterator;
 
+/**
+ *  @author Yan
+ *  @version 2
+ *  @since December 5, 2021
+ *
+ * Scans the list of active JPanels and extracts events.
+ * <p>
+ * Informs Missiles of the current position of the target.
+ * Extracts from Missiles collision detection and passes
+ * this information to GameParameters.
+ * Informs HitCounter of the current number of hits.
+ * Injects reference to GameParameters into stationary
+ * JPanels which enables them record user input directly
+ * to GameParameters.
+ * Passes key pressed events to Pilot, which enables the
+ * Pilot to change position.
+ * Informs Pilot about Explosion since images for Pilot and
+ * Explosion are stored in the Pilot JPanel.
+ * Passes the current play time from GameParameters to Clock.
+ */
 public class Inspector {
-    private final GameParameters gameParameters;
-    private int targetX = 150;
-    private int targetY = 150;
+    private final GameParameters gameParameters; // a board to exchange events
+    private int targetX = 150; // initial position of the target
+    private int targetY = 150; // initial y coordinate of the target
 
-    public Inspector(JFrame jFrame, GameParameters gameParameters) {
+    /**
+     * @param gameParameters    class that stores game events
+     */
+    public Inspector(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
     }
 
-    public void update(Iterator<JPanel> iterator, int key, String timeElapsed) {
+    /**
+     * Updates Missiles with the current position of the target.
+     * Updates Clock with current game time.
+     * Updates HitCounter with the current number of hits.
+     * Injects stationary screens witha reference to GameParameters,
+     * which enables the listeners attached to these screens
+     * to record their events directly in GameParameters.
+     * Updates Pilot with the current keystrokes and the explosion
+     * event to move Pilot and display the explosion.
+     *
+     * @param iterator      an array of JPanel that are currently active
+     * @param key           integer for key pressed to navigate Pilot
+     */
+    public void update(Iterator<JPanel> iterator, int key) {
         JPanel jPanel;
         while (iterator.hasNext()) {
             jPanel = iterator.next();

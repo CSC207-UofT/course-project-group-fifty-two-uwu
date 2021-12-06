@@ -26,8 +26,8 @@ import javax.swing.*;
  * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
  * @author Terry
  * @author Edward
- * @version G
- * @since 1.0 November 7, 2021
+ * @version G2
+ * @since December 5, 2021
  */
 public class GameState extends JFrame {
     /**
@@ -109,7 +109,7 @@ public class GameState extends JFrame {
         this.console = new Console(this.mainFrame);
         this.gameParameters = new GameParameters();
         this.canvas = new Canvas(this.mainFrame);
-        this.inspector = new Inspector(this.mainFrame, this.gameParameters);
+        this.inspector = new Inspector(this.gameParameters);
         this.startTime = System.currentTimeMillis();
     }
 
@@ -172,7 +172,7 @@ public class GameState extends JFrame {
                 this.doSomethingOnce = false;
                 this.gameParameters.setUsername(this.username);
                 this.gameLogic.update(this.gameState, this.theme);
-                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.inspector.update(this.iterator, keyPressed);
                 this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
@@ -196,7 +196,7 @@ public class GameState extends JFrame {
                 if (this.gameParameters.getEvent().equals(CHANGE_THEME)) {
                     changeTheme();
                     this.gameLogic.update(this.gameState, this.theme);
-                    this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                    this.inspector.update(this.iterator, keyPressed);
                     this.canvas.update(this.iterator);
                     this.gameParameters.setEvent("");
                 }
@@ -221,7 +221,7 @@ public class GameState extends JFrame {
                 this.doSomethingOnce = false;
                 this.gameParameters.pauseGame();
                 this.gameLogic.update(this.gameState, this.theme);
-                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.inspector.update(this.iterator, keyPressed);
                 this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
@@ -258,7 +258,7 @@ public class GameState extends JFrame {
             if (doSomethingOnce) {
                 doSomethingOnce = false;
                 this.gameLogic.update(this.gameState, this.theme);
-                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.inspector.update(this.iterator, keyPressed);
                 this.canvas.update(this.iterator);
             }
             if (this.gameParameters.getEvent().length() > 1) {
@@ -286,7 +286,7 @@ public class GameState extends JFrame {
                 gameLogic.update(this.gameState, this.theme);
                 scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
                 gameParameters.setTopFive(scoreBoard.topFive());
-                this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+                this.inspector.update(this.iterator, keyPressed);
                 this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
@@ -309,7 +309,7 @@ public class GameState extends JFrame {
         if (paintIsAllowed) {
             gameLogic.update(this.gameState, this.theme);
             this.setKeyPressed(console.getKeyPressed());
-            this.inspector.update(this.iterator, keyPressed, getTimeElapsed());
+            this.inspector.update(this.iterator, keyPressed);
             this.canvas.update(this.iterator);
         }
     }
@@ -354,16 +354,6 @@ public class GameState extends JFrame {
             System.out.println("Writing error occurred when writing to stats.txt.");
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Returns a String with the number of seconds
-     * from the start of the game.
-     *
-     * @return  A String of elapsed seconds
-     */
-    public String getTimeElapsed(){
-        return String.valueOf((System.currentTimeMillis() - this.startTime)/1000);
     }
 
     private void changeTheme(){
