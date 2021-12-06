@@ -5,7 +5,6 @@
 ## Controls
 - Use the arrow keys to move up, down, left and right
 - Press ESC to pause the game
-- Once you paused the game, press any keys to continue the game or press ESC to quit the game
 
 ## Objective of the Game
 - Your objective it to get the highest score possible in the game. 
