@@ -10,7 +10,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * @author Yan Nowaczek
+ * @version 1
+ * @since December 2, 2021
+ *
+ * This is the class that creates the main menu screen for the game.
+ */
 public class ScreenMainMenu extends JPanel{
     final private String START = "start";
     final private String INFO = "info";
@@ -36,6 +42,10 @@ public class ScreenMainMenu extends JPanel{
     private GameParameters gameParameters;
     private BufferedImage background;
 
+    /**
+     * The main method, creates the gameover screen using jLabel and jButton.
+     * It will try to read some images, and if it fails, it will tell the user that the image is not found.
+     */
     public ScreenMainMenu() {
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
         jLabel.setText(WELCOME + this.username);
@@ -136,6 +146,11 @@ public class ScreenMainMenu extends JPanel{
         add(jLabel);
     }
 
+    /*
+     * A setter function for this.event.
+     *
+     * @param s the string that this.event will store.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -145,24 +160,72 @@ public class ScreenMainMenu extends JPanel{
     public void setEvent(String s){
         this.event = s;
     }
+
+    /*
+     * A setter function for this.username.
+     *
+     * @param s the string that this.username wll store.
+     */
     public void setUsername(String s){
         this.username = s;
         jLabel.setText(WELCOME + s);
-    };
+    }
+  
+    /*
+     * initializes and set this.gameParameters to the parameter given for the method.
+     *
+     * @param gameParameters the GamesParameters object that this.gameParameters will store.
+     */
     public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
+
+    /*
+     * A getter function for this.event.
+     *
+     * @return string stored in this.event.
+     */
     public String getEvent(){
         return this.event;
     }
+
+    /*
+     * A getter function for this.bStart.
+     *
+     * @return a JButton that is the button for start
+     */
     public JButton getBStart(){
         return this.bStart;
     }
+
+    /*
+     * A getter function for this.bInfo.
+     *
+     * @return a JButton that is the button for info
+     */
     public JButton getBInfo() {return this.bInfo;}
+
+    /*
+     * A getter function for this.bExit.
+     *
+     * @return a JButton that is the button for exit
+     */
     public JButton getBExit(){
         return this.bExit;
     }
+  
+    /*
+     * A getter function for this.jLabel.
+     *
+     * @return the jLabel object stored in this.jLabel
+     */
     public JLabel getJLabel(){
         return this.jLabel;
     }
+  
+    /*
+     * A getter function for username.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }

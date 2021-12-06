@@ -14,7 +14,6 @@ import java.io.IOException;
  */
 public class FactoryMissile extends Factory {
     private BufferedImage shape; // the image of the missile
-
     /**
      * Downloads images for the missile
      */
@@ -29,6 +28,7 @@ public class FactoryMissile extends Factory {
     }
 
     /**
+     * Creates a missile object and returns it.
      * Returns JPanel subclass Missile with given coordinates and direction vector.
      * The trajectory that the missile will follow is not known to this class.
      *

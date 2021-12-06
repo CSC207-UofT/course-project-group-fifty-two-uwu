@@ -3,6 +3,14 @@ package main.java.Entities;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+/**
+ * @author Yan Nowaczek
+ * @version 2
+ * @since November 23, 2021
+ *
+ * This class is of type JPanel so that they can be added to JFrame
+ * and displayed. This is the JPanel for the timer. This product class uses JLabel.
+ **/
 
 /**
  * Displays the seconds and 1/10 of the second of the game duration
@@ -18,7 +26,7 @@ import java.awt.*;
 public class Clock extends JPanel{
     private final JLabel jLabel = new JLabel(); // the clock is displayed as JLabel
 
-    /**
+    /*
      * Sets attributes to the clock and places it at the right bottom corner
      */
     public Clock(){
@@ -34,12 +42,18 @@ public class Clock extends JPanel{
         add(jLabel);
     }
 
+    /*
+     * Returns the component of the clock
+     *
+     * @return the jLabel components
+     */
     public JLabel getComponent(){
         return this.jLabel;
     }
 
-    /**
+    /*
      * Converts milliseconds to a string format
+     *
      * @param t long for milliseconds
      */
     public void updateClock(long t){
@@ -57,15 +71,17 @@ public class Clock extends JPanel{
         }
         update(minutes + ":" + seconds + "." + milliseconds);
     }
-    /**
-     * Updates the clock jLabel
+
+    /*
+     * a setter function to set the text in this.jLabel
+     *
      * @param gameTime string representation of the clock's milliseconds
      */
     public void update(String gameTime){
         this.jLabel.setText(gameTime);
     }
 
-    /**
+    /*
      * A necessary method. Without it only the clock will be displayed.
      * The reason is unknown.
      *

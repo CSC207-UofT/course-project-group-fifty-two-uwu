@@ -12,10 +12,16 @@ import java.io.IOException;
  * @version 3 last updated December 4, 2021
  * @since 1.0 November 23, 2021
  */
+
+/**
+ * FactorySputnik is the class used to create Sputniks
+ */
 public class FactorySputnik extends Factory {
     private BufferedImage shape; // image for Sputnik
 
-    /**
+    /*
+     * Main method, checks if the image file can be read. If it cannot be read, it will catch an error and tell
+     * the user that the image is not found.
      * Downloads images for the Sputnik
      */
     public FactorySputnik(){
@@ -27,11 +33,9 @@ public class FactorySputnik extends Factory {
             System.out.println("FactorySputnikDark did not find image missileSputnikDark.png");
         }
     }
-    /**
-     * Returns JPanel subclass Sputnik with given coordinates and a direction vector.
-     * The trajectory that the missile will follow is not known to this class. It is
-     * specified by the caller
-     *
+
+    /*
+     * Creates a Sputnik object
      * @param x     integer for x coordinate
      * @param y     integer for y coordinate
      * @param v     double for direction vector

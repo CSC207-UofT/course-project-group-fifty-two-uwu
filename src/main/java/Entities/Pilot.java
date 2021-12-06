@@ -16,6 +16,11 @@ import java.awt.image.BufferedImage;
  * @version C   last updated December 4, 2021
  * @since 1.0   created on November 10, 2021
  */
+
+/**
+ * This class is of type JPanel so that they can be added to JFrame and displayed on the user screen.
+ * This is the JPanel for the character/person that the user will be controlling.
+ **/
 public class Pilot extends JPanel {
     private int x; // x coordinate
     private int y; // y coordinate

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * This class is used to load and display the background of the game
  * Creates a background for the light theme.
  * It is important that this JPanel be added as the last
  * component to the JFrame because JFrame.repaint() paints

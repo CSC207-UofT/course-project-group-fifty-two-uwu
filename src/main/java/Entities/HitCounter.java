@@ -4,11 +4,22 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * @author Terry
+ * @version 4
+ * @since November 10, 2021
+ */
+
+/**
+ * This class is of type JPanel so that they can be added to JFrame
+ * and displayed. This is the JPanel for the timer. This product class uses JLabel.
+ */
 public class HitCounter extends JPanel{
-    //This class is of type JPanel so that they can be added to JFrame
-    //and displayed. This is the JPanel for the timer. This product class uses JLabel.
     private final JLabel jLabel = new JLabel();
 
+    /**
+     * The main method of the class,
+     */
     public HitCounter(){
         this.jLabel.setText("score");
         this.jLabel.setFont(new Font("SansSerif", Font.PLAIN, 36));
@@ -21,10 +32,20 @@ public class HitCounter extends JPanel{
         add(jLabel);
     }
 
+    /**
+     * The getter function for this.jLabel.
+     *
+     * @return a JLabel object
+     */
     public JLabel getComponent(){
         return this.jLabel;
     }
 
+    /**
+     * Update the hit counter to the current number
+     *
+     * @param hits an integer, the hit counter
+     */
     public void update(int hits){
         this.jLabel.setText(Integer.toString(hits));
     }

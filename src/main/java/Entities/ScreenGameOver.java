@@ -10,6 +10,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+/**
+ * @author Edward
+ * @version 1
+ * @since December 2, 2021
+ *
+ * This is the class that creates the gameover screen for the game.
+ */
 
 public class ScreenGameOver extends JPanel{
     final private String RETRY = "retry";
@@ -28,6 +35,10 @@ public class ScreenGameOver extends JPanel{
     private BufferedImage bufferedImage;
     private GameParameters gameParameters;
 
+    /**
+     * The main method, creates the gameover screen using jLabel and jButton.
+     * It will try to read some images, and if it fails, it will tell the user that the image is not found.
+     */
     public ScreenGameOver(){
         jLabel.setFont(new Font("MS Song", Font.BOLD, 32));
         jLabel.setText("");
@@ -89,6 +100,11 @@ public class ScreenGameOver extends JPanel{
         add(jLabelTopScores);
     }
 
+    /**
+     * Draw the Graphics object g and put it at (0, 0).
+     *
+     * @param g the graphics that will be drawn
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -96,10 +112,46 @@ public class ScreenGameOver extends JPanel{
     }
 
     public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
+
+    /**
+     * Setter function for this.event.
+     *
+     * @param s the string representation of the event you want to set for this.event
+     */
     public void setEvent(String s){this.event = s;}
+
+    /**
+     * Getter function for this.event.
+     *
+     * @return string stored in this.event
+     */
     public String getEvent(){return this.event;}
+
+    /**
+     * Getter function for this.bRetry
+     *
+     * @return the JButton stored in this.bRetry (the retry button)
+     */
     public JButton getBRetry(){return this.bRetry;}
+
+    /**
+     * Getter function for this.bExit.
+     *
+     * @return the JButton stored in this.bExit (the exit button)
+     */
     public JButton getBExit(){return this.bExit;}
+
+    /**
+     * Getter function for this.jLabel.
+     *
+     * @return the JLabel stored in this.jLabel
+     */
     public JLabel getJLabel(){return this.jLabel;}
+
+    /**
+     * Getter function for this.jLabelTopScores.
+     *
+     * @return the JLabel stored in this.jLabelTopScores
+     */
     public JLabel getJLabelTopScores(){return this.jLabelTopScores;}
 }

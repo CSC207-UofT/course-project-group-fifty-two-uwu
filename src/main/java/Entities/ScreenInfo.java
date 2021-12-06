@@ -10,7 +10,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * @author Edward
+ * @version 1
+ * @since December 2, 2021
+ *
+ * This is the class that creates the info screen for the game.
+ */
 public class ScreenInfo extends JPanel{
     final private String CONTINUE = "continue";
     final private String EXIT = "exit";
@@ -27,6 +33,10 @@ public class ScreenInfo extends JPanel{
     private BufferedImage bufferedImage;
     private GameParameters gameParameters;
 
+    /**
+     * The main method, creates the info screen using jLabel and jButton.
+     * It will try to read some images, and if it fails, it will tell the user that the image is not found.
+     */
     public ScreenInfo(){
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
         jLabel.setText("<html>Pause - ESC <br>Arrow Keys - Movement</html>");
@@ -78,21 +88,61 @@ public class ScreenInfo extends JPanel{
         add(jLabel);
     }
 
+    /**
+     * Draw the Graphics object g and put it at (0, 0).
+     *
+     * @param g the graphics that will be drawn
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
     }
 
+    /**
+     * initialize and set this.gameParameters to the parameter given for the method.
+     *
+     * @param gameParameters A GameParameters object that will be setting for this.gameParameters.
+     */
     public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
+
+    /**
+     * A setter function to set this.event.
+     *
+     * @param s the string representation of an event.
+     */
     public void setEvent(String s){
         this.event = s;
     }
+
+    /**
+     * A getter function for this.event.
+     *
+     * @return the value stored in this.event.
+     */
     public String getEvent(){
         return this.event;
     }
+
+    /**
+     * A getter function for this.bContinue.
+     *
+     * @return a JButton that is the button for continue.
+     */
     public JButton getBContinue(){return this.bContinue;}
+
+    /**
+     * A getter function for this.bExit.
+     *
+     * @return a JButton that is the button for exit.
+     */
     public JButton getBExit(){return this.bExit;}
+
+    /**
+     *A getter function for this.jLabel.
+     *
+     * @return the jLabel object stored in this.jLabel.
+     */
     public JLabel getJLabel(){
         return this.jLabel;
     }
