@@ -76,7 +76,7 @@ public class Missile extends JPanel {
         return this.x;
     }
 
-    /**
+    /*
      * Getter function for the y-coordinate of the missile
      *
      * @return the y-coordinate of the missile
@@ -91,6 +91,6 @@ public class Missile extends JPanel {
      * @return a boolean
      */
     public boolean isCollisionDetected(){
-        return distance < 3;
+        return distance < 4;
     }
 }

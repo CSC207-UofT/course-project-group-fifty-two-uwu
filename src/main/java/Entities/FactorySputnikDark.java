@@ -6,36 +6,32 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Manufactures JPanels of type Sputnik
- * @author Terry
+ * Manufactures JPanels of type Sputnik for the dark theme
+ *
  * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
- * @version 3 last updated December 4, 2021
- * @since 1.0 November 23, 2021
+ * @author Edward
+ * @version A never updated
+ * @since 1.0 December 4, 2021
  */
-
-/**
- * FactorySputnik is the class used to create Sputniks
- */
-public class FactorySputnik extends Factory {
+public class FactorySputnikDark extends Factory {
     private BufferedImage shape; // image for Sputnik
 
-    /*
-     * Main method, checks if the image file can be read. If it cannot be read, it will catch an error and tell
-     * the user that the image is not found.
-     * Downloads images for the Sputnik
+    /**
+     * Downloads image for Sputnik
      */
-    public FactorySputnik(){
+    public FactorySputnikDark(){
         try {
-            File pathName = new File("src/main/resources/missileSputnik.png");
+            File pathName = new File("src/main/resources/missileSputnikDark.png");
             shape = ImageIO.read(pathName);
         }
         catch (IOException e) {
-            System.out.println("FactorySputnikDark did not find image missileSputnikDark.png");
+            System.out.println("FactorySputnik did not find image missileSputnik");
         }
     }
-
-    /*
-     * Creates a Sputnik object
+    /**
+     * Returns JPanel subclass Sputnik with given coordinates and direction vector.
+     * The trajectory that the missile will follow is not known to this class.
+     *
      * @param x     integer for x coordinate
      * @param y     integer for y coordinate
      * @param v     double for direction vector

@@ -8,58 +8,90 @@ import java.util.Iterator;
 
 /**
  * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
- * @version 12 lat update December 2, 2021
+ * @version 13 last update December 3, 2021
  * @since November 9, 2021
  */
 public class GameLogic implements Iterable<JPanel>{
     /**
      * Creates a list of JPanels to be added to JFrame and displayed.
      * <p>
-     * Creates two array lists: one for JPanels and one for Booleans.
-     * The first list contains JPanels of three types:
+     * Creates three array lists: two for JPanels and one for Booleans.
+     * The first to lists contain JPanels of three types:
      * 1 - objects that move on their own and cannot be controlled by user;
      * 2 - objects that the user can move around (to avoid missiles);
      * 3 - stationary objects to get input from the user.
-     * The second list is of the same size and its boolean elements
+     * The third list is of the same size and its boolean elements
      * indicate that the JPanel with the same index is active at a given
      * stage of the game.
+     * <p>
+     * The first array of JPanels is for the light theme and the second
+     * for the dark theme.
+     * <p>
      * Implements iterator that allows other parts of the program to
      * scan all active JPanels.
      */
-    private final ArrayList<JPanel> jPanels = new ArrayList<>();
-    private final ArrayList<Boolean> booleans = new ArrayList<>();
-    private String username = ""; // username
-    private boolean gamePaused = false;
-    private final int STATE_GAME_PAUSE = 6;
-    private final int STATE_EXIT = 9;
+    private final ArrayList<JPanel> jPanels = new ArrayList<>(); // for the light theme
+    private final ArrayList<JPanel> jPanelsDark = new ArrayList<>(); // for the dark theme
+    private final ArrayList<Boolean> booleans = new ArrayList<>(); // for activating specific jPanels
+    private static String theme = "light"; // this default will be overwritten by GameState
 
     /**
      * Adds JPanels to the array of JPanels.
      * Adds true to the array of Booleans (one for each JPanel).
      */
-    public GameLogic(){
+    public GameLogic(String theme){
+        // names of strategies or trajectories followed by moving objects
+        String PATH_REGULAR = "regular";
+        String PATH_FAULTY = "faulty"; // at random the missiles navigates in the wrong direction
+
+        // Light theme
+
+        FactoryPilot factoryPilot = new FactoryPilot();
+        FactoryMissile factoryMissile = new FactoryMissile();
+        FactorySputnik factorySputnik = new FactorySputnik();
+
+        // temporary variable
         jPanels.add(new Clock());
         jPanels.add(new HitCounter());
-        jPanels.add(new Pilot());
+        jPanels.add(factoryPilot.getProduct(150, 150));
         jPanels.add(new ScreenGameOver());
         jPanels.add(new ScreenInfo());
         jPanels.add(new ScreenName());
         jPanels.add(new ScreenMainMenu());
 
-        FactoryMissile factoryMissile = new FactoryMissile();
-        FactorySputnik factorySputnik = new FactorySputnik();
-        // names of strategies or trajectories followed by moving objects
-        String PATH_REGULAR = "regular";
-        String PATH_FAULTY = "faulty";
         jPanels.add(factorySputnik.getProduct(10, 10, Math.PI/5, PATH_REGULAR));
         jPanels.add(factorySputnik.getProduct(-50, 800, Math.PI/5, PATH_REGULAR));
         jPanels.add(factoryMissile.getProduct(200, 100, Math.PI/5, PATH_FAULTY));
         jPanels.add(factoryMissile.getProduct(-1000, 1000, Math.PI/5, PATH_FAULTY));
         jPanels.add(factoryMissile.getProduct(1000, -1000, Math.PI/5, PATH_REGULAR));
         jPanels.add(new Background());
+
+        // Dark theme
+
+        FactoryPilotDark factoryPilotDark = new FactoryPilotDark();
+        FactoryMissileDark factoryMissileDark = new FactoryMissileDark();
+        FactorySputnikDark factorySputnikDark = new FactorySputnikDark();
+
+        jPanelsDark.add(new Clock());
+        jPanelsDark.add(new HitCounter());
+        jPanelsDark.add(factoryPilotDark.getProduct(150, 150));
+        jPanelsDark.add(new ScreenGameOver());
+        jPanelsDark.add(new ScreenInfo());
+        jPanelsDark.add(new ScreenName());
+        jPanelsDark.add(new ScreenMainMenuDark());
+
+        jPanelsDark.add(factorySputnikDark.getProduct(10, 10, Math.PI/5, PATH_REGULAR));
+        jPanelsDark.add(factorySputnikDark.getProduct(-50, 800, Math.PI/5, PATH_REGULAR));
+        jPanelsDark.add(factoryMissileDark.getProduct(200, 100, Math.PI/5, PATH_FAULTY));
+        jPanelsDark.add(factoryMissileDark.getProduct(-1000, 1000, Math.PI/5, PATH_FAULTY));
+        jPanelsDark.add(factoryMissileDark.getProduct(1000, -1000, Math.PI/5, PATH_REGULAR));
+        jPanelsDark.add(new BackgroundDark());
+
+        // match the size of the booleans with jPanels
         for (int i = 0; i < jPanels.size(); i++){
             booleans.add(true);
         }
+        GameLogic.theme = theme;
     }
 
     /**
@@ -67,7 +99,7 @@ public class GameLogic implements Iterable<JPanel>{
      * are displayable in a given stage or state of the game.
      * @param gameState     integer indicating the state of the game
      */
-    public void update(int gameState){
+    public void update(int gameState, String theme){
         int PANEL_GAME_OVER = 3;
         int PANEL_GAME_PAUSE = 4;
         int PANEL_GAME_NAME = 5;
@@ -101,13 +133,8 @@ public class GameLogic implements Iterable<JPanel>{
             setAllFalse();
             setItemTrue(PANEL_GAME_OVER);
         }
+        GameLogic.theme = theme;
     }
-
-    /**
-     * Sets username
-     * @param username  String username
-     */
-    public void setUserName(String username){this.username = username;}
 
     /**
      * This helper methods turns all JPanels on.
@@ -170,7 +197,12 @@ public class GameLogic implements Iterable<JPanel>{
      * @return          JPanel of the given index
      */
     private JPanel getJPanel(int index){
-        return this.jPanels.get(index);
+        if (theme.equals("dark")) {
+            return this.jPanelsDark.get(index);
+        }
+        else {
+            return this.jPanels.get(index);
+        }
     }
 
 
@@ -220,33 +252,5 @@ public class GameLogic implements Iterable<JPanel>{
         public JPanel next() {
             return getJPanel(current);
         }
-    }
-
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-        GameLogic gl = new GameLogic();
-        Iterator<JPanel> it = gl.iterator();
-        JPanel item;
-
-        System.out.print("[");
-        while (it.hasNext()){
-            item = it.next();
-            System.out.print(" x ");
-        }
-        System.out.println("]");
-
-        System.out.print("[");
-        while (it.hasNext()){
-            item = it.next();
-            System.out.print(" y ");
-        }
-        System.out.println("]");
-
-        System.out.print("[");
-        while (it.hasNext()){
-            item = it.next();
-            System.out.print(" z ");
-        }
-        System.out.println("]");
     }
 }

@@ -2,11 +2,19 @@ package main.java.Entities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+
 /**
+ * This class is of type JPanel so that it can be added and displayed on JFrame.
+ * It represents the character/person that the user will be controlling.
+ * It is used by both FactoryPilot and FactoryPilotDark
+ *
+ * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
  * @author Edward
- * @version 1
- * @since December 2, 2021
+ * @version C   last updated December 4, 2021
+ * @since 1.0   created on November 10, 2021
  */
 
 /**
@@ -14,81 +22,95 @@ import java.awt.image.BufferedImage;
  * This is the JPanel for the character/person that the user will be controlling.
  **/
 public class Pilot extends JPanel {
-
-    //
-    private int x;
-    private int y;
-    private BufferedImage shapePilot;
-    private BufferedImage shapeBoom;
-    private int speed;
-    private boolean boomOn = false;
+    private int x; // x coordinate
+    private int y; // y coordinate
+    private double v = 0.0; // direction vector
+    private final BufferedImage shapePilot; // image for the pilot
+    private final BufferedImage shapeBoom; // image for explosion
+    private boolean boomOn = false; // when true the explosion is displayed
 
     /**
-     *The main method, creates a FactoryPilot class and take the data from there to assign values to the class
-     * objects
+     * This JPanel gets coordinates from a calling class but
+     * BufferedImages are created at the factory
+     *
+     * @param x integer for x coordinate
+     * @param y integer for y coordinate
+     * @param shapePilot BufferedImage for the pilot
+     * @param shapeBoom BufferedImage for the explosion
      */
-    public Pilot(){
-        FactoryPilot factoryPilot =  new FactoryPilot();
-        this.x = factoryPilot.getX_axis();
-        this.y = factoryPilot.getY_axis();
-        this.shapePilot = factoryPilot.getShapePilot();
-        this.shapeBoom = factoryPilot.getShapeBoom();
-        this.speed = 10;
+    public Pilot(int x, int y, BufferedImage shapePilot, BufferedImage shapeBoom){
+        this.x = x;
+        this.y = y;
+        this.shapePilot = shapePilot;
+        this.shapeBoom = shapeBoom;
     }
 
     /**
-     * This method draws a Graphics class object, g, and put it at a certain coordinate
      *
-     * @param g the graphics that will be drawn
+     * @param g
      */
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(this.shapePilot, this.x, this.y, null);
+        int midX = this.shapePilot.getWidth() / 2;
+        int midY = this.shapePilot.getHeight() / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(this.v, midX, midY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        g2d.drawImage(op.filter(this.shapePilot, null), this.x, this.y,null);
         if (boomOn) {
             g2d.drawImage(this.shapeBoom, this.x - 5, this.y - 5, null);
         }
     }
 
     /**
-     * This method updates the placement of the pilot according to the key pressed in int by its speed.
-     * It also checks if the pilot is going out of the boundary of the game for its next placement.
-     * If so, the placement will be set to the limit instead of going beyond the limit.
+     * Changes the coordinates in response to key pressed.
+     * Calculates the direction of the movement.
+     * Makes sure the pilot stays within the JFrame.
      *
-     * @param key the key pressed in int
+     * @param key   integer value of the key pressed
      */
     public void update(int key){
-        if (key == 37){this.x = this.x - this.speed;} // Left Key
-        if (key == 38){this.y = this.y - this.speed;} // Down Key
-        if (key == 39){this.x = this.x + this.speed;} // Right Key
-        if (key == 40){this.y = this.y + this.speed;} // Up Key
+        int speed = 10;
+        double previousX = this.x;
+        double previousY = this.x;
+        // calculate the new position and direction
+        if (key == 37){ // Left Key
+            this.x = this.x - speed;
+            this.v = - Math.PI/2;
+        }
+        if (key == 38){ // Down Key
+            this.y = this.y - speed;
+            this.v = 0;
+        }
+        if (key == 39){ // Right Key
+            this.x = this.x + speed;
+            this.v = Math.PI/2;
+        }
+        if (key == 40){ // Up Key
+            this.y = this.y + speed;
+            this.v = - Math.PI;
+        }
+        // make sure the pilot does not get outside the JFrame
         if (this.x < 2){ this.x = 2;}
         if (this.x > 330){ this.x = 330;}
         if (this.y < 2){ this.y = 2;}
         if (this.y > 270){ this.y = 270;}
-        System.out.println(this.x + " " + this.y);
     }
 
-    /** Set this.boomOn to True or False according to the parameter boomOn
-     *
-     * @param boomOn a boolean, either True or False
+    /**
+     * Informs the class when to display the explosion
+     * @param boonOn    boolean indicating that the explosion image should be displayed
      */
-    public void setBoomOn(boolean boomOn){this.boomOn = boomOn;}
+    public void setBoomOn(boolean boonOn){this.boomOn = boonOn;}
 
-    /** check if boomOn is true
-     *
-     * @return boolean from boomOn
-     */
-    public boolean isBoomOn(){return boomOn;}
-
-    /** getter functions for this.x
-     *
-     * @return value for this.x
+    /**
+     * Returns the x coordinate
+     * @return  integer value of the x coordinate
      */
     public int getX(){return this.x;}
 
-    /** getter functions for this.x
-     *
-     * @return value for this.y
+    /**
+     * Returns the y coordinate
+     * @return  integer value of the y coordinate
      */
     public int getY(){return this.y;}
 }

@@ -6,20 +6,19 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Manufactures products of type missileSupper Light
+ * Manufactures products of type missileSupper Dark - suitable for the Dark theme
  *
- * @author Yan Nowaczek
- * @version B
- * @since 1.0 November 10, 2021
+ * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
+ * @author Edward
+ * @version A
+ * @since 1.0 December 3, 2021
  */
-public class FactoryMissile extends Factory {
+public class FactoryMissileDark extends Factory {
     private BufferedImage shape; // the image of the missile
-    /**
-     * Downloads images for the missile
-     */
-    public FactoryMissile(){
+    private File pathName = new File("src/main/resources/missileSuperDark.png");
+
+    public FactoryMissileDark(){
         try {
-            File pathName = new File("src/main/resources/missileSuper.png");
             shape = ImageIO.read(pathName);
         }
         catch (IOException e) {
@@ -28,7 +27,6 @@ public class FactoryMissile extends Factory {
     }
 
     /**
-     * Creates a missile object and returns it.
      * Returns JPanel subclass Missile with given coordinates and direction vector.
      * The trajectory that the missile will follow is not known to this class.
      *

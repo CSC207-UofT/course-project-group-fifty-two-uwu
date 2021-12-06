@@ -14,6 +14,7 @@ import java.util.*;
 public class ScoreBoard {
     private final String fileForName = "name.txt"; // to store this username
     private final String fileForScores = "scores.txt"; // to store names and scores
+    private final String fileForThemes = "scores.txt"; // to store names and scores
 
     /**
      * Stores this user's name and score in scores.txt
@@ -168,12 +169,43 @@ public class ScoreBoard {
                     }
                 }
             }
-//            System.out.println("result so far: ");
-//            for (int k = 0; k < result.size(); k++){
-//                System.out.println("result[" + k + "] = " + result.get(k).getStr() + " " + result.get(k).getNum());
-//            }
         }
         return result;
+    }
+
+    /**
+     * Records the theme selected by user
+     *
+     * @param theme     String for the game background: light or dark
+     */
+    public void writeTheme(String theme){
+        try {
+            FileWriter fileWriter = new FileWriter("theme.txt");
+            fileWriter.write(theme);
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Writing error occurred when writing to theme.txt.");
+            e.printStackTrace();
+        }
+    }
+
+    public String readTheme() throws IOException {
+        String text = "";
+        try {
+            File file = new File("theme.txt");
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                text = text + " " + scanner.nextLine();
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error occurred while reading theme.txt.");
+            FileWriter fileWriter = new FileWriter("theme.txt");
+            fileWriter.write("light");
+            fileWriter.close();
+            // e.printStackTrace();
+        }
+        return text.trim();
     }
 
     /**
