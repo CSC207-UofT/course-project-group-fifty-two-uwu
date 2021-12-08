@@ -1,7 +1,7 @@
 package main.java.Entities;
 
 /**
- * @author Edward
+ * @author Terry
  * @version 2
  * @since December 1, 2021
  */

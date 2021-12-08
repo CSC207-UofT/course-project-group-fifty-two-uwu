@@ -3,7 +3,7 @@ package main.java.Controller;
 /**
  * Serves as an exchange board or interface between GameState and JPanels
  *
- * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
+ * @author Edward
  * @version C
  * @since 1.0, November 25, 2021
  */
