@@ -22,11 +22,11 @@ import java.awt.image.BufferedImage;
  * This is the JPanel for the character/person that the user will be controlling.
  **/
 public class Pilot extends JPanel {
+    private final BufferedImage shapePilot; // image for the pilot
+    private final BufferedImage shapeBoom; // image for explosion
     private int x; // x coordinate
     private int y; // y coordinate
     private double v = 0.0; // direction vector
-    private final BufferedImage shapePilot; // image for the pilot
-    private final BufferedImage shapeBoom; // image for explosion
     private boolean boomOn = false; // when true the explosion is displayed
 
     /**

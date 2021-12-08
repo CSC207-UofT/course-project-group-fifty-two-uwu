@@ -12,13 +12,13 @@ import java.awt.image.BufferedImage;
  */
 public class Sputnik extends JPanel {
 
+    private final BufferedImage shape;
+    private final Steerable flightPath;
+    private final String PATH_FAULTY = "faulty";
     private int x;
     private int y;
     private double vector;
-    private final BufferedImage shape;
-    private final Steerable flightPath;
     private double distance;
-    private final String PATH_FAULTY = "faulty";
 
     public Sputnik(int x, int y, double v, BufferedImage img, String route) {
         this.x = x;

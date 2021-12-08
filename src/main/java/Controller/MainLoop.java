@@ -33,7 +33,7 @@ public class MainLoop {
         GameState gameState = new GameState();
         long awakeTime = System.currentTimeMillis(); // time to move on with the game
         while (!gameIsOver) {
-            if (System.currentTimeMillis() >=  awakeTime) {
+            if (System.currentTimeMillis() >= awakeTime) {
                 gameState.update(); // prompt class GameState to update itself
                 awakeTime += sleepTime; // time for next action
                 if (gameState.getGameState() == 9) { // user wants to exit

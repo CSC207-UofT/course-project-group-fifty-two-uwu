@@ -19,10 +19,10 @@ import java.io.IOException;
 public class ScreenInfo extends JPanel {
     final private String CONTINUE = "continue";
     final private String EXIT = "exit";
-    private String event = "";
     private final JButton bContinue = new JButton("Continue");
     private final JButton bExit = new JButton("Exit");
     private final JLabel jLabel = new JLabel();
+    private String event = "";
     private ImageIcon imageIconExit;
     private Image background;
     private GameParameters gameParameters;
@@ -100,21 +100,21 @@ public class ScreenInfo extends JPanel {
     }
 
     /**
-     * A setter function to set this.event.
-     *
-     * @param s the string representation of an event.
-     */
-    public void setEvent(String s) {
-        this.event = s;
-    }
-
-    /**
      * A getter function for this.event.
      *
      * @return the value stored in this.event.
      */
     public String getEvent() {
         return this.event;
+    }
+
+    /**
+     * A setter function to set this.event.
+     *
+     * @param s the string representation of an event.
+     */
+    public void setEvent(String s) {
+        this.event = s;
     }
 
     /**

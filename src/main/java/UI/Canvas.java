@@ -6,15 +6,15 @@ import java.util.Iterator;
 public class Canvas {
     private final JFrame jFrame;
 
-    public Canvas(JFrame jFrame){
+    public Canvas(JFrame jFrame) {
         this.jFrame = jFrame;
         this.jFrame.setVisible(true);
     }
 
-    public void update(Iterator<JPanel> iterator){
+    public void update(Iterator<JPanel> iterator) {
         this.jFrame.getContentPane().removeAll();
         this.jFrame.getContentPane().revalidate();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             this.jFrame.getContentPane().add(iterator.next());
             this.jFrame.revalidate();
         }

@@ -30,32 +30,6 @@ public class GameParameters {
     }
 
     /**
-     * Notifies of the collision
-     * Sets boomOn and collisionDetected to true
-     * Sets the time when the collision period ends
-     *
-     * @param collisionDetected boolean
-     */
-    public void setCollisionDetected(boolean collisionDetected) {
-        this.collisionDetected = collisionDetected;
-        this.boomOn = collisionDetected;
-        if (collisionDetected) {
-            // only one collision allowed within this time
-            long immunity = 300;
-            collisionResumeTime = System.currentTimeMillis() + immunity;
-        }
-    }
-
-    /**
-     * Notifies that the collision is in progress
-     *
-     * @param collisionPaused boolean
-     */
-    public void setCollisionPaused(boolean collisionPaused) {
-        this.collisionPaused = collisionPaused;
-    }
-
-    /**
      * Informs if collision has been detected and sets
      * the collisionDetected to false in order to prevent the program
      * from playing the explosion audio clips repeatedly
@@ -69,6 +43,23 @@ public class GameParameters {
             return outcome;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Notifies of the collision
+     * Sets boomOn and collisionDetected to true
+     * Sets the time when the collision period ends
+     *
+     * @param collisionDetected boolean
+     */
+    public void setCollisionDetected(boolean collisionDetected) {
+        this.collisionDetected = collisionDetected;
+        this.boomOn = collisionDetected;
+        if (collisionDetected) {
+            // only one collision allowed within this time
+            long immunity = 300;
+            collisionResumeTime = System.currentTimeMillis() + immunity;
         }
     }
 
@@ -95,6 +86,15 @@ public class GameParameters {
      */
     public boolean isCollisionPaused() {
         return collisionPaused;
+    }
+
+    /**
+     * Notifies that the collision is in progress
+     *
+     * @param collisionPaused boolean
+     */
+    public void setCollisionPaused(boolean collisionPaused) {
+        this.collisionPaused = collisionPaused;
     }
 
     /**
@@ -138,24 +138,16 @@ public class GameParameters {
         this.gameStarted = true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setTopFive(String str) {
-        this.topFive = str;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
     public void setHits() {
         this.hits++;
     }
 
     public String getUsername() {
         return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public long getGameTime() {
@@ -170,11 +162,19 @@ public class GameParameters {
         return this.event;
     }
 
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
     public int getHits() {
         return this.hits;
     }
 
     public String getTopFive() {
         return this.topFive;
+    }
+
+    public void setTopFive(String str) {
+        this.topFive = str;
     }
 }

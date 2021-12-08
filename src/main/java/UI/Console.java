@@ -7,7 +7,7 @@ public class Console implements KeyListener, ActionListener, MouseMotionListener
     //captures the integer values of keys pressed by the user
     private int keyPressed;
 
-    public Console(JFrame jFrame){
+    public Console(JFrame jFrame) {
         jFrame.addKeyListener(this);
     }
 
@@ -44,7 +44,7 @@ public class Console implements KeyListener, ActionListener, MouseMotionListener
 
     }
 
-    public int getKeyPressed(){
+    public int getKeyPressed() {
         int temp = this.keyPressed;
         this.keyPressed = 0;
         return temp;

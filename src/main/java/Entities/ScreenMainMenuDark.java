@@ -120,21 +120,16 @@ public class ScreenMainMenuDark extends JPanel {
         g.drawImage(background, 0, 0, null);
     }
 
-    public void setEvent(String s) {
-        this.event = s;
-    }
-
-    public void setUsername(String s) {
-        this.username = s;
-        jLabel.setText(WELCOME + s);
-    }
-
     public void injectGameParameters(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
     }
 
     public String getEvent() {
         return this.event;
+    }
+
+    public void setEvent(String s) {
+        this.event = s;
     }
 
     public JButton getBStart() {
@@ -155,5 +150,10 @@ public class ScreenMainMenuDark extends JPanel {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String s) {
+        this.username = s;
+        jLabel.setText(WELCOME + s);
     }
 }

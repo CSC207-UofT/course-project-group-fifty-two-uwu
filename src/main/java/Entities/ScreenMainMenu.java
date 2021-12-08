@@ -24,11 +24,6 @@ public class ScreenMainMenu extends JPanel {
     final private String CHANGE_THEME = "changeTheme";
     final private String WELCOME = "Welcome \u4f60\u597d ";
     private final JButton bStart;
-
-    {
-        bStart = new JButton("Start");
-    }
-
     private final JButton bInfo = new JButton("Info");
     private final JButton bExit = new JButton("Exit");
     private final JLabel jLabel = new JLabel();
@@ -36,6 +31,10 @@ public class ScreenMainMenu extends JPanel {
     private String event = "";
     private GameParameters gameParameters;
     private BufferedImage background;
+
+    {
+        bStart = new JButton("Start");
+    }
 
     /**
      * The main method, creates the GameOver screen using jLabel and jButton.
@@ -140,20 +139,6 @@ public class ScreenMainMenu extends JPanel {
         g.drawImage(background, 0, 0, null);
     }
 
-    public void setEvent(String s) {
-        this.event = s;
-    }
-
-    /*
-     * A setter function for this.username.
-     *
-     * @param s the string that this.username wll store.
-     */
-    public void setUsername(String s) {
-        this.username = s;
-        jLabel.setText(WELCOME + s);
-    }
-
     /*
      * initializes and set this.gameParameters to the parameter given for the method.
      *
@@ -170,6 +155,10 @@ public class ScreenMainMenu extends JPanel {
      */
     public String getEvent() {
         return this.event;
+    }
+
+    public void setEvent(String s) {
+        this.event = s;
     }
 
     /*
@@ -215,5 +204,15 @@ public class ScreenMainMenu extends JPanel {
      */
     public String getUsername() {
         return username;
+    }
+
+    /*
+     * A setter function for this.username.
+     *
+     * @param s the string that this.username wll store.
+     */
+    public void setUsername(String s) {
+        this.username = s;
+        jLabel.setText(WELCOME + s);
     }
 }

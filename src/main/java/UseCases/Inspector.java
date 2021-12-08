@@ -2,14 +2,15 @@ package main.java.UseCases;
 
 import main.java.Controller.GameParameters;
 import main.java.Entities.*;
+
 import javax.swing.*;
 import java.util.Iterator;
 
 /**
- *  @author Yan
- *  @version 2
- *  @since December 5, 2021
- *
+ * @author Yan
+ * @version 2
+ * @since December 5, 2021
+ * <p>
  * Scans the list of active JPanels and extracts events.
  * <p>
  * Informs Missiles of the current position of the target.
@@ -31,7 +32,7 @@ public class Inspector {
     private int targetY = 150; // initial y coordinate of the target
 
     /**
-     * @param gameParameters    class that stores game events
+     * @param gameParameters class that stores game events
      */
     public Inspector(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
@@ -47,8 +48,8 @@ public class Inspector {
      * Updates Pilot with the current keystrokes and the explosion
      * event to move Pilot and display the explosion.
      *
-     * @param iterator      an array of JPanel that are currently active
-     * @param key           integer for key pressed to navigate Pilot
+     * @param iterator an array of JPanel that are currently active
+     * @param key      integer for key pressed to navigate Pilot
      */
     public void update(Iterator<JPanel> iterator, int key) {
         JPanel jPanel;
