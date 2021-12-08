@@ -2,7 +2,7 @@ package main.java.Controller;
 
 import main.java.UI.Canvas;
 import main.java.UI.Console;
-import main.java.UI.ScoreBoard;
+import main.java.UI.FileManager;
 import main.java.UI.SoundEffect;
 import main.java.UseCases.GameLogic;
 import main.java.UseCases.Inspector;
@@ -46,7 +46,7 @@ public class GameState extends JFrame {
     private final Inspector inspector; //
     private final GameLogic gameLogic; // Assembles JPanels into an array
     private final GameParameters gameParameters; // A board to exchange game state values
-    private final ScoreBoard scoreBoard; // A reader and a writer
+    private final FileManager fileManager; // A reader and a writer
     private final Iterator<JPanel> iterator; // An array of active JPanels
     private final SoundEffect soundEffect = new SoundEffect();
 
@@ -88,8 +88,8 @@ public class GameState extends JFrame {
         else {
             gameState = STATE_GAME_START;
         }
-        this.scoreBoard = new ScoreBoard();
-        this.theme = this.scoreBoard.readTheme();
+        this.fileManager = new FileManager();
+        this.theme = this.fileManager.readTheme();
         if (this.theme.equals("")) {this.theme = "light";} // default
         this.gameLogic = new GameLogic(this.theme);
         this.iterator = gameLogic.iterator();
@@ -285,8 +285,8 @@ public class GameState extends JFrame {
             if (doSomethingOnce) {
                 doSomethingOnce = false;
                 gameLogic.update(this.gameState, this.theme);
-                scoreBoard.addScore(this.username, Integer.parseInt(gameParameters.getScore()));
-                gameParameters.setTopFive(scoreBoard.topFive());
+                fileManager.addScore(this.username, Integer.parseInt(gameParameters.getScore()));
+                gameParameters.setTopFive(fileManager.topFive());
                 this.inspector.update(this.iterator, keyPressed);
                 this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
@@ -365,7 +365,7 @@ public class GameState extends JFrame {
         else if (this.theme.equals("dark")){
             this.theme = "light";
         }
-        this.scoreBoard.writeTheme(this.theme);
+        this.fileManager.writeTheme(this.theme);
     }
 
     public void setUsername(String s){this.username = s;}

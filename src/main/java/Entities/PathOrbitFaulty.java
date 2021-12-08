@@ -43,7 +43,8 @@ public class PathOrbitFaulty implements Steerable {
     public void update(int x, int y, double v, int targetX, int targetY){
         this.x = x;
         this.y = y;
-        int swap; // a temporary variable for swapping target coordinates
+        int swap1; // a temporary variable for swapping target coordinates
+        int swap2; // a temporary variable for swapping target coordinates
         boolean isLeft;
 
 
@@ -60,13 +61,17 @@ public class PathOrbitFaulty implements Steerable {
         }
         else { // swap target coordinates
             bug--;
-            swap = targetX;
-            targetX = targetY;
-            targetY = swap;
+            swap1 = targetX;
+            swap2 = targetY;
+            targetX = swap2;
+            targetY = swap1;
             // arbitrary change for special case when swap does not do anything
-            if (targetX == targetY){
-                targetX = 300;
-                targetY = 400;
+            double a = targetX;
+            double b = targetY;
+            // avoid situation when x and y are close to each other
+            if (Math.sqrt((targetX*targetX) - (targetY*targetY)) < 20){ // distance less than 20
+                targetX = targetX + 100; // move x to a new arbitrary position
+                targetY = targetY + 100; // move y to a new arbitrary position
             }
         }
         /*
