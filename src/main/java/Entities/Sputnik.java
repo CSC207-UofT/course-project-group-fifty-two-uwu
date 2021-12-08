@@ -20,16 +20,15 @@ public class Sputnik extends JPanel {
     private double distance;
     private final String PATH_FAULTY = "faulty";
 
-    public Sputnik(int x, int y, double v, BufferedImage img, String route){
+    public Sputnik(int x, int y, double v, BufferedImage img, String route) {
         this.x = x;
         this.y = y;
         this.vector = v;
         this.shape = img;
         String PATH_REGULAR = "regular";
-        if (route.equals(PATH_REGULAR)){
+        if (route.equals(PATH_REGULAR)) {
             flightPath = new PathFall();
-        }
-        else {
+        } else {
             flightPath = new PathOrbitFaulty();
         }
     }
@@ -45,7 +44,7 @@ public class Sputnik extends JPanel {
         int midY = this.shape.getHeight() / 2;
         AffineTransform tx = AffineTransform.getRotateInstance(this.vector, midX, midY);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        g2d.drawImage(op.filter(this.shape, null), this.x, this.y,null);
+        g2d.drawImage(op.filter(this.shape, null), this.x, this.y, null);
     }
 
     /**
@@ -60,8 +59,8 @@ public class Sputnik extends JPanel {
         this.x = flightPath.getX();
         this.y = flightPath.getY();
         this.vector = flightPath.getV();
-        this.distance = Math.sqrt( ((this.x - targetX)*(this.x - targetX)) +
-                ((this.y - targetY)*(this.y - targetY)));
+        this.distance = Math.sqrt(((this.x - targetX) * (this.x - targetX)) +
+                ((this.y - targetY) * (this.y - targetY)));
     }
 
     /**
@@ -69,7 +68,7 @@ public class Sputnik extends JPanel {
      *
      * @return the x-coordinate of the missile
      */
-    public int getX(){
+    public int getX() {
         return this.x;
     }
 
@@ -78,7 +77,7 @@ public class Sputnik extends JPanel {
      *
      * @return the y-coordinate of the missile
      */
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
@@ -87,7 +86,7 @@ public class Sputnik extends JPanel {
      *
      * @return a boolean
      */
-    public boolean isCollisionDetected(){
+    public boolean isCollisionDetected() {
         return distance < 10;
     }
 }

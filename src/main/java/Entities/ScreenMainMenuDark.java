@@ -9,16 +9,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ScreenMainMenuDark extends JPanel{
+public class ScreenMainMenuDark extends JPanel {
     final private String START = "start";
     final private String INFO = "info";
     final private String EXIT = "exit";
     final private String NEW_USER_NAME = "newUsername";
     final private String CHANGE_THEME = "changeTheme";
     final private String WELCOME = "Welcome \u4f60\u597d ";
-    private final JButton bStart =new JButton("Start");
-    private final JButton bInfo =new JButton("Info");
-    private final JButton bExit =new JButton("Exit");
+    private final JButton bStart = new JButton("Start");
+    private final JButton bInfo = new JButton("Info");
+    private final JButton bExit = new JButton("Exit");
     private final JLabel jLabel = new JLabel();
     private String username = "";
     private String event = "";
@@ -35,24 +35,21 @@ public class ScreenMainMenuDark extends JPanel{
             File pathNameStart = new File("src/main/resources/iconStart.png");
             bufferedImage = ImageIO.read(pathNameStart);
             bStart.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for iconStart not found");
         }
         try {
             File pathNameInfo = new File("src/main/resources/iconInfo.png");
             bufferedImage = ImageIO.read(pathNameInfo);
             bInfo.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for iconInfo not found");
         }
         try {
             File pathNameExit = new File("src/main/resources/iconExit.png");
             bufferedImage = ImageIO.read(pathNameExit);
             bExit.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for iconExit not found");
         }
         JButton bNewUsername = new JButton("New User");
@@ -60,8 +57,7 @@ public class ScreenMainMenuDark extends JPanel{
             File pathNameNewUsename = new File("src/main/resources/iconNewUsername.png");
             bufferedImage = ImageIO.read(pathNameNewUsename);
             bNewUsername.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for iconNewUser not found");
         }
         JButton bChangeTheme = new JButton("Change Theme");
@@ -69,16 +65,14 @@ public class ScreenMainMenuDark extends JPanel{
             File pathNameChangeTheme = new File("src/main/resources/iconChangeTheme.png");
             bufferedImage = ImageIO.read(pathNameChangeTheme);
             bChangeTheme.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for iconChangeTheme not found");
         }
         try {
             File pathNameBackground = new File("src/main/resources/backgroundInGameDark.png");
             background = ImageIO.read(pathNameBackground);
             // bChangeTheme.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for backgroundInGame not found");
         }
         bStart.addActionListener(e -> {
@@ -126,28 +120,39 @@ public class ScreenMainMenuDark extends JPanel{
         g.drawImage(background, 0, 0, null);
     }
 
-    public void setEvent(String s){
+    public void setEvent(String s) {
         this.event = s;
     }
-    public void setUsername(String s){
+
+    public void setUsername(String s) {
         this.username = s;
         jLabel.setText(WELCOME + s);
     }
 
-    public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
-    public String getEvent(){
+    public void injectGameParameters(GameParameters gameParameters) {
+        this.gameParameters = gameParameters;
+    }
+
+    public String getEvent() {
         return this.event;
     }
-    public JButton getBStart(){
+
+    public JButton getBStart() {
         return this.bStart;
     }
-    public JButton getBInfo() {return this.bInfo;}
-    public JButton getBExit(){
+
+    public JButton getBInfo() {
+        return this.bInfo;
+    }
+
+    public JButton getBExit() {
         return this.bExit;
     }
-    public JLabel getJLabel(){
+
+    public JLabel getJLabel() {
         return this.jLabel;
     }
+
     public String getUsername() {
         return username;
     }

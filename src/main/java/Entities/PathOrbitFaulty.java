@@ -23,7 +23,7 @@ public class PathOrbitFaulty implements Steerable {
      * determines if the steerable moves towards to target;
      * if not isOnTarget then adjusts the direction by ANGLE; and
      * calculates new coordinates based on DELTA.
-     *
+     * <p>
      * The method also generates a random integer with range
      * 0 to BUG_FREQUENCY*4 - 1;
      * if the random number is the maximum, then assigns
@@ -34,13 +34,13 @@ public class PathOrbitFaulty implements Steerable {
      * position, which simulates a faulty navigation system of
      * the steerable.
      *
-     * @param x     x coordinate of the steerable
-     * @param y     y coordinate of the steerable
-     * @param v     direction of the steerable
-     * @param targetX    x coordinate of the target
-     * @param targetY    y coordinate of the target
+     * @param x       x coordinate of the steerable
+     * @param y       y coordinate of the steerable
+     * @param v       direction of the steerable
+     * @param targetX x coordinate of the target
+     * @param targetY y coordinate of the target
      */
-    public void update(int x, int y, double v, int targetX, int targetY){
+    public void update(int x, int y, double v, int targetX, int targetY) {
         this.x = x;
         this.y = y;
         int swap1; // a temporary variable for swapping target coordinates
@@ -55,11 +55,10 @@ public class PathOrbitFaulty implements Steerable {
               with swapped coordinates. Must be greater than 1.
              */
             int BUG_FREQUENCY = 60;
-            if (BUG_FREQUENCY *2 - 1 == (int)(Math.random() * (BUG_FREQUENCY *2 - 1)) + 1) {
+            if (BUG_FREQUENCY * 2 - 1 == (int) (Math.random() * (BUG_FREQUENCY * 2 - 1)) + 1) {
                 bug = BUG_FREQUENCY;
             }
-        }
-        else { // swap target coordinates
+        } else { // swap target coordinates
             bug--;
             swap1 = targetX;
             swap2 = targetY;
@@ -69,7 +68,7 @@ public class PathOrbitFaulty implements Steerable {
             double a = targetX;
             double b = targetY;
             // avoid situation when x and y are close to each other
-            if (Math.sqrt((targetX*targetX) - (targetY*targetY)) < 20){ // distance less than 20
+            if (Math.sqrt((targetX * targetX) - (targetY * targetY)) < 20) { // distance less than 20
                 targetX = targetX + 100; // move x to a new arbitrary position
                 targetY = targetY + 100; // move y to a new arbitrary position
             }
@@ -88,7 +87,7 @@ public class PathOrbitFaulty implements Steerable {
         double ay = this.y;
         double bx = ax + 100 * Math.cos(this.v); //second point for vector ab
         double by = ay + 100 * Math.sin(this.v);
-        isLeft = ((bx-ax)*(targetY-ay) - (by-ay)*(targetX-ax)) < 0;
+        isLeft = ((bx - ax) * (targetY - ay) - (by - ay) * (targetX - ax)) < 0;
         boolean isOnTarget;
         double temp;
         /*
@@ -96,10 +95,10 @@ public class PathOrbitFaulty implements Steerable {
           Since c^2 = a^2 + b^2 -2ab*cos angle
           Therefore angle = cos-1 (a^2 + b^2 - c^2)/(-2ab)
          */
-        double ab = Math.sqrt((bx - ax)*(bx - ax) + (by - ay)*(by - ay));
-        double ac = Math.sqrt((targetX - ax)*(targetX - ax) + (targetY - ay)*(targetY - ay));
-        double bc = Math.sqrt((targetX - bx)*(targetX - bx) + (targetY - by)*(targetY - by));
-        temp = Math.acos((ab*ab + ac*ac - bc*bc)/((1)*(2*ab*ac)));
+        double ab = Math.sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
+        double ac = Math.sqrt((targetX - ax) * (targetX - ax) + (targetY - ay) * (targetY - ay));
+        double bc = Math.sqrt((targetX - bx) * (targetX - bx) + (targetY - by) * (targetY - by));
+        temp = Math.acos((ab * ab + ac * ac - bc * bc) / ((1) * (2 * ab * ac)));
         /*
           Is there a need to adjust the direction?
           Note that Math.PI/80 = 2.25 degrees
@@ -110,11 +109,10 @@ public class PathOrbitFaulty implements Steerable {
         /*
           Calculate the new value for direction vector
          */
-        if(!isOnTarget){
-            if(isLeft){
+        if (!isOnTarget) {
+            if (isLeft) {
                 this.v -= ANGLE;
-            }
-            else {
+            } else {
                 this.v += ANGLE;
             }
         }
@@ -127,15 +125,15 @@ public class PathOrbitFaulty implements Steerable {
         this.y += DELTA * Math.sin(this.v);
     }
 
-    public int getX(){
+    public int getX() {
         return this.x;
     }
 
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
-    public double getV(){
+    public double getV() {
         return this.v;
     }
 

@@ -18,13 +18,13 @@ public class PathOrbit implements Steerable {
      * if not isOnTarget then adjusts the direction by ANGLE; and
      * calculates new coordinates based on DELTA.
      *
-     * @param x     x coordinate of the steerable
-     * @param y     y coordinate of the steerable
-     * @param v     direction of the steerable
-     * @param targetX    x coordinate of the target
-     * @param targetY    y coordinate of the target
+     * @param x       x coordinate of the steerable
+     * @param y       y coordinate of the steerable
+     * @param v       direction of the steerable
+     * @param targetX x coordinate of the target
+     * @param targetY y coordinate of the target
      */
-    public void update(int x, int y, double v, int targetX, int targetY){
+    public void update(int x, int y, double v, int targetX, int targetY) {
         boolean isLeft;
         this.x = x;
         this.y = y;
@@ -42,18 +42,18 @@ public class PathOrbit implements Steerable {
         double ay = this.y;
         double bx = ax + 100 * Math.cos(this.v); //second point for vector ab
         double by = ay + 100 * Math.sin(this.v);
-        isLeft = ((bx-ax)*(targetY-ay) - (by-ay)*(targetX-ax)) < 0;
+        isLeft = ((bx - ax) * (targetY - ay) - (by - ay) * (targetX - ax)) < 0;
         boolean isOnTarget;
         /*
           Calculate the angle between ab and ac using the cosine law.
           Since c^2 = a^2 + b^2 -2ab*cos angle
           Therefore angle = cos-1 (a^2 + b^2 - c^2)/(-2ab)
          */
-        double ab = Math.sqrt((bx - ax)*(bx - ax) + (by - ay)*(by - ay));
-        double ac = Math.sqrt((targetX - ax)*(targetX - ax) + (targetY - ay)*(targetY - ay));
-        double bc = Math.sqrt((targetX - bx)*(targetX - bx) + (targetY - by)*(targetY - by));
+        double ab = Math.sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
+        double ac = Math.sqrt((targetX - ax) * (targetX - ax) + (targetY - ay) * (targetY - ay));
+        double bc = Math.sqrt((targetX - bx) * (targetX - bx) + (targetY - by) * (targetY - by));
         double temp;
-        temp = Math.acos((ab*ab + ac*ac - bc*bc)/((1)*(2*ab*ac)));
+        temp = Math.acos((ab * ab + ac * ac - bc * bc) / ((1) * (2 * ab * ac)));
         /*
           Is there a need to adjust the direction?
           Note that Math.PI/80 = 2.25 degrees
@@ -64,11 +64,10 @@ public class PathOrbit implements Steerable {
         /*
           Calculate the new value for direction vector
          */
-        if(!isOnTarget){
-            if(isLeft){
+        if (!isOnTarget) {
+            if (isLeft) {
                 this.v -= ANGLE;
-            }
-            else {
+            } else {
                 this.v += ANGLE;
             }
         }
@@ -81,15 +80,15 @@ public class PathOrbit implements Steerable {
         this.y += DELTA * Math.sin(this.v);
     }
 
-    public int getX(){
+    public int getX() {
         return this.x;
     }
 
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
-    public double getV(){
+    public double getV() {
         return this.v;
     }
 }

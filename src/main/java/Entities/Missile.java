@@ -5,32 +5,32 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+
 /**
  * @author Yan Nowaczek
  * @version 2
  * @since November 23, 2021
- *
+ * <p>
  * This class is of type JPanel so that they can be added to JFrame
  * and displayed. This is the JPanel of the missile.
  */
 public class Missile extends JPanel {
+    private final BufferedImage shape;
+    private final Steerable flightPath;
     private int x;
     private int y;
     private double vector;
-    private final BufferedImage shape;
-    private final Steerable flightPath;
     private double distance;
 
-    public Missile(int x, int y, double v, BufferedImage img, String route){
+    public Missile(int x, int y, double v, BufferedImage img, String route) {
         this.x = x;
         this.y = y;
         this.vector = v;
         this.shape = img;
         String PATH_FAULTY = "faulty";
-        if (route.equals(PATH_FAULTY)){
+        if (route.equals(PATH_FAULTY)) {
             flightPath = new PathOrbitFaulty();
-        }
-        else {
+        } else {
             flightPath = new PathOrbit();
         }
     }
@@ -47,7 +47,7 @@ public class Missile extends JPanel {
         int midY = this.shape.getHeight() / 2;
         AffineTransform tx = AffineTransform.getRotateInstance(this.vector, midX, midY);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        g2d.drawImage(op.filter(this.shape, null), this.x, this.y,null);
+        g2d.drawImage(op.filter(this.shape, null), this.x, this.y, null);
     }
 
     /**
@@ -57,13 +57,13 @@ public class Missile extends JPanel {
      * @param targetX the x-coordinate of the target
      * @param targetY the y-coordinate of the target
      */
-    public void update(int targetX, int targetY){
+    public void update(int targetX, int targetY) {
         flightPath.update(this.x, this.y, this.vector, targetX, targetY);
         this.x = flightPath.getX();
         this.y = flightPath.getY();
         this.vector = flightPath.getV();
-        this.distance = Math.sqrt( ((this.x - targetX)*(this.x - targetX)) +
-                ((this.y - targetY)*(this.y - targetY)));
+        this.distance = Math.sqrt(((this.x - targetX) * (this.x - targetX)) +
+                ((this.y - targetY) * (this.y - targetY)));
     }
 
     /**
@@ -71,7 +71,7 @@ public class Missile extends JPanel {
      *
      * @return the x-coordinate of the missile
      */
-    public int getX(){
+    public int getX() {
         return this.x;
     }
 
@@ -80,7 +80,7 @@ public class Missile extends JPanel {
      *
      * @return the y-coordinate of the missile
      */
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
@@ -89,7 +89,7 @@ public class Missile extends JPanel {
      *
      * @return a boolean
      */
-    public boolean isCollisionDetected(){
+    public boolean isCollisionDetected() {
         return distance < 4;
     }
 }

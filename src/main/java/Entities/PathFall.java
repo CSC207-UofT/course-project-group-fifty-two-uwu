@@ -21,11 +21,11 @@ public class PathFall implements Steerable {
      * y < 0. The new direction is towards the current target and will
      * not change. This simulates a falling object.
      *
-     * @param x     x coordinate of the steerable
-     * @param y     y coordinate of the steerable
-     * @param v     direction of the steerable
-     * @param targetX    x coordinate of the target
-     * @param targetY    y coordinate of the target
+     * @param x       x coordinate of the steerable
+     * @param y       y coordinate of the steerable
+     * @param v       direction of the steerable
+     * @param targetX x coordinate of the target
+     * @param targetY y coordinate of the target
      */
     public void update(int x, int y, double v, int targetX, int targetY) {
         this.x = x;
@@ -62,15 +62,15 @@ public class PathFall implements Steerable {
         this.y += DELTA * Math.sin(this.v);
     }
 
-    public int getX(){
+    public int getX() {
         return this.x;
     }
 
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
-    public double getV(){
+    public double getV() {
         return this.v;
     }
 

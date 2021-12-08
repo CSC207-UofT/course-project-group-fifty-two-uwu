@@ -14,13 +14,13 @@ import java.awt.*;
  * This class is of type JPanel so that they can be added to JFrame
  * and displayed. This is the JPanel for the timer. This product class uses JLabel.
  */
-public class HitCounter extends JPanel{
+public class HitCounter extends JPanel {
     private final JLabel jLabel = new JLabel();
 
     /**
      * The main method of the class,
      */
-    public HitCounter(){
+    public HitCounter() {
         this.jLabel.setText("score");
         this.jLabel.setFont(new Font("SansSerif", Font.PLAIN, 36));
         this.jLabel.setOpaque(false);
@@ -37,7 +37,7 @@ public class HitCounter extends JPanel{
      *
      * @param hits an integer, the hit counter
      */
-    public void update(int hits){
+    public void update(int hits) {
         this.jLabel.setText(Integer.toString(hits));
     }
 

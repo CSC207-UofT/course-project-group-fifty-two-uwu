@@ -8,37 +8,37 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 /**
  * @author Edward
  * @version 1
  * @since December 2, 2021
- *
+ * <p>
  * This is the class that creates the GameOver screen for the game.
  */
 
-public class ScreenGameOver extends JPanel{
+public class ScreenGameOver extends JPanel {
     final private String RETRY = "retry";
     final private String EXIT = "exit";
-    private String event = "";
-    private final JButton bRetry =new JButton("Retry");
-    private final JButton bExit =new JButton("Exit");
+    private final JButton bRetry = new JButton("Retry");
+    private final JButton bExit = new JButton("Exit");
     private final JLabel jLabel = new JLabel();
     private final JLabel jLabelTopScores = new JLabel();
     private final File pathBackground;
+    private String event = "";
+    //    private ImageIcon imageIconContinue;
+    private Image background;
+    private GameParameters gameParameters;
 
     {
         pathBackground = new File("src/main/resources/backgroundMainMenu.png");
     }
 
-    //    private ImageIcon imageIconContinue;
-    private Image background;
-    private GameParameters gameParameters;
-
     /**
      * The main method, creates the GameOver screen using jLabel and jButton.
      * It will try to read some images, and if it fails, it will tell the user that the image is not found.
      */
-    public ScreenGameOver(){
+    public ScreenGameOver() {
         jLabel.setFont(new Font("MS Song", Font.BOLD, 32));
         jLabel.setText("");
         jLabel.setBounds(210, 150, 300, 100);
@@ -46,35 +46,26 @@ public class ScreenGameOver extends JPanel{
         jLabelTopScores.setBounds(270, 420, 300, 110);
         String text = "<html>14 sec ... Terry1Alpha<br>8 sec ...... \u6536\u503a\u6d41\u6c13<br>" +
                 "7 sec ...... \u9ebb\u8fa3\u9999\u9505<br>2 sec ...... apple8ball<br>2 sec ...... Yanrexx</html>";
-//        String text = "<html>1. Terry1Alpha 24<br>2. \u6536\u503a\u6d41\u6c13 8<br>" +
-//                "3. \u9ebb\u8fa3\u9999\u9505 7<br>4. apple8ball 2<br>5. Yanrexx 2</html>";
-//        String text = "<html><ul>" +
-//                "<li>24 - Terry1Alpha</li><li>8 - \u6536\u503a\u6d41\u6c13</li>" +
-//                "<li>7 - \u9ebb\u8fa3\u9999\u9505</li><li>D</li>" +
-//                "<li>E</li></ul></html>";
         jLabelTopScores.setText(text);
         BufferedImage bufferedImage;
         try {
             File pathNameRetry = new File("src/main/resources/iconRetry.png");
             bufferedImage = ImageIO.read(pathNameRetry);
             bRetry.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for ProductInfo Exit not found");
         }
         try {
             File pathNameExit = new File("src/main/resources/iconExit.png");
             bufferedImage = ImageIO.read(pathNameExit);
             bExit.setIcon(new ImageIcon(bufferedImage));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for ProductInfo Exit not found");
         }
         try {
             bufferedImage = ImageIO.read(pathBackground);
             background = bufferedImage;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image for ProductInfo Exit not found");
         }
         bRetry.addActionListener(e -> {
@@ -107,47 +98,61 @@ public class ScreenGameOver extends JPanel{
         g.drawImage(background, 0, 0, null);
     }
 
-    public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
-
-    /**
-     * Setter function for this.event.
-     *
-     * @param s the string representation of the event you want to set for this.event
-     */
-    public void setEvent(String s){this.event = s;}
+    public void injectGameParameters(GameParameters gameParameters) {
+        this.gameParameters = gameParameters;
+    }
 
     /**
      * Getter functions for this.event.
      *
      * @return string stored in this.event
      */
-    public String getEvent(){return this.event;}
+    public String getEvent() {
+        return this.event;
+    }
+
+    /**
+     * Setter function for this.event.
+     *
+     * @param s the string representation of the event you want to set for this.event
+     */
+    public void setEvent(String s) {
+        this.event = s;
+    }
 
     /**
      * Getter functions for this.bRetry
      *
      * @return the JButton stored in this.bRetry (the retry button)
      */
-    public JButton getBRetry(){return this.bRetry;}
+    public JButton getBRetry() {
+        return this.bRetry;
+    }
 
     /**
      * Getter functions for this.bExit.
      *
      * @return the JButton stored in this.bExit (the exit button)
      */
-    public JButton getBExit(){return this.bExit;}
+    public JButton getBExit() {
+        return this.bExit;
+    }
 
     /**
      * Getter functions for this.jLabel.
      *
      * @return the JLabel stored in this.jLabel
      */
-    public JLabel getJLabel(){return this.jLabel;}
+    public JLabel getJLabel() {
+        return this.jLabel;
+    }
 
     /**
      * Getter functions for this.jLabelTopScores.
      *
      * @return the JLabel stored in this.jLabelTopScores
      */
-    public JLabel getJLabelTopScores(){return this.jLabelTopScores;}
+    public JLabel getJLabelTopScores() {
+        return this.jLabelTopScores;
+    }
 }

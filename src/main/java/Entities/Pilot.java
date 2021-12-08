@@ -33,12 +33,12 @@ public class Pilot extends JPanel {
      * This JPanel gets coordinates from a calling class but
      * BufferedImages are created at the factory
      *
-     * @param x integer for x coordinate
-     * @param y integer for y coordinate
+     * @param x          integer for x coordinate
+     * @param y          integer for y coordinate
      * @param shapePilot BufferedImage for the pilot
-     * @param shapeBoom BufferedImage for the explosion
+     * @param shapeBoom  BufferedImage for the explosion
      */
-    public Pilot(int x, int y, BufferedImage shapePilot, BufferedImage shapeBoom){
+    public Pilot(int x, int y, BufferedImage shapePilot, BufferedImage shapeBoom) {
         this.x = x;
         this.y = y;
         this.shapePilot = shapePilot;
@@ -46,7 +46,6 @@ public class Pilot extends JPanel {
     }
 
     /**
-     *
      * @param g JavaGraphics
      */
     public void paintComponent(Graphics g) {
@@ -55,7 +54,7 @@ public class Pilot extends JPanel {
         int midY = this.shapePilot.getHeight() / 2;
         AffineTransform tx = AffineTransform.getRotateInstance(this.v, midX, midY);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        g2d.drawImage(op.filter(this.shapePilot, null), this.x, this.y,null);
+        g2d.drawImage(op.filter(this.shapePilot, null), this.x, this.y, null);
         if (boomOn) {
             g2d.drawImage(this.shapeBoom, this.x - 5, this.y - 5, null);
         }
@@ -66,49 +65,66 @@ public class Pilot extends JPanel {
      * Calculates the direction of the movement.
      * Makes sure the pilot stays within the JFrame.
      *
-     * @param key   integer value of the key pressed
+     * @param key integer value of the key pressed
      */
-    public void update(int key){
+    public void update(int key) {
         int speed = 10;
         // calculate the new position and direction
-        if (key == 37){ // Left Key
+        if (key == 37) { // Left Key
             this.x = this.x - speed;
-            this.v = - Math.PI/2;
+            this.v = -Math.PI / 2;
         }
-        if (key == 38){ // Down Key
+        if (key == 38) { // Down Key
             this.y = this.y - speed;
             this.v = 0;
         }
-        if (key == 39){ // Right Key
+        if (key == 39) { // Right Key
             this.x = this.x + speed;
-            this.v = Math.PI/2;
+            this.v = Math.PI / 2;
         }
-        if (key == 40){ // Up Key
+        if (key == 40) { // Up Key
             this.y = this.y + speed;
-            this.v = - Math.PI;
+            this.v = -Math.PI;
         }
         // make sure the pilot does not get outside the JFrame
-        if (this.x < 2){ this.x = 2;}
-        if (this.x > 330){ this.x = 330;}
-        if (this.y < 2){ this.y = 2;}
-        if (this.y > 270){ this.y = 270;}
+        if (this.x < 2) {
+            this.x = 2;
+        }
+        if (this.x > 330) {
+            this.x = 330;
+        }
+        if (this.y < 2) {
+            this.y = 2;
+        }
+        if (this.y > 270) {
+            this.y = 270;
+        }
     }
 
     /**
      * Informs the class when to display the explosion
-     * @param boonOn    boolean indicating that the explosion image should be displayed
+     *
+     * @param boonOn boolean indicating that the explosion image should be displayed
      */
-    public void setBoomOn(boolean boonOn){this.boomOn = boonOn;}
+    public void setBoomOn(boolean boonOn) {
+        this.boomOn = boonOn;
+    }
 
     /**
      * Returns the x coordinate
-     * @return  integer value of the x coordinate
+     *
+     * @return integer value of the x coordinate
      */
-    public int getX(){return this.x;}
+    public int getX() {
+        return this.x;
+    }
 
     /**
      * Returns the y coordinate
-     * @return  integer value of the y coordinate
+     *
+     * @return integer value of the y coordinate
      */
-    public int getY(){return this.y;}
+    public int getY() {
+        return this.y;
+    }
 }

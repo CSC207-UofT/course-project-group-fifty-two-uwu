@@ -17,7 +17,6 @@ import java.io.IOException;
  * @author Edward
  * @version 2.2     December 3, 2021
  * @since 1.0
- *
  */
 public class FactoryPilot {
     private BufferedImage shapePilot = null; // image for pilot
@@ -26,19 +25,17 @@ public class FactoryPilot {
     /**
      * Downloads images for the pilot and the explosion.
      */
-    public FactoryPilot(){
+    public FactoryPilot() {
         try {
             File pathNamePilot = new File("src/main/resources/pilot.png");
             shapePilot = ImageIO.read(pathNamePilot);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("FactoryPilot: Image for pilot.png not found");
         }
         try {
             File pathNameBoom = new File("src/main/resources/explosion.png");
             shapeBoom = ImageIO.read(pathNameBoom);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("FactoryPilot: Image for explosion.png not found");
         }
     }
@@ -47,11 +44,17 @@ public class FactoryPilot {
      * These four methods allow other parts of the program to access
      * coordinates and the images.
      *
-     * @return  coordinates and buffered images
+     * @return coordinates and buffered images
      */
-    public BufferedImage getShapePilot(){return this.shapePilot;}
-    public BufferedImage getShapeBoom(){return this.shapeBoom;}
-    public Pilot getProduct(int x, int y){
+    public BufferedImage getShapePilot() {
+        return this.shapePilot;
+    }
+
+    public BufferedImage getShapeBoom() {
+        return this.shapeBoom;
+    }
+
+    public Pilot getProduct(int x, int y) {
         return new Pilot(x, y, this.shapePilot, this.shapeBoom);
     }
 }

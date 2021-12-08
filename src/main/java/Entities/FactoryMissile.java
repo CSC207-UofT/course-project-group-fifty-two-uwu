@@ -14,15 +14,15 @@ import java.io.IOException;
  */
 public class FactoryMissile extends Factory {
     private BufferedImage shape; // the image of the missile
+
     /**
      * Downloads images for the missile
      */
-    public FactoryMissile(){
+    public FactoryMissile() {
         try {
             File pathName = new File("src/main/resources/missileSuper.png");
             shape = ImageIO.read(pathName);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Image missileSupper.png for FactoryMissile not found");
         }
     }
@@ -36,9 +36,9 @@ public class FactoryMissile extends Factory {
      * @param y     integer for y coordinate
      * @param v     double for direction vector
      * @param route string for the name of specific trajectory for this missile
-     * @return      class Missile which is a subclass of JPanel for displaying in JFrame
+     * @return class Missile which is a subclass of JPanel for displaying in JFrame
      */
-    public Missile getProduct(int x, int y, double v, String route){
+    public Missile getProduct(int x, int y, double v, String route) {
         return new Missile(x, y, v, shape, route);
     }
 }

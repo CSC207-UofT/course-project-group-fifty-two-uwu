@@ -22,6 +22,7 @@ public class GameParameters {
 
     /**
      * Sets the time when the game started in milliseconds
+     *
      * @param startTime long for start time
      */
     public void setStartTime(long startTime) {
@@ -32,12 +33,13 @@ public class GameParameters {
      * Notifies of the collision
      * Sets boomOn and collisionDetected to true
      * Sets the time when the collision period ends
+     *
      * @param collisionDetected boolean
      */
     public void setCollisionDetected(boolean collisionDetected) {
         this.collisionDetected = collisionDetected;
         this.boomOn = collisionDetected;
-        if (collisionDetected){
+        if (collisionDetected) {
             // only one collision allowed within this time
             long immunity = 300;
             collisionResumeTime = System.currentTimeMillis() + immunity;
@@ -46,6 +48,7 @@ public class GameParameters {
 
     /**
      * Notifies that the collision is in progress
+     *
      * @param collisionPaused boolean
      */
     public void setCollisionPaused(boolean collisionPaused) {
@@ -56,15 +59,15 @@ public class GameParameters {
      * Informs if collision has been detected and sets
      * the collisionDetected to false in order to prevent the program
      * from playing the explosion audio clips repeatedly
+     *
      * @return boolean
      */
-    public boolean isCollisionDetected(){
+    public boolean isCollisionDetected() {
         if (System.currentTimeMillis() > collisionResumeTime) {
             boolean outcome = this.collisionDetected;
             setCollisionDetected(false);
             return outcome;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -73,32 +76,34 @@ public class GameParameters {
      * Informs that the explosion happened. It does so only once to
      * prevent the system from playing video clips of setting the explosion
      * to visible repeatedly
+     *
      * @return boolean
      */
-    public boolean isBoomOn(){
+    public boolean isBoomOn() {
         if (System.currentTimeMillis() > this.collisionResumeTime) {
             this.boomOn = false;
             return false;
-        }
-        else {
+        } else {
             return this.boomOn;
         }
     }
 
     /**
      * Informs that the collision period is in progress
+     *
      * @return boolean
      */
-    public boolean isCollisionPaused(){
+    public boolean isCollisionPaused() {
         return collisionPaused;
     }
 
     /**
      * Returns the number of seconds passed since the start of the game
+     *
      * @return String value of seconds
      */
-    public String getScore(){
-        long secondsPassed = (System.currentTimeMillis() - this.startTime)/1000;
+    public String getScore() {
+        long secondsPassed = (System.currentTimeMillis() - this.startTime) / 1000;
         return String.valueOf(secondsPassed);
     }
 
@@ -106,7 +111,7 @@ public class GameParameters {
      * Sets parameters to default value, preventing GameState from detecting
      * same event repeatedly
      */
-    public void clear(){
+    public void clear() {
         this.hits = 0;
         this.event = "";
         this.gameStarted = false;
@@ -115,7 +120,7 @@ public class GameParameters {
     /**
      * Adjusts the start time and the pause time after the game resumes
      */
-    public void resumeGame(){
+    public void resumeGame() {
         if (this.gameStarted) {
             this.startTime = this.startTime + (System.currentTimeMillis() - this.pauseTime);
             this.pauseTime = 0;
@@ -125,16 +130,51 @@ public class GameParameters {
     /**
      * These methods update and get parameters of the game
      */
-    public void pauseGame(){this.pauseTime = System.currentTimeMillis();}
-    public void startGame(){this.gameStarted = true;}
-    public void setUsername(String username){this.username = username;}
-    public void setTopFive(String str){this.topFive = str;}
-    public void setEvent(String event){this.event = event;}
-    public void setHits(){this.hits++;}
-    public String getUsername(){return this.username;}
-    public long getGameTime(){return System.currentTimeMillis() - this.startTime;}
-    public boolean isGameStarted(){return this.gameStarted;}
-    public String getEvent(){return this.event;}
-    public int getHits(){return this.hits;}
-    public String getTopFive(){return this.topFive;}
+    public void pauseGame() {
+        this.pauseTime = System.currentTimeMillis();
+    }
+
+    public void startGame() {
+        this.gameStarted = true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setTopFive(String str) {
+        this.topFive = str;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public void setHits() {
+        this.hits++;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public long getGameTime() {
+        return System.currentTimeMillis() - this.startTime;
+    }
+
+    public boolean isGameStarted() {
+        return this.gameStarted;
+    }
+
+    public String getEvent() {
+        return this.event;
+    }
+
+    public int getHits() {
+        return this.hits;
+    }
+
+    public String getTopFive() {
+        return this.topFive;
+    }
 }

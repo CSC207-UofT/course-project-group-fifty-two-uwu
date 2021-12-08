@@ -24,12 +24,11 @@ public class FactorySputnik extends Factory {
      * the user that the image is not found.
      * Downloads images for the Sputnik
      */
-    public FactorySputnik(){
+    public FactorySputnik() {
         try {
             File pathName = new File("src/main/resources/missileSputnik.png");
             shape = ImageIO.read(pathName);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("FactorySputnikDark did not find image missileSputnikDark.png");
         }
     }
@@ -42,7 +41,7 @@ public class FactorySputnik extends Factory {
      * @param route string for the name of specific trajectory for this missile
      * @return      class Sputnik which is a subclass of JPanel for displaying in JFrame
      */
-    public Sputnik getProduct(int x, int y, double v, String route){
+    public Sputnik getProduct(int x, int y, double v, String route) {
         return new Sputnik(x, y, v, shape, route);
     }
 }

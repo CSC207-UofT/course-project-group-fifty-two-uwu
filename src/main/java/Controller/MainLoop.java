@@ -8,7 +8,7 @@ import java.io.IOException;
  * @author Edward
  * @version 3
  * @since December 2, 2021
- *
+ * <p>
  * This class is where the game starts. It contains only main().
  */
 public class MainLoop {
@@ -24,7 +24,7 @@ public class MainLoop {
      * It then calls on GameState to update itself and falls asleep for
      * the period of sleep time.
      *
-     * @param args      unused standard parameters of main()
+     * @param args unused standard parameters of main()
      */
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         long sleepTime = 18; // update every 18 milliseconds
@@ -32,15 +32,14 @@ public class MainLoop {
         // create a new game
         GameState gameState = new GameState();
         long awakeTime = System.currentTimeMillis(); // time to move on with the game
-        while(!gameIsOver){
-            while(System.currentTimeMillis() < awakeTime) {
-                // idle time
-            }
-            gameState.update(); // prompt class GameState to update itself
-            awakeTime += sleepTime; // time for next action
-            if (gameState.getGameState() == 9){ // user wants to exit
-                gameState.closeMainFrame();
-                gameIsOver = true;
+        while (!gameIsOver) {
+            if (System.currentTimeMillis() >=  awakeTime) {
+                gameState.update(); // prompt class GameState to update itself
+                awakeTime += sleepTime; // time for next action
+                if (gameState.getGameState() == 9) { // user wants to exit
+                    gameState.closeMainFrame();
+                    gameIsOver = true;
+                }
             }
         }
         System.out.println("Game finished");

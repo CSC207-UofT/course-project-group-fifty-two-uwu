@@ -3,11 +3,14 @@ package main.java.Entities;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+
 /**
-  @author Yan Nowaczek
- * @version 2
+ * @author Yan Nowaczek
+ * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
+ * @author Edward
+ * @version B   December 3, 2021
  * @since November 23, 2021
- *
+ * <p>
  * This class is of type JPanel so that they can be added to JFrame
  * and displayed. This is the JPanel for the timer. This product class uses JLabel.
  * <p>
@@ -15,19 +18,15 @@ import java.awt.*;
  * The seconds a user survives represents the score.
  * <p>
  * This class is of type JPanel. It can be added to JFrame and displayed.
- *
- * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
- * @author Edward
- * @version B   December 3, 2021
  * @since 1.0   November 10, 2021
  */
-public class Clock extends JPanel{
+public class Clock extends JPanel {
     private final JLabel jLabel = new JLabel(); // the clock is displayed as JLabel
 
     /**
      * Sets attributes to the clock and places it at the right bottom corner
      */
-    public Clock(){
+    public Clock() {
         this.jLabel.setText("clock");
         this.jLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
         this.jLabel.setOpaque(true);
@@ -45,7 +44,7 @@ public class Clock extends JPanel{
      *
      * @param t long for milliseconds
      */
-    public void updateClock(long t){
+    public void updateClock(long t) {
         t = t / 100;
         String milliseconds = String.valueOf(t % 10);
         t = t / 10;
@@ -66,7 +65,7 @@ public class Clock extends JPanel{
      *
      * @param gameTime string representation of the clock's milliseconds
      */
-    public void update(String gameTime){
+    public void update(String gameTime) {
         this.jLabel.setText(gameTime);
     }
 
@@ -76,5 +75,6 @@ public class Clock extends JPanel{
      *
      * @param g abstract class for all graphics contexts to enable a program to draw
      */
-    public void paintComponent(Graphics g) {}
+    public void paintComponent(Graphics g) {
+    }
 }

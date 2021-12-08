@@ -9,10 +9,10 @@ import java.awt.*;
  * @author Terry
  * @version 2
  * @since December 7, 2021
- *
+ * <p>
  * This is the class that creates the name screen for the game.
  */
-public class ScreenName extends JPanel{
+public class ScreenName extends JPanel {
     private final JLabel jLabelInfo = new JLabel();
     private GameParameters gameParameters;
 
@@ -22,7 +22,7 @@ public class ScreenName extends JPanel{
      * If the player's username character count is <2 or >16,
      * and an error will appear below the input box.
      */
-    public ScreenName(){
+    public ScreenName() {
         final String NAME_RESTRICTION = "<html>At least 2 and at most 16 characters required<br>\u81f3\u5c11" + "" +
                 "\u0020\u0032\u0020\u4e2a\uff0c\u6700\u591a\u0020\u0031\u0036\u0020\u4e2a\u5b57\u7b26</html>";
         final String NAME_ENTER = "Enter your name | \u4f60\u7684\u540d\u5b57";
@@ -31,11 +31,10 @@ public class ScreenName extends JPanel{
         textField.setText("");
         textField.setBounds(200, 200, 240, 28);
         textField.addActionListener(event -> {
-            if (event.getActionCommand().length() > 1 && event.getActionCommand().length() < 17){
+            if (event.getActionCommand().length() > 1 && event.getActionCommand().length() < 17) {
                 gameParameters.setEvent(event.getActionCommand());
                 setJLabelInfoVisible(false);
-            }
-            else {
+            } else {
                 setJLabelInfoVisible(true);
             }
         });
@@ -55,7 +54,7 @@ public class ScreenName extends JPanel{
         add(this.jLabelInfo);
     }
 
-    private void setJLabelInfoVisible(boolean isVisible){
+    private void setJLabelInfoVisible(boolean isVisible) {
         this.jLabelInfo.setVisible(isVisible);
     }
 
@@ -64,8 +63,11 @@ public class ScreenName extends JPanel{
      *
      * @param gameParameters the GamesParameters object that this.gameParameters will store.
      */
-    public void injectGameParameters(GameParameters gameParameters){this.gameParameters = gameParameters;}
+    public void injectGameParameters(GameParameters gameParameters) {
+        this.gameParameters = gameParameters;
+    }
 
     @Override
-    public void paintComponent(Graphics g) {}
+    public void paintComponent(Graphics g) {
+    }
 }

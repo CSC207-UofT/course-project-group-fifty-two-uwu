@@ -7,14 +7,15 @@ import main.java.UI.SoundEffect;
 import main.java.UseCases.GameLogic;
 import main.java.UseCases.Inspector;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
-import javax.sound.sampled.*;
-import javax.swing.*;
 
 /**
  * GameState keeps track of the game stage, the position of the image that the user
@@ -84,13 +85,14 @@ public class GameState extends JFrame {
         this.getUserName();
         if (this.username.equals("")) {
             gameState = STATE_USER_NAME;
-        }
-        else {
+        } else {
             gameState = STATE_GAME_START;
         }
         this.fileManager = new FileManager();
         this.theme = this.fileManager.readTheme();
-        if (this.theme.equals("")) {this.theme = "light";} // default
+        if (this.theme.equals("")) {
+            this.theme = "light";
+        } // default
         this.gameLogic = new GameLogic(this.theme);
         this.iterator = gameLogic.iterator();
         this.console = new Console(this.mainFrame);
@@ -107,7 +109,7 @@ public class GameState extends JFrame {
      * The user will be directed to input screen if
      * no name is in stats.txt
      */
-    public void getUserName(){
+    public void getUserName() {
         try {
             File file = new File("stats.txt");
             Scanner scanner = new Scanner(file);
@@ -140,10 +142,10 @@ public class GameState extends JFrame {
         // This state terminates the program, the variable is passed to MainLoop
         int STATE_EXIT = 9;
         if (this.gameState == STATE_IN_PROGRESS) {
-            if (gameParameters.isCollisionDetected()){
+            if (gameParameters.isCollisionDetected()) {
                 gameParameters.setHits();
                 this.soundEffect.playSoundEffect(this.gameState);
-                if (gameParameters.getHits() > 10){
+                if (gameParameters.getHits() > 10) {
                     this.gameState = STATE_GAME_OVER;
                 }
             }
@@ -169,7 +171,7 @@ public class GameState extends JFrame {
                 this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
-            if (this.gameParameters.getEvent().length() > 0){
+            if (this.gameParameters.getEvent().length() > 0) {
                 /*
                   These are Strings to capture events
                  */
@@ -180,16 +182,13 @@ public class GameState extends JFrame {
                     gameParameters.setStartTime(System.currentTimeMillis());
                     gameParameters.startGame();
                     gameState = STATE_IN_PROGRESS;
-                }
-                else if (this.gameParameters.getEvent().equals(NEW_USER_NAME)) {
+                } else if (this.gameParameters.getEvent().equals(NEW_USER_NAME)) {
                     System.out.println("GameState >>> gameState get new username");
                     gameState = STATE_USER_NAME;
-                }
-                else if (this.gameParameters.getEvent().equals(INFO)) {
+                } else if (this.gameParameters.getEvent().equals(INFO)) {
                     System.out.println("GameState >>> gameState get new username");
                     gameState = STATE_GAME_PAUSE;
-                }
-                else if (this.gameParameters.getEvent().equals(EXIT)) {
+                } else if (this.gameParameters.getEvent().equals(EXIT)) {
                     gameState = STATE_EXIT;
                 }
                 String CHANGE_THEME = "changeTheme";
@@ -199,8 +198,7 @@ public class GameState extends JFrame {
                     this.inspector.update(this.iterator, keyPressed);
                     this.canvas.update(this.iterator);
                     this.gameParameters.setEvent("");
-                }
-                else {
+                } else {
                     this.gameParameters.setEvent("");
                     paintIsAllowed = true;
                     doSomethingOnce = true;
@@ -228,17 +226,15 @@ public class GameState extends JFrame {
             if (this.gameParameters.getEvent().length() > 1) {
                 String CONTINUE = "continue";
                 if (this.gameParameters.getEvent().equals(CONTINUE)) {
-                    if (this.gameParameters.isGameStarted()){
+                    if (this.gameParameters.isGameStarted()) {
                         System.out.println("GameState code = " + CONTINUE + " 6 --> 0");
                         this.gameParameters.resumeGame();
                         this.gameState = STATE_IN_PROGRESS;
-                    }
-                    else {
+                    } else {
                         System.out.println("GameState code = " + CONTINUE + " 6 --> 5");
                         this.gameState = STATE_GAME_START;
                     }
-                }
-                else if (this.gameParameters.getEvent().equals(EXIT)){
+                } else if (this.gameParameters.getEvent().equals(EXIT)) {
                     System.out.println("GameState code = " + EXIT + " 6 --> 9");
                     gameState = STATE_EXIT;
                 }
@@ -280,7 +276,7 @@ public class GameState extends JFrame {
           the score of the current user and the TopFive
           high scores, fetched from an external file.
          */
-        else if (this.gameState == STATE_GAME_OVER){
+        else if (this.gameState == STATE_GAME_OVER) {
             paintIsAllowed = false;
             if (doSomethingOnce) {
                 doSomethingOnce = false;
@@ -293,10 +289,9 @@ public class GameState extends JFrame {
             }
             if (this.gameParameters.getEvent().length() > 1) {
                 String RETRY = "retry";
-                if (this.gameParameters.getEvent().equals(EXIT)){
+                if (this.gameParameters.getEvent().equals(EXIT)) {
                     this.gameState = STATE_EXIT;
-                }
-                else if (this.gameParameters.getEvent().equals(RETRY)){
+                } else if (this.gameParameters.getEvent().equals(RETRY)) {
                     this.gameState = STATE_GAME_START;
                 }
                 this.gameParameters.clear();
@@ -323,20 +318,18 @@ public class GameState extends JFrame {
      * to 6, which is pause.
      * If the user enters any of the arrow keys, the pilot will move.
      *
-     * @param keyPressed    The integer value of the key
+     * @param keyPressed The integer value of the key
      */
     public void setKeyPressed(int keyPressed) {
         if (this.gameState == STATE_IN_PROGRESS) {
-            if (!mainFrame.hasFocus()){
+            if (!mainFrame.hasFocus()) {
                 mainFrame.requestFocus();
             }
-            if (keyPressed == 27){ // ESC
+            if (keyPressed == 27) { // ESC
                 this.gameState = STATE_GAME_PAUSE;
-            }
-            else if (keyPressed >= 37 && keyPressed <= 40) {
+            } else if (keyPressed >= 37 && keyPressed <= 40) {
                 this.keyPressed = keyPressed;
-            }
-            else {
+            } else {
                 this.keyPressed = keyPressed;
             }
         }
@@ -345,7 +338,7 @@ public class GameState extends JFrame {
     /**
      * Writes the username into an external file, stats.txt.
      *
-     * @param username   String for username
+     * @param username String for username
      */
     public void writeToFile(String username) {
         try {
@@ -358,18 +351,25 @@ public class GameState extends JFrame {
         }
     }
 
-    private void changeTheme(){
-        if (this.theme.equals("light")){
+    private void changeTheme() {
+        if (this.theme.equals("light")) {
             this.theme = "dark";
-        }
-        else if (this.theme.equals("dark")){
+        } else if (this.theme.equals("dark")) {
             this.theme = "light";
         }
         this.fileManager.writeTheme(this.theme);
     }
 
-    public void setUsername(String s){this.username = s;}
-    public void closeMainFrame(){mainFrame.dispose();}
-    public int getGameState() {return this.gameState;}
+    public void setUsername(String s) {
+        this.username = s;
+    }
+
+    public void closeMainFrame() {
+        mainFrame.dispose();
+    }
+
+    public int getGameState() {
+        return this.gameState;
+    }
 
 }

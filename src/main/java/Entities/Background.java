@@ -20,18 +20,17 @@ import java.io.IOException;
  * @version A
  * @since 1.0   December 3, 2021
  */
-public class Background extends JPanel{
+public class Background extends JPanel {
     private BufferedImage bufferedImage; // the background
 
     /**
      * Imports the image for the light background
      */
-    public Background(){
+    public Background() {
         try {
             File pathNameBackground = new File("src/main/resources/backgroundInGame.png");
             bufferedImage = ImageIO.read(pathNameBackground);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Background >>> image backgroundInGame.png not found");
         }
         setLayout(null);
@@ -42,7 +41,7 @@ public class Background extends JPanel{
      * Draws this image at the time when JFrame.repaint() is
      * executed provided it is one of the components.
      *
-     * @param g  abstract base class for all graphics contexts that allow an application to draw
+     * @param g abstract base class for all graphics contexts that allow an application to draw
      */
     @Override
     protected void paintComponent(Graphics g) {
