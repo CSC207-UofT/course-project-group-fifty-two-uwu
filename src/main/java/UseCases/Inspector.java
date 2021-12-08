@@ -41,7 +41,7 @@ public class Inspector {
      * Updates Missiles with the current position of the target.
      * Updates Clock with current game time.
      * Updates HitCounter with the current number of hits.
-     * Injects stationary screens witha reference to GameParameters,
+     * Injects stationary screens with a reference to GameParameters,
      * which enables the listeners attached to these screens
      * to record their events directly in GameParameters.
      * Updates Pilot with the current keystrokes and the explosion
@@ -96,11 +96,7 @@ public class Inspector {
                     this.targetX = jPanel.getX();
                     this.targetY = jPanel.getY();
                 }
-                if (this.gameParameters.isBoomOn()) {
-                    ((Pilot) jPanel).setBoomOn(true);
-                } else {
-                    ((Pilot) jPanel).setBoomOn(false);
-                }
+                ((Pilot) jPanel).setBoomOn(this.gameParameters.isBoomOn());
             } else if (jPanel.getClass().getName().contains("Clock")) {
                 ((Clock) jPanel).updateClock(gameParameters.getGameTime());
             }

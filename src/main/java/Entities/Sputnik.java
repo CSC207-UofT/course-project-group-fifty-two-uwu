@@ -18,7 +18,6 @@ public class Sputnik extends JPanel {
     private final BufferedImage shape;
     private final Steerable flightPath;
     private double distance;
-    private final String PATH_REGULAR = "regular";
     private final String PATH_FAULTY = "faulty";
 
     public Sputnik(int x, int y, double v, BufferedImage img, String route){
@@ -26,6 +25,7 @@ public class Sputnik extends JPanel {
         this.y = y;
         this.vector = v;
         this.shape = img;
+        String PATH_REGULAR = "regular";
         if (route.equals(PATH_REGULAR)){
             flightPath = new PathFall();
         }

@@ -6,8 +6,8 @@ package main.java.Entities;
  * @since November 30, 2021
  */
 public interface Steerable {
-    public void update(int positionX, int positionY, double direction, int targetX, int targetY);
-    public int getX();
-    public int getY();
-    public double getV();
+    void update(int positionX, int positionY, double direction, int targetX, int targetY);
+    int getX();
+    int getY();
+    double getV();
 }

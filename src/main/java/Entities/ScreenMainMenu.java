@@ -5,11 +5,10 @@ import main.java.Controller.GameParameters;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 /**
  * @author Yan Nowaczek
  * @version 1
@@ -24,33 +23,31 @@ public class ScreenMainMenu extends JPanel{
     final private String NEW_USER_NAME = "newUsername";
     final private String CHANGE_THEME = "changeTheme";
     final private String WELCOME = "Welcome \u4f60\u597d ";
-    private BufferedImage bufferedImage;
-    private JButton bStart =new JButton("Start");
-    private JButton bInfo =new JButton("Info");
-    private JButton bExit =new JButton("Exit");
-    private JButton bNewUsername =new JButton("New User");
-    private JButton bChangeTheme =new JButton("Change Theme");
-    private File pathNameStart = new File("src/main/resources/iconStart.png");
-    private File pathNameInfo = new File("src/main/resources/iconInfo.png");
-    private File pathNameExit = new File("src/main/resources/iconExit.png");
-    private File pathNameNewUsename = new File("src/main/resources/iconNewUsername.png");
-    private File pathNameChangeTheme = new File("src/main/resources/iconChangeTheme.png");
-    private File pathNameBackground = new File("src/main/resources/backgroundInGame.png");
-    private JLabel jLabel = new JLabel();
+    private final JButton bStart;
+
+    {
+        bStart = new JButton("Start");
+    }
+
+    private final JButton bInfo =new JButton("Info");
+    private final JButton bExit =new JButton("Exit");
+    private final JLabel jLabel = new JLabel();
     private String username = "";
     private String event = "";
     private GameParameters gameParameters;
     private BufferedImage background;
 
     /**
-     * The main method, creates the gameover screen using jLabel and jButton.
+     * The main method, creates the GameOver screen using jLabel and jButton.
      * It will try to read some images, and if it fails, it will tell the user that the image is not found.
      */
     public ScreenMainMenu() {
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
         jLabel.setText(WELCOME + this.username);
         jLabel.setBounds(210, 150, 300, 28);
+        BufferedImage bufferedImage;
         try {
+            File pathNameStart = new File("src/main/resources/iconStart.png");
             bufferedImage = ImageIO.read(pathNameStart);
             bStart.setIcon(new ImageIcon(bufferedImage));
         }
@@ -58,6 +55,7 @@ public class ScreenMainMenu extends JPanel{
             System.out.println("Image for iconStart not found");
         }
         try {
+            File pathNameInfo = new File("src/main/resources/iconInfo.png");
             bufferedImage = ImageIO.read(pathNameInfo);
             bInfo.setIcon(new ImageIcon(bufferedImage));
         }
@@ -65,20 +63,25 @@ public class ScreenMainMenu extends JPanel{
             System.out.println("Image for iconInfo not found");
         }
         try {
+            File pathNameExit = new File("src/main/resources/iconExit.png");
             bufferedImage = ImageIO.read(pathNameExit);
             bExit.setIcon(new ImageIcon(bufferedImage));
         }
         catch (IOException e) {
             System.out.println("Image for iconExit not found");
         }
+        JButton bNewUsername = new JButton("New User");
         try {
+            File pathNameNewUsename = new File("src/main/resources/iconNewUsername.png");
             bufferedImage = ImageIO.read(pathNameNewUsename);
             bNewUsername.setIcon(new ImageIcon(bufferedImage));
         }
         catch (IOException e) {
             System.out.println("Image for iconNewUser not found");
         }
+        JButton bChangeTheme = new JButton("Change Theme");
         try {
+            File pathNameChangeTheme = new File("src/main/resources/iconChangeTheme.png");
             bufferedImage = ImageIO.read(pathNameChangeTheme);
             bChangeTheme.setIcon(new ImageIcon(bufferedImage));
         }
@@ -86,51 +89,37 @@ public class ScreenMainMenu extends JPanel{
             System.out.println("Image for iconChangeTheme not found");
         }
         try {
+            File pathNameBackground = new File("src/main/resources/backgroundInGame.png");
             background = ImageIO.read(pathNameBackground);
             // bChangeTheme.setIcon(new ImageIcon(bufferedImage));
         }
         catch (IOException e) {
             System.out.println("Image for backgroundInGame not found");
         }
-        bStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("bStart e = " + e.toString());
-                setEvent(START);
-                gameParameters.setEvent(START);
-            }
+        bStart.addActionListener(e -> {
+            // System.out.println("bStart e = " + e.toString());
+            setEvent(START);
+            gameParameters.setEvent(START);
         });
-        bInfo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("bInfo e = " + e.toString());
-                setEvent(INFO);
-                gameParameters.setEvent(INFO);
-            }
+        bInfo.addActionListener(e -> {
+            // System.out.println("bInfo e = " + e.toString());
+            setEvent(INFO);
+            gameParameters.setEvent(INFO);
         });
-        bExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("bExit e = " + e.toString());
-                setEvent(EXIT);
-                gameParameters.setEvent(EXIT);
-            }
+        bExit.addActionListener(e -> {
+            // System.out.println("bExit e = " + e.toString());
+            setEvent(EXIT);
+            gameParameters.setEvent(EXIT);
         });
-        bNewUsername.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("bExit e = " + e.toString());
-                setEvent(NEW_USER_NAME);
-                gameParameters.setEvent(NEW_USER_NAME);
-            }
+        bNewUsername.addActionListener(e -> {
+            // System.out.println("bExit e = " + e.toString());
+            setEvent(NEW_USER_NAME);
+            gameParameters.setEvent(NEW_USER_NAME);
         });
-        bChangeTheme.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("bExit e = " + e.toString());
-                setEvent(CHANGE_THEME);
-                gameParameters.setEvent(CHANGE_THEME);
-            }
+        bChangeTheme.addActionListener(e -> {
+            // System.out.println("bExit e = " + e.toString());
+            setEvent(CHANGE_THEME);
+            gameParameters.setEvent(CHANGE_THEME);
         });
         bStart.setBounds(270, 200, 140, 50);
         bInfo.setBounds(270, 270, 140, 50);

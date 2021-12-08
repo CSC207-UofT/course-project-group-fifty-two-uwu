@@ -1,9 +1,5 @@
 package main.java.UI;
 
-import main.java.Controller.GameParameters;
-import main.java.Entities.*;
-import main.java.Entities.ScreenGameOver;
-
 import javax.swing.*;
 import java.util.Iterator;
 

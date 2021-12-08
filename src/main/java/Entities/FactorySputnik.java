@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Manufactures JPanels of type Sputnik
- * @author Terry
+/*
+  Manufactures JPanels of type Sputnik
+  @author Terry
  * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
  * @version 3 last updated December 4, 2021
  * @since 1.0 November 23, 2021

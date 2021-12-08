@@ -174,10 +174,10 @@ public class GameLogic implements Iterable<JPanel>{
     /**
      * Returns the index of the first item in the array of Booleans that
      * follows the item with the input index. If such item is not found
-     * then it reuturns -1. If the array of Booleans is empty then returns -1.
+     * then it returns -1. If the array of Booleans is empty then returns -1.
      *
      * @param index     the input index
-     * @return          the index of the next treu item
+     * @return          the index of the next true item
      */
     private int getTrueNext(int index){
         if (!this.booleans.isEmpty()) {
@@ -227,7 +227,7 @@ public class GameLogic implements Iterable<JPanel>{
          * because the search for next starts at index current + 1 and
          * the first index in the array is 0.
          * It is important to set the current back to -1 when the last
-         * element has been return because the interator may be used
+         * element has been return because the iterator may be used
          * more than once.
          */
         private int current = -1; // current is -1 at the start

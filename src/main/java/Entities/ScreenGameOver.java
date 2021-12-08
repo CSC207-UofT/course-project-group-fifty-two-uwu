@@ -5,8 +5,6 @@ import main.java.Controller.GameParameters;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,28 +13,29 @@ import java.io.IOException;
  * @version 1
  * @since December 2, 2021
  *
- * This is the class that creates the gameover screen for the game.
+ * This is the class that creates the GameOver screen for the game.
  */
 
 public class ScreenGameOver extends JPanel{
     final private String RETRY = "retry";
     final private String EXIT = "exit";
     private String event = "";
-    private JButton bRetry =new JButton("Retry");
-    private JButton bExit =new JButton("Exit");
-    private JLabel jLabel = new JLabel();
-    private JLabel jLabelTopScores = new JLabel();
-    private File pathNameRetry = new File("src/main/resources/iconRetry.png");
-    private File pathNameExit = new File("src/main/resources/iconExit.png");
-    private File pathBackground = new File("src/main/resources/backgroundMainMenu.png");
-//    private ImageIcon imageIconContinue;
-    private ImageIcon imageIconExit;
+    private final JButton bRetry =new JButton("Retry");
+    private final JButton bExit =new JButton("Exit");
+    private final JLabel jLabel = new JLabel();
+    private final JLabel jLabelTopScores = new JLabel();
+    private final File pathBackground;
+
+    {
+        pathBackground = new File("src/main/resources/backgroundMainMenu.png");
+    }
+
+    //    private ImageIcon imageIconContinue;
     private Image background;
-    private BufferedImage bufferedImage;
     private GameParameters gameParameters;
 
     /**
-     * The main method, creates the gameover screen using jLabel and jButton.
+     * The main method, creates the GameOver screen using jLabel and jButton.
      * It will try to read some images, and if it fails, it will tell the user that the image is not found.
      */
     public ScreenGameOver(){
@@ -54,7 +53,9 @@ public class ScreenGameOver extends JPanel{
 //                "<li>7 - \u9ebb\u8fa3\u9999\u9505</li><li>D</li>" +
 //                "<li>E</li></ul></html>";
         jLabelTopScores.setText(text);
+        BufferedImage bufferedImage;
         try {
+            File pathNameRetry = new File("src/main/resources/iconRetry.png");
             bufferedImage = ImageIO.read(pathNameRetry);
             bRetry.setIcon(new ImageIcon(bufferedImage));
         }
@@ -62,6 +63,7 @@ public class ScreenGameOver extends JPanel{
             System.out.println("Image for ProductInfo Exit not found");
         }
         try {
+            File pathNameExit = new File("src/main/resources/iconExit.png");
             bufferedImage = ImageIO.read(pathNameExit);
             bExit.setIcon(new ImageIcon(bufferedImage));
         }
@@ -75,21 +77,15 @@ public class ScreenGameOver extends JPanel{
         catch (IOException e) {
             System.out.println("Image for ProductInfo Exit not found");
         }
-        bRetry.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("bRetry e = " + e.toString());
-                setEvent(RETRY);
-                gameParameters.setEvent(RETRY);
-            }
+        bRetry.addActionListener(e -> {
+            // System.out.println("bRetry e = " + e.toString());
+            setEvent(RETRY);
+            gameParameters.setEvent(RETRY);
         });
-        bExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("bExit e = " + e.toString());
-                setEvent(EXIT);
-                gameParameters.setEvent(EXIT);
-            }
+        bExit.addActionListener(e -> {
+            // System.out.println("bExit e = " + e.toString());
+            setEvent(EXIT);
+            gameParameters.setEvent(EXIT);
         });
         bRetry.setBounds(200, 340, 140, 50);
         bExit.setBounds(360, 340, 140, 50);
@@ -121,35 +117,35 @@ public class ScreenGameOver extends JPanel{
     public void setEvent(String s){this.event = s;}
 
     /**
-     * Getter function for this.event.
+     * Getter functions for this.event.
      *
      * @return string stored in this.event
      */
     public String getEvent(){return this.event;}
 
     /**
-     * Getter function for this.bRetry
+     * Getter functions for this.bRetry
      *
      * @return the JButton stored in this.bRetry (the retry button)
      */
     public JButton getBRetry(){return this.bRetry;}
 
     /**
-     * Getter function for this.bExit.
+     * Getter functions for this.bExit.
      *
      * @return the JButton stored in this.bExit (the exit button)
      */
     public JButton getBExit(){return this.bExit;}
 
     /**
-     * Getter function for this.jLabel.
+     * Getter functions for this.jLabel.
      *
      * @return the JLabel stored in this.jLabel
      */
     public JLabel getJLabel(){return this.jLabel;}
 
     /**
-     * Getter function for this.jLabelTopScores.
+     * Getter functions for this.jLabelTopScores.
      *
      * @return the JLabel stored in this.jLabelTopScores
      */

@@ -6,12 +6,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-/**
- * This class is of type JPanel so that it can be added and displayed on JFrame.
- * It represents the character/person that the user will be controlling.
- * It is used by both FactoryPilot and FactoryPilotDark
- *
- * @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
+/*
+  This class is of type JPanel so that it can be added and displayed on JFrame.
+  It represents the character/person that the user will be controlling.
+  It is used by both FactoryPilot and FactoryPilotDark
+
+  @author Yan Nowaczek yan.nowaczek@mail.utoronto.ca
  * @author Edward
  * @version C   last updated December 4, 2021
  * @since 1.0   created on November 10, 2021
@@ -47,7 +47,7 @@ public class Pilot extends JPanel {
 
     /**
      *
-     * @param g
+     * @param g JavaGraphics
      */
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -70,8 +70,6 @@ public class Pilot extends JPanel {
      */
     public void update(int key){
         int speed = 10;
-        double previousX = this.x;
-        double previousY = this.x;
         // calculate the new position and direction
         if (key == 37){ // Left Key
             this.x = this.x - speed;

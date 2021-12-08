@@ -31,24 +31,12 @@ import javax.swing.*;
  */
 public class GameState extends JFrame {
     /**
-     * These are Strings to capture events
-     */
-    final private String START = "start";
-    final private String INFO = "info";
-    final private String EXIT = "exit";
-    final private String CONTINUE = "continue";
-    final private String RETRY = "retry";
-    final private String NEW_USER_NAME = "newUsername";
-    final private String CHANGE_THEME = "changeTheme";
-    /**
      * GameStates are stored as integers
      */
     private final int STATE_IN_PROGRESS = 0; // Game is in progress
     private final int STATE_GAME_START = 5; // Contains MainMenu and Start button
     private final int STATE_GAME_PAUSE = 6; // Pause screen and pauses the clock
     private final int STATE_USER_NAME = 7; // Username input Screen
-    private final int STATE_GAME_OVER = 8; // GameOver screen
-    private final int STATE_EXIT = 9; // This state terminates the program, the variable is passed to MainLoop
 
     /**
      * All 5 classes are created
@@ -70,11 +58,10 @@ public class GameState extends JFrame {
      */
     private int keyPressed;
     private int gameState;
-    private final long startTime; // This is when the game starts in milliseconds
     private boolean paintIsAllowed = true; // Repeated painting disabled for stationary JPanels
     private boolean doSomethingOnce = true; // A sequence needs to be executed only once
     private String username = "";
-    private String theme = "light";
+    private String theme;
 
     /**
      * At start, the following happens:
@@ -87,8 +74,8 @@ public class GameState extends JFrame {
     public GameState() throws IOException {
         this.mainFrame = new JFrame("Missile Mayhem");
         this.mainFrame.getContentPane();
-        /**
-         * JFrame window size
+        /*
+          JFrame window size
          */
         int CANVAS_WIDTH = 700;
         int CANVAS_HEIGHT = 600;
@@ -110,7 +97,8 @@ public class GameState extends JFrame {
         this.gameParameters = new GameParameters();
         this.canvas = new Canvas(this.mainFrame);
         this.inspector = new Inspector(this.gameParameters);
-        this.startTime = System.currentTimeMillis();
+        // This is when the game starts in milliseconds
+        System.currentTimeMillis();
     }
 
     /**
@@ -123,14 +111,14 @@ public class GameState extends JFrame {
         try {
             File file = new File("stats.txt");
             Scanner scanner = new Scanner(file);
-            String text = "";
+            StringBuilder text = new StringBuilder();
             while (scanner.hasNextLine()) {
-                text = text + " " + scanner.nextLine();
+                text.append(" ").append(scanner.nextLine());
             }
             scanner.close();
-            this.username = text;
+            this.username = text.toString();
         } catch (FileNotFoundException e) {
-            System.out.println("Error occured while reading stats.txt.");
+            System.out.println("Error occurred while reading stats.txt.");
             e.printStackTrace();
         }
     }
@@ -142,10 +130,15 @@ public class GameState extends JFrame {
      * It continuously updates GameLogic and Canvas when the game is in progress.
      */
     public void update() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-        /**
-         * When the game is in progress, the number of hits indicates
-         * when to switch to the GameOver state. The max number of hits is 11.
+        /*
+          When the game is in progress, the number of hits indicates
+          when to switch to the GameOver state. The max number of hits is 11.
          */
+        String EXIT = "exit";
+        // GameOver screen
+        int STATE_GAME_OVER = 8;
+        // This state terminates the program, the variable is passed to MainLoop
+        int STATE_EXIT = 9;
         if (this.gameState == STATE_IN_PROGRESS) {
             if (gameParameters.isCollisionDetected()){
                 gameParameters.setHits();
@@ -155,16 +148,16 @@ public class GameState extends JFrame {
                 }
             }
         }
-        /**
-         * This is the state where it will display the MainMenu.
-         * The first part is executed once.
-         * -    username can be new and GameParameters must be updated
-         * -    GameLogic is invoked only once to
-         *      turn on the MainMenu panel.
-         * -    Canvas is invoked only once to update and display the JPanel.
-         * The second part waits for an input from the user.
-         * -    Depending on the value of the event, a new gameState is selected.
-         * -    The no-paint and do-it-once variables are set to true.
+        /*
+          This is the state where it will display the MainMenu.
+          The first part is executed once.
+          -    username can be new and GameParameters must be updated
+          -    GameLogic is invoked only once to
+               turn on the MainMenu panel.
+          -    Canvas is invoked only once to update and display the JPanel.
+          The second part waits for an input from the user.
+          -    Depending on the value of the event, a new gameState is selected.
+          -    The no-paint and do-it-once variables are set to true.
          */
         else if (this.gameState == STATE_GAME_START) {
             paintIsAllowed = false;
@@ -177,6 +170,12 @@ public class GameState extends JFrame {
                 this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 0){
+                /*
+                  These are Strings to capture events
+                 */
+                String START = "start";
+                String INFO = "info";
+                String NEW_USER_NAME = "newUsername";
                 if (this.gameParameters.getEvent().equals(START)) {
                     gameParameters.setStartTime(System.currentTimeMillis());
                     gameParameters.startGame();
@@ -193,6 +192,7 @@ public class GameState extends JFrame {
                 else if (this.gameParameters.getEvent().equals(EXIT)) {
                     gameState = STATE_EXIT;
                 }
+                String CHANGE_THEME = "changeTheme";
                 if (this.gameParameters.getEvent().equals(CHANGE_THEME)) {
                     changeTheme();
                     this.gameLogic.update(this.gameState, this.theme);
@@ -207,13 +207,13 @@ public class GameState extends JFrame {
                 }
             }
         }
-        /**
-         * When the game is paused, the appropriate panel is
-         * displayed and there are no repeated calls for
-         * displaying the JPanels. The program waits for the input.
-         * If the event is CONTINUE and the game already started,
-         * GameParameters are notified to adjust the game time.
-         * If the event is EXIT, then the game terminates.
+        /*
+          When the game is paused, the appropriate panel is
+          displayed and there are no repeated calls for
+          displaying the JPanels. The program waits for the input.
+          If the event is CONTINUE and the game already started,
+          GameParameters are notified to adjust the game time.
+          If the event is EXIT, then the game terminates.
          */
         else if (this.gameState == STATE_GAME_PAUSE) {
             paintIsAllowed = false;
@@ -226,6 +226,7 @@ public class GameState extends JFrame {
                 this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 1) {
+                String CONTINUE = "continue";
                 if (this.gameParameters.getEvent().equals(CONTINUE)) {
                     if (this.gameParameters.isGameStarted()){
                         System.out.println("GameState code = " + CONTINUE + " 6 --> 0");
@@ -246,12 +247,12 @@ public class GameState extends JFrame {
             }
             this.gameParameters.setEvent("");
         }
-        /**
-         * The user is asked to input a username.
-         * The continuous repainting of JPanels
-         * is stopped, waiting for the input.
-         * The input must be at least 2 characters.
-         * After that, the game is changed to MainMenu.
+        /*
+          The user is asked to input a username.
+          The continuous repainting of JPanels
+          is stopped, waiting for the input.
+          The input must be at least 2 characters.
+          After that, the game is changed to MainMenu.
          */
         else if (this.gameState == STATE_USER_NAME) {
             paintIsAllowed = false;
@@ -270,27 +271,28 @@ public class GameState extends JFrame {
                 this.gameParameters.setEvent("");
             }
         }
-        /**
-         * In this state, the GameOver screen is displayed
-         * once, and the program awaits for the input.
-         * If the input is RETRY, then GameParameters are
-         * set to default values and the user is directed
-         * to the MainMenu. The GameOver screen displays
-         * the score of the current user and the TopFive
-         * high scores, fetched from an external file.
+        /*
+          In this state, the GameOver screen is displayed
+          once, and the program awaits for the input.
+          If the input is RETRY, then GameParameters are
+          set to default values and the user is directed
+          to the MainMenu. The GameOver screen displays
+          the score of the current user and the TopFive
+          high scores, fetched from an external file.
          */
         else if (this.gameState == STATE_GAME_OVER){
             paintIsAllowed = false;
             if (doSomethingOnce) {
                 doSomethingOnce = false;
                 gameLogic.update(this.gameState, this.theme);
-                scoreBoard.addScore(this.username, Integer.valueOf(gameParameters.getScore()));
+                scoreBoard.addScore(this.username, Integer.parseInt(gameParameters.getScore()));
                 gameParameters.setTopFive(scoreBoard.topFive());
                 this.inspector.update(this.iterator, keyPressed);
                 this.canvas.update(this.iterator);
                 this.soundEffect.playSoundEffect(this.gameState);
             }
             if (this.gameParameters.getEvent().length() > 1) {
+                String RETRY = "retry";
                 if (this.gameParameters.getEvent().equals(EXIT)){
                     this.gameState = STATE_EXIT;
                 }
@@ -302,9 +304,9 @@ public class GameState extends JFrame {
                 doSomethingOnce = true;
             }
         }
-        /**
-         * This sequence is executed when there is no stationary
-         * panel displayed.
+        /*
+          This sequence is executed when there is no stationary
+          panel displayed.
          */
         if (paintIsAllowed) {
             gameLogic.update(this.gameState, this.theme);

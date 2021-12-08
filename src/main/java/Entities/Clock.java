@@ -3,14 +3,14 @@ package main.java.Entities;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-/**
- * @author Yan Nowaczek
+/*
+  @author Yan Nowaczek
  * @version 2
  * @since November 23, 2021
  *
  * This class is of type JPanel so that they can be added to JFrame
  * and displayed. This is the JPanel for the timer. This product class uses JLabel.
- **/
+ */
 
 /**
  * Displays the seconds and 1/10 of the second of the game duration
@@ -40,15 +40,6 @@ public class Clock extends JPanel{
         this.jLabel.setBounds(25, 525, 120, 26);
         setLayout(null);
         add(jLabel);
-    }
-
-    /*
-     * Returns the component of the clock
-     *
-     * @return the jLabel components
-     */
-    public JLabel getComponent(){
-        return this.jLabel;
     }
 
     /*

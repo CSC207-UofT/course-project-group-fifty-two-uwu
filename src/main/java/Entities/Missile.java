@@ -20,14 +20,13 @@ public class Missile extends JPanel {
     private final BufferedImage shape;
     private final Steerable flightPath;
     private double distance;
-    private final String PATH_REGULAR = "regular";
-    private final String PATH_FAULTY = "faulty";
 
     public Missile(int x, int y, double v, BufferedImage img, String route){
         this.x = x;
         this.y = y;
         this.vector = v;
         this.shape = img;
+        String PATH_FAULTY = "faulty";
         if (route.equals(PATH_FAULTY)){
             flightPath = new PathOrbitFaulty();
         }
@@ -55,7 +54,7 @@ public class Missile extends JPanel {
      * This method updates the placement of the missile accordingly to the target location (which would be the pilot
      * for this game), targetX and targetY.
      *
-     * @param targetX the x-coordinarte of the target
+     * @param targetX the x-coordinate of the target
      * @param targetY the y-coordinate of the target
      */
     public void update(int targetX, int targetY){
@@ -68,7 +67,7 @@ public class Missile extends JPanel {
     }
 
     /**
-     * Getter function for the x-coordinate of the missile
+     * Getter functions for the x-coordinate of the missile
      *
      * @return the x-coordinate of the missile
      */
@@ -77,7 +76,7 @@ public class Missile extends JPanel {
     }
 
     /*
-     * Getter function for the y-coordinate of the missile
+     * Getter functions for the y-coordinate of the missile
      *
      * @return the y-coordinate of the missile
      */

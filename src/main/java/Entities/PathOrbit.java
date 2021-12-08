@@ -9,8 +9,6 @@ public class PathOrbit implements Steerable {
     private int x; // x coordinate
     private int y; // y coordinate
     private double v; // direction vector in gradients
-    private final int DELTA = 3; // increment per single update
-    private final double ANGLE = Math.PI / 90; // Math.PI /80 = 2.25 degrees
 
     /**
      * Updates coordinates and direction of this steerable
@@ -27,42 +25,44 @@ public class PathOrbit implements Steerable {
      * @param targetY    y coordinate of the target
      */
     public void update(int x, int y, double v, int targetX, int targetY){
-        boolean isLeft = true;
+        boolean isLeft;
         this.x = x;
         this.y = y;
-        /**
-         * Is the target on the left side of this steerable?
-         * For greater precision doubles are used
-         * decreases with every call to update().
-         * Use a cross product of the vector and
-         * the vector pointing to the target.
-         * The cross product is positive if target on left.
-         * The root of the vector of this steerable is at ax, ay
-         * The arrow head of the vector of this steerable is at bx, by
+        /*
+          Is the target on the left side of this steerable?
+          For greater precision doubles are used
+          decreases with every call to update().
+          Use a cross product of the vector and
+          the vector pointing to the target.
+          The cross product is positive if target on left.
+          The root of the vector of this steerable is at ax, ay
+          The arrow head of the vector of this steerable is at bx, by
          */
         double ax = this.x;
         double ay = this.y;
         double bx = ax + 100 * Math.cos(this.v); //second point for vector ab
         double by = ay + 100 * Math.sin(this.v);
         isLeft = ((bx-ax)*(targetY-ay) - (by-ay)*(targetX-ax)) < 0;
-        boolean isOnTarget = true;;
-        /**
-         * Calculate the angle between ab and ac using the cosine law.
-         * Since c^2 = a^2 + b^2 -2ab*cos angle
-         * Therefore angle = cos-1 (a^2 + b^2 - c^2)/(-2ab)
+        boolean isOnTarget;
+        /*
+          Calculate the angle between ab and ac using the cosine law.
+          Since c^2 = a^2 + b^2 -2ab*cos angle
+          Therefore angle = cos-1 (a^2 + b^2 - c^2)/(-2ab)
          */
         double ab = Math.sqrt((bx - ax)*(bx - ax) + (by - ay)*(by - ay));
         double ac = Math.sqrt((targetX - ax)*(targetX - ax) + (targetY - ay)*(targetY - ay));
         double bc = Math.sqrt((targetX - bx)*(targetX - bx) + (targetY - by)*(targetY - by));
         double temp;
         temp = Math.acos((ab*ab + ac*ac - bc*bc)/((1)*(2*ab*ac)));
-        /**
-         * Is there a need to adjust the direction?
-         * Note that Math.PI/80 = 2.25 degrees
+        /*
+          Is there a need to adjust the direction?
+          Note that Math.PI/80 = 2.25 degrees
          */
+        // Math.PI /80 = 2.25 degrees
+        double ANGLE = Math.PI / 90;
         isOnTarget = Math.abs(temp) < ANGLE;
-        /**
-         * Calculate the new value for direction vector
+        /*
+          Calculate the new value for direction vector
          */
         if(!isOnTarget){
             if(isLeft){
@@ -72,9 +72,11 @@ public class PathOrbit implements Steerable {
                 this.v += ANGLE;
             }
         }
-        /**
-         * variable delta indicates the increment and will affect the speed
+        /*
+          variable delta indicates the increment and will affect the speed
          */
+        // increment per single update
+        int DELTA = 3;
         this.x += DELTA * Math.cos(this.v);
         this.y += DELTA * Math.sin(this.v);
     }

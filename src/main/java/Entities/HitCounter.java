@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * @author Terry
+/*
+  @author Terry
  * @version 4
  * @since November 10, 2021
  */
@@ -30,15 +30,6 @@ public class HitCounter extends JPanel{
         this.jLabel.setBounds(605, 510, 120, 36);
         setLayout(null);
         add(jLabel);
-    }
-
-    /**
-     * The getter function for this.jLabel.
-     *
-     * @return a JLabel object
-     */
-    public JLabel getComponent(){
-        return this.jLabel;
     }
 
     /**

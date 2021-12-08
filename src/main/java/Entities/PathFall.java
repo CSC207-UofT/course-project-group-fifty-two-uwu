@@ -9,8 +9,7 @@ public class PathFall implements Steerable {
     private int x; // x coordinate
     private int y; // y coordinate
     private double v; // direction vector in gradients
-    private final int DELTA = 3; // increment per single update
-    private final double ANGLE = Math.PI / 90; // Math.PI /80 = 2.25 degrees
+    // Math.PI /80 = 2.25 degrees
 
     /**
      * Updates coordinates and direction of this steerable
@@ -32,6 +31,8 @@ public class PathFall implements Steerable {
         this.x = x;
         this.y = y;
         this.v = v;
+        // increment per single update
+        int DELTA = 3;
         if (!(this.x > -20 && this.x < 720 && this.y > -20 && this.y < 620)) {
             // System.out.println("Sputnik x = " + this.x + " y = " + this.y);
             this.x = -20 + (int) (Math.random() * ((740) + 1));

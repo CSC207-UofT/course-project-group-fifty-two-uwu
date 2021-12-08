@@ -15,10 +15,10 @@ import java.io.IOException;
  */
 public class FactoryMissileDark extends Factory {
     private BufferedImage shape; // the image of the missile
-    private File pathName = new File("src/main/resources/missileSuperDark.png");
 
     public FactoryMissileDark(){
         try {
+            File pathName = new File("src/main/resources/missileSuperDark.png");
             shape = ImageIO.read(pathName);
         }
         catch (IOException e) {

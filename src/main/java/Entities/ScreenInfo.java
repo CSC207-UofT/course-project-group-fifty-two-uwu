@@ -5,11 +5,10 @@ import main.java.Controller.GameParameters;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 /**
  * @author Edward
  * @version 1
@@ -21,16 +20,11 @@ public class ScreenInfo extends JPanel{
     final private String CONTINUE = "continue";
     final private String EXIT = "exit";
     private String event = "";
-    private JButton bContinue =new JButton("Continue");
-    private JButton bExit =new JButton("Exit");
-    private JLabel jLabel = new JLabel();
-    private File pathNameContinue = new File("src/main/resources/iconContinue.png");
-    private File pathNameExit = new File("src/main/resources/iconExit.png");
-    private File pathBackground = new File("src/main/resources/backgroundMainMenu.png");
-    private ImageIcon imageIconContinue;
+    private final JButton bContinue =new JButton("Continue");
+    private final JButton bExit =new JButton("Exit");
+    private final JLabel jLabel = new JLabel();
     private ImageIcon imageIconExit;
     private Image background;
-    private BufferedImage bufferedImage;
     private GameParameters gameParameters;
 
     /**
@@ -42,8 +36,10 @@ public class ScreenInfo extends JPanel{
         jLabel.setText("<html>Pause - ESC <br>Arrow Keys - Movement</html>");
         jLabel.setBounds(210, 150, 300, 100);
 
-        imageIconContinue = new ImageIcon();
+        ImageIcon imageIconContinue = new ImageIcon();
+        BufferedImage bufferedImage;
         try {
+            File pathNameContinue = new File("src/main/resources/iconContinue.png");
             bufferedImage = ImageIO.read(pathNameContinue);
             bContinue.setIcon(new ImageIcon(bufferedImage));
         }
@@ -51,6 +47,7 @@ public class ScreenInfo extends JPanel{
             System.out.println("Image for ProductInfo Continue not found");
         }
         try {
+            File pathNameExit = new File("src/main/resources/iconExit.png");
             bufferedImage = ImageIO.read(pathNameExit);
             bExit.setIcon(new ImageIcon(bufferedImage));
         }
@@ -58,27 +55,22 @@ public class ScreenInfo extends JPanel{
             System.out.println("Image for ProductInfo Exit not found");
         }
         try {
+            File pathBackground = new File("src/main/resources/backgroundMainMenu.png");
             bufferedImage = ImageIO.read(pathBackground);
             background = bufferedImage;
         }
         catch (IOException e) {
             System.out.println("Image for ProductInfo Exit not found");
         }
-        bContinue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("ProductInfo bContinue e = " + e.toString());
-                // setEvent(CONTINUE);
-                gameParameters.setEvent(CONTINUE);
-            }
+        bContinue.addActionListener(e -> {
+            // System.out.println("ProductInfo bContinue e = " + e.toString());
+            // setEvent(CONTINUE);
+            gameParameters.setEvent(CONTINUE);
         });
-        bExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("ProductInfo bExit e = " + e.toString());
-                // setEvent(EXIT);
-                gameParameters.setEvent(EXIT);
-            }
+        bExit.addActionListener(e -> {
+            // System.out.println("ProductInfo bExit e = " + e.toString());
+            // setEvent(EXIT);
+            gameParameters.setEvent(EXIT);
         });
         bContinue.setBounds(200, 340, 140, 50);
         bExit.setBounds(360, 340, 140, 50);
