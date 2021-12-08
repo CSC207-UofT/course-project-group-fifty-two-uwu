@@ -34,7 +34,6 @@ public class PathFall implements Steerable {
         // increment per single update
         int DELTA = 3;
         if (!(this.x > -20 && this.x < 500 && this.y > -20 && this.y < 400)) {
-            System.out.println("Sputnik x = " + this.x + " y = " + this.y);
             this.x = -10 + (int) (Math.random() * ((300) + 1));
             this.y = -18;
             //
@@ -56,7 +55,6 @@ public class PathFall implements Steerable {
             } else {
                 this.v = Math.asin(this.v) + Math.PI / 2;
             }
-            // System.out.println("Sputnik x = " + this.x + " y = " + this.y + " v = " + this.vector);
         }
         this.x += DELTA * Math.cos(this.v);
         this.y += DELTA * Math.sin(this.v);

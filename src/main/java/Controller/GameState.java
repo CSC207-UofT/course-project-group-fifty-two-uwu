@@ -183,10 +183,8 @@ public class GameState extends JFrame {
                     gameParameters.startGame();
                     gameState = STATE_IN_PROGRESS;
                 } else if (this.gameParameters.getEvent().equals(NEW_USER_NAME)) {
-                    System.out.println("GameState >>> gameState get new username");
                     gameState = STATE_USER_NAME;
                 } else if (this.gameParameters.getEvent().equals(INFO)) {
-                    System.out.println("GameState >>> gameState get new username");
                     gameState = STATE_GAME_PAUSE;
                 } else if (this.gameParameters.getEvent().equals(EXIT)) {
                     gameState = STATE_EXIT;
@@ -227,15 +225,12 @@ public class GameState extends JFrame {
                 String CONTINUE = "continue";
                 if (this.gameParameters.getEvent().equals(CONTINUE)) {
                     if (this.gameParameters.isGameStarted()) {
-                        System.out.println("GameState code = " + CONTINUE + " 6 --> 0");
                         this.gameParameters.resumeGame();
                         this.gameState = STATE_IN_PROGRESS;
                     } else {
-                        System.out.println("GameState code = " + CONTINUE + " 6 --> 5");
                         this.gameState = STATE_GAME_START;
                     }
                 } else if (this.gameParameters.getEvent().equals(EXIT)) {
-                    System.out.println("GameState code = " + EXIT + " 6 --> 9");
                     gameState = STATE_EXIT;
                 }
                 paintIsAllowed = true;
