@@ -33,8 +33,10 @@ public class ScreenInfo extends JPanel{
      */
     public ScreenInfo(){
         jLabel.setFont(new Font("MS Song", Font.BOLD, 24));
-        jLabel.setText("<html>Pause - ESC <br>Arrow Keys - Movement</html>");
-        jLabel.setBounds(210, 150, 300, 100);
+        jLabel.setText("<html>Pause - ESC <br>Movement - Arrow Keys<br>" +
+                "\u6682\u505c\u0020\u002d\u0020\u8f6c\u4e49\u952e\uff08\u0065\u0073\u0063\uff09<br>" +
+                "\u0020\u79fb\u52a8\u0020\u002d\u0020\u65b9\u5411\u952e</html>");
+        jLabel.setBounds(210, 120, 300, 200);
 
         ImageIcon imageIconContinue = new ImageIcon();
         BufferedImage bufferedImage;
